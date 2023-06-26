@@ -1,0 +1,24 @@
+.total-pot-container {
+  position: absolute;
+
+  font-family: "Oswald", sans-serif;
+  top: 20px;
+}
+
+.hierarchy-help-button {
+  position: absolute;
+  right: 0;
+  height: 240px;
+  width: 30px;
+  top: 50px;
+  font-family: "Oswald", sans-serif;
+  overflow: visible !important;
+}
+.hierarchy-help-card {
+  transition: 0.4s all;
+  position: absolute;
+  width: 350px;
+  height: 384px;
+  right: -500px;
+  top: 50px;
+}
