@@ -1,23 +1,16 @@
-import Players from "./components/Players/Players";
-import Table from "./components/Table/Table";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./index.css";
-import Container from "@mui/material/Container";
+import Game from "./pages/Game/Game";
 
 function App() {
   return (
     <div className="App">
-      <Container
-        maxWidth="lg"
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          height: "100vh",
-        }}
-      >
-        <Table />
-        <Players />
-      </Container>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Game />} />
+          <Route path="/menu" element={""} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
