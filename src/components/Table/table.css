@@ -1,1 +1,8 @@
-/*# sourceMappingURL=table.css.map */
+.border {
+  width: 1000px;
+  height: 500px;
+  background: radial-gradient(circle, rgb(91, 108, 124) 0%, rgb(44, 69, 91) 80%);
+  box-shadow: 0 0 25px 5px black;
+  border: 25px solid #5e1b19;
+  border-radius: 2000px;
+}/*# sourceMappingURL=table.css.map */
