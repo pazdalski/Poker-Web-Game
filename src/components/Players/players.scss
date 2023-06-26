@@ -1,0 +1,30 @@
+.container {
+  position: absolute;
+  width: 950px;
+  height: 320px;
+
+  .player {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-top-left-radius: 40px;
+    border-bottom-left-radius: 40px;
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border: 5px solid #162738;
+      z-index: 2;
+    }
+    .player-info {
+      position: absolute;
+      width: 180px;
+      height: 80px;
+      background: #162738;
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+      top: 0;
+      left: 40px;
+    }
+  }
+}
