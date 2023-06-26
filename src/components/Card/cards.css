@@ -1,0 +1,14 @@
+.cards-container {
+  width: 220px;
+  position: relative;
+}
+.cards-container .bot-card {
+  width: 75px;
+  height: 125px;
+  background: linear-gradient(-45deg, rgb(112, 122, 140) 50%, rgb(108, 116, 137) 52%);
+  border: 3px solid rgb(224, 224, 224);
+  border-radius: 4px;
+  position: absolute;
+  bottom: 40px;
+  z-index: 1;
+}/*# sourceMappingURL=cards.css.map */

@@ -1,0 +1,24 @@
+@mixin bot-card {
+  width: 75px;
+  height: 125px;
+  background: linear-gradient(
+    -45deg,
+    rgba(112, 122, 140, 1) 50%,
+    rgba(108, 116, 137, 1) 52%
+  );
+  border: 3px solid rgb(224, 224, 224);
+  border-radius: 4px;
+}
+
+.cards-container {
+  width: 220px;
+  position: relative;
+
+  .bot-card {
+    @include bot-card;
+    position: absolute;
+
+    bottom: 40px;
+    z-index: 1;
+  }
+}
