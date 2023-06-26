@@ -21,7 +21,7 @@ const Bot = ({ position, name, cash, img }) => {
       </Stack>
       <div className="cards-container">
         <BotCard left />
-        <BotCard />
+        <BotCard revealed />
       </div>
     </div>
   );

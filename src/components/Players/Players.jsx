@@ -12,6 +12,8 @@ const playerPositions = {
   player4: { bottom: 0, right: "-80px" },
 };
 
+// todo Tutaj zapisz całą logikę pokazywania kart i przerzucaj niżej.
+
 const Players = () => {
   return (
     <div className="container">

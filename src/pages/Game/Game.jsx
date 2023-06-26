@@ -2,6 +2,7 @@ import React from "react";
 import Players from "../../components/Players/Players";
 import Table from "../../components/Table/Table";
 import { Container } from "@mui/material";
+import UserCards from "../../components/Card/UserCards";
 
 const Game = () => {
   return (
@@ -16,6 +17,7 @@ const Game = () => {
     >
       <Table />
       <Players />
+      <UserCards />
     </Container>
   );
 };

@@ -7,8 +7,29 @@
   height: 125px;
   background: linear-gradient(-45deg, rgb(112, 122, 140) 50%, rgb(108, 116, 137) 52%);
   border: 3px solid rgb(224, 224, 224);
-  border-radius: 4px;
+  border-radius: 7px;
   position: absolute;
   bottom: 40px;
   z-index: 1;
+}
+.cards-container .bot-card .card-revealed {
+  width: 70px;
+}
+
+.user-cards-container {
+  position: absolute;
+  bottom: -30px;
+  width: 1200px;
+}
+.user-cards-container .user-card {
+  width: 75px;
+  height: 125px;
+  background: linear-gradient(-45deg, rgb(112, 122, 140) 50%, rgb(108, 116, 137) 52%);
+  border: 3px solid rgb(224, 224, 224);
+  border-radius: 7px;
+  width: 150px;
+  height: 225px;
+}
+.user-cards-container .user-card .user-card-revealed {
+  width: 100%;
 }/*# sourceMappingURL=cards.css.map */
