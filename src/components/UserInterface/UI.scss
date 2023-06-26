@@ -22,3 +22,29 @@
   right: -500px;
   top: 50px;
 }
+.user-credits-container {
+  position: absolute;
+  right: 100px;
+  bottom: 25px;
+  width: 250px;
+  height: 100px;
+  background-color: #162738;
+  font-size: 32px;
+  color: white;
+}
+.user-buttons-container {
+  position: absolute;
+  width: 420px;
+  height: 50px;
+  left: 100px;
+  bottom: 25px;
+  .user-button {
+    width: 133px;
+  }
+}
+.menu-button {
+  width: 133px;
+  position: absolute;
+  left: 100px;
+  top: 25px;
+}

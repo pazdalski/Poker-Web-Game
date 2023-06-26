@@ -5,6 +5,9 @@ import { Container } from "@mui/material";
 import UserCards from "../../components/Card/UserCards";
 import TotalPot from "../../components/UserInterface/TotalPot";
 import HierarchyHelp from "../../components/UserInterface/HierarchyHelp";
+import UserCredits from "../../components/UserInterface/UserCredits";
+import UserButtons from "../../components/UserInterface/UserButtons";
+import Menu from "../../components/UserInterface/Menu";
 
 const Game = () => {
   return (
@@ -22,6 +25,9 @@ const Game = () => {
       <UserCards />
       <TotalPot />
       <HierarchyHelp />
+      <UserCredits />
+      <UserButtons />
+      <Menu />
     </Container>
   );
 };
