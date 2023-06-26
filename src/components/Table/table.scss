@@ -1,6 +1,6 @@
 @mixin card {
-  width: 50px;
-  height: 75px;
+  width: 75px;
+  height: 125px;
   background: linear-gradient(
     -45deg,
     rgba(112, 122, 140, 1) 50%,
@@ -31,7 +31,6 @@
   justify-content: center;
   align-items: center;
   gap: 16px;
-
   .card {
     @include card;
   }

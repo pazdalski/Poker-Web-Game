@@ -1,6 +1,9 @@
 import "./players.css";
-
 import Bot from "../Bot";
+import img1 from "../../assets/bot-images/bot1.png";
+import img2 from "../../assets/bot-images/bot2.png";
+import img3 from "../../assets/bot-images/bot3.png";
+import img4 from "../../assets/bot-images/bot4.png";
 
 const playerPositions = {
   player1: { bottom: 0, left: "-80px" },
@@ -12,10 +15,30 @@ const playerPositions = {
 const Players = () => {
   return (
     <div className="container">
-      <Bot position={playerPositions.player1} name={"Bot 1"} cash={7600} />
-      <Bot position={playerPositions.player2} name={"Bot 2"} cash={12420} />
-      <Bot position={playerPositions.player3} name={"Bot 3"} cash={3700} />
-      <Bot position={playerPositions.player4} name={"Bot 4"} cash={15100} />
+      <Bot
+        position={playerPositions.player1}
+        name={"Crawler"}
+        cash={7600}
+        img={img1}
+      />
+      <Bot
+        position={playerPositions.player2}
+        name={"Ally Alien"}
+        cash={12420}
+        img={img2}
+      />
+      <Bot
+        position={playerPositions.player3}
+        name={"Dino"}
+        cash={3700}
+        img={img3}
+      />
+      <Bot
+        position={playerPositions.player4}
+        name={"Mummy"}
+        cash={15100}
+        img={img4}
+      />
     </div>
   );
 };

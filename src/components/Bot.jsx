@@ -1,10 +1,10 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import React from "react";
 
-const Bot = ({ position, name, cash }) => {
+const Bot = ({ position, name, cash, img }) => {
   return (
     <div className="player" style={position}>
-      <Avatar className="avatar"></Avatar>
+      <Avatar className="avatar" src={img}></Avatar>
       <Stack
         className="player-info"
         justifyContent={"center"}
