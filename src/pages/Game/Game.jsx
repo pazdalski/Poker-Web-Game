@@ -9,6 +9,7 @@ import UserButtons from "../../components/UserInterface/UserButtons";
 import MenuButton from "../../components/UserInterface/MenuButton";
 import { useEffect, useState } from "react";
 import { cardsInfo } from "../../components/CardsInfo";
+import Notification from "../../components/Notification";
 
 const Game = () => {
   const [playerCredits, setPlayerCredits] = useState(10000);
@@ -18,6 +19,27 @@ const Game = () => {
   const [avaiableCards, setAvailableCards] = useState(cardsInfo);
   const [playableCards, setPlayableCards] = useState([]);
   const [tableCards, setTableCards] = useState([]);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationStatus, setNotificationStatus] = useState(false);
+
+  const [status, setStatus] = useState({
+    // placeholder
+    beginnigFold: true,
+  });
+  const [playerChoices, setPlayerChoices] = useState({
+    raise: true,
+    fold: true,
+    call: true,
+  });
+
+  const notificate = (msg) => {
+    setNotificationStatus(true);
+    setNotificationMessage(msg);
+
+    setTimeout(() => {
+      setNotificationStatus(false);
+    }, 2000);
+  };
 
   const [botInfo, setBotInfo] = useState([
     // isReaveled is animated
@@ -124,6 +146,7 @@ const Game = () => {
 
   useEffect(() => {
     // New random cards on new round
+    notificate("Let's play");
     randomCards();
   }, [round]);
 
@@ -143,8 +166,9 @@ const Game = () => {
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />
       <UserCredits playerCredits={playerCredits} />
-      <UserButtons />
+      <UserButtons playerChoices={playerChoices} />
       <MenuButton />
+      {notificationStatus && <Notification msg={notificationMessage} />}
     </Container>
   );
 };

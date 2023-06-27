@@ -1,13 +1,13 @@
-import { Button, Card, Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import React from "react";
 
-const UserButtons = () => {
+const UserButtons = ({ playerChoices }) => {
   return (
     <Stack className="user-buttons-container" direction={"row"} gap={"20px"}>
       <Button
         className="user-button"
         color="success"
-        variant="contained"
+        variant={playerChoices.raise ? "contained" : "disabled"}
         sx={{ fontFamily: "Oswald", fontSize: "28px" }}
       >
         Raise
@@ -15,7 +15,7 @@ const UserButtons = () => {
       <Button
         className="user-button"
         color="error"
-        variant="contained"
+        variant={playerChoices.fold ? "contained" : "disabled"}
         sx={{ fontFamily: "Oswald", fontSize: "28px" }}
       >
         Fold
@@ -23,7 +23,7 @@ const UserButtons = () => {
       <Button
         className="user-button"
         color="primary"
-        variant="contained"
+        variant={playerChoices.call ? "contained" : "disabled"}
         sx={{ fontFamily: "Oswald", fontSize: "28px" }}
       >
         Call
