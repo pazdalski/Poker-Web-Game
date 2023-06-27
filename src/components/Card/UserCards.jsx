@@ -1,6 +1,6 @@
 import { Container, Stack } from "@mui/material";
 import "./cards.css";
-import testcard from "../../assets/PNG-cards-1.3/10_of_clubs.png";
+import testcard from "../../assets/cards/10_of_clubs.png";
 
 const UserCards = () => {
   return (

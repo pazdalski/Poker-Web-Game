@@ -1,4 +1,4 @@
-export const cards = [
+export const cardsInfo = [
   { category: "clubs", card: "2", img: "../assets/cards/2_of_clubs.png" },
   { category: "diamonds", card: "2", img: "../assets/cards/2_of_diamonds.png" },
   { category: "hearts", card: "2", img: "../assets/cards/2_of_hearts.png" },
