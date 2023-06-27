@@ -7,7 +7,7 @@ import TotalPot from "../../components/UserInterface/TotalPot";
 import HierarchyHelp from "../../components/UserInterface/HierarchyHelp";
 import UserCredits from "../../components/UserInterface/UserCredits";
 import UserButtons from "../../components/UserInterface/UserButtons";
-import Menu from "../../components/UserInterface/Menu";
+import MenuButton from "../../components/UserInterface/MenuButton";
 
 const Game = () => {
   return (
@@ -27,7 +27,7 @@ const Game = () => {
       <HierarchyHelp />
       <UserCredits />
       <UserButtons />
-      <Menu />
+      <MenuButton />
     </Container>
   );
 };
