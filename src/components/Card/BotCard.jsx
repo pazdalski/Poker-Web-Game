@@ -5,8 +5,8 @@ const BotCard = ({ left, revealed, card }) => {
       style={left ? { left: 40 } : { right: 20 }}
     >
       <img
-        src={`../${card.img}`}
-        alt={`${card.category} ${card.card}`}
+        src={card?.img && `../${card.img}`}
+        alt={card?.img && `${card.category} ${card.card}`}
         className={`card-image ${revealed && "revealed"}`}
       />
     </div>

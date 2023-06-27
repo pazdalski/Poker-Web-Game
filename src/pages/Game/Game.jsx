@@ -17,6 +17,7 @@ const Game = () => {
   const [round, setRound] = useState(1);
   const [avaiableCards, setAvailableCards] = useState(cardsInfo);
   const [playableCards, setPlayableCards] = useState([]);
+  const [tableCards, setTableCards] = useState([]);
 
   const [botInfo, setBotInfo] = useState([
     // isReaveled is animated
@@ -24,7 +25,7 @@ const Game = () => {
       name: "Crawler",
       credits: 10000,
       isRevealed: true,
-      cards: [cardsInfo[50], cardsInfo[50]],
+      cards: [cardsInfo[50], cardsInfo[50]], //Placeholder
     },
     {
       name: "Ally Alien",
@@ -58,13 +59,46 @@ const Game = () => {
 
       setAvailableCards(temporaryCards);
 
+      //!Bad practice but it is working
       playableCards.push(randomCard);
       if (playableCards.length > 10) {
         playableCards.pop();
       }
     }
 
-    setTimeout(assignCards, 100);
+    assignCards();
+    assignTableCards();
+  };
+  const assignTableCards = () => {
+    if (!tableCards?.length) {
+      for (let i = 0; i < 3; i++) {
+        const randomNumber = Math.floor(Math.random() * avaiableCards.length);
+        const randomCard = avaiableCards[randomNumber];
+
+        const temporaryCards = avaiableCards;
+        temporaryCards.splice(randomNumber, 1);
+        setAvailableCards(temporaryCards);
+
+        tableCards.push(randomCard);
+      }
+      console.log("ROUND 1, 3 cards are in stack");
+      return;
+    }
+    if (tableCards.length > 5) {
+      console.log("ALL CARDS ARE ASSIGNED, WHO IS THE WINNER?");
+      return;
+    }
+
+    const randomNumber = Math.floor(Math.random() * avaiableCards.length);
+    const randomCard = avaiableCards[randomNumber];
+
+    const temporaryCards = avaiableCards;
+    temporaryCards.splice(randomNumber, 1);
+    setAvailableCards(temporaryCards);
+
+    tableCards.push(randomCard);
+
+    console.log("ROUND 2 or 3, 1 card more in stack");
   };
   const assignCards = () => {
     setBotInfo([
@@ -73,27 +107,19 @@ const Game = () => {
         cards: [playableCards[0], playableCards[1]],
       },
       {
-        name: "Ally Alieneee",
-        credits: 10000,
-        isRevealed: true,
+        ...botInfo[1],
         cards: [playableCards[2], playableCards[3]],
       },
       {
-        name: "Dino",
-        credits: 10000,
-        isRevealed: true,
+        ...botInfo[2],
         cards: [playableCards[4], playableCards[5]],
       },
       {
-        name: "Mummy",
-        credits: 10000,
-        isRevealed: true,
+        ...botInfo[3],
         cards: [playableCards[6], playableCards[7]],
       },
     ]);
     setPlayerCards([playableCards[8], playableCards[9]]);
-
-    console.log(playableCards);
   };
 
   useEffect(() => {
@@ -111,7 +137,7 @@ const Game = () => {
         height: "100vh",
       }}
     >
-      <Table />
+      <Table tableCards={tableCards} />
       <Players botInfo={botInfo} />
       <UserCards playerCards={playerCards} />
       <TotalPot totalPot={totalPot} />
