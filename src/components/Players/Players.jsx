@@ -4,7 +4,6 @@ import img1 from "../../assets/bot-images/bot1.png";
 import img2 from "../../assets/bot-images/bot2.png";
 import img3 from "../../assets/bot-images/bot3.png";
 import img4 from "../../assets/bot-images/bot4.png";
-import { useState } from "react";
 
 const playerPositions = {
   player1: { bottom: 0, left: "-80px" },
@@ -13,32 +12,7 @@ const playerPositions = {
   player4: { bottom: 0, right: "-80px" },
 };
 
-// todo Tutaj zapisz całą logikę pokazywania kart i przerzucaj niżej.
-
-const Players = () => {
-  const [botInfo, setBotInfo] = useState([
-    {
-      name: "Crawler",
-      credits: 10000,
-      isRevealed: false,
-    },
-    {
-      name: "Ally Alien",
-      credits: 10000,
-      isRevealed: false,
-    },
-    {
-      name: "Dino",
-      credits: 10000,
-      isRevealed: true,
-    },
-    {
-      name: "Mummy",
-      credits: 10000,
-      isRevealed: false,
-    },
-  ]);
-
+const Players = ({ botInfo }) => {
   return (
     <div className="container">
       <Bot
