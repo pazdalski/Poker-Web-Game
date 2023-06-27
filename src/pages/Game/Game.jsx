@@ -15,7 +15,7 @@ const Game = () => {
   const [totalPot, setTotalPot] = useState(0);
   const [round, setRound] = useState(1);
   const [avaiableCards, setAvailableCards] = useState(cardsInfo);
-  const [playableCards, setPlayableCards] = useState([]);
+  const [playableCards, setPlayableCards] = useState(cardsInfo);
 
   const [botInfo, setBotInfo] = useState([
     // isReaveled is animated
@@ -23,25 +23,25 @@ const Game = () => {
       name: "Crawler",
       credits: 10000,
       isRevealed: true,
-      cards: [],
+      cards: [cardsInfo[50], cardsInfo[50]],
     },
     {
       name: "Ally Alien",
       credits: 10000,
       isRevealed: true,
-      cards: [],
+      cards: [cardsInfo[50], cardsInfo[50]],
     },
     {
       name: "Dino",
       credits: 10000,
       isRevealed: true,
-      cards: [],
+      cards: [cardsInfo[50], cardsInfo[50]],
     },
     {
       name: "Mummy",
       credits: 10000,
       isRevealed: true,
-      cards: [],
+      cards: [cardsInfo[50], cardsInfo[50]],
     },
   ]);
 
@@ -60,12 +60,35 @@ const Game = () => {
       if (playableCards.length > 10) {
         playableCards.pop();
       }
-
-      console.log(playableCards);
-
-      console.log(randomCard);
-      console.log(avaiableCards.length);
     }
+
+    setTimeout(assignCards, 100);
+  };
+  const assignCards = () => {
+    setBotInfo([
+      {
+        ...botInfo[0],
+        cards: [playableCards[0], playableCards[1]],
+      },
+      {
+        name: "Ally Alieneee",
+        credits: 10000,
+        isRevealed: true,
+        cards: [playableCards[2], playableCards[3]],
+      },
+      {
+        name: "Dino",
+        credits: 10000,
+        isRevealed: true,
+        cards: [playableCards[4], playableCards[5]],
+      },
+      {
+        name: "Mummy",
+        credits: 10000,
+        isRevealed: true,
+        cards: [playableCards[6], playableCards[7]],
+      },
+    ]);
   };
 
   useEffect(() => {

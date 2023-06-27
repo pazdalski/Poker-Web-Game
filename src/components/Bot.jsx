@@ -3,7 +3,7 @@ import React from "react";
 import BotCard from "./Card/BotCard";
 import "./Card/cards.css";
 
-const Bot = ({ position, name, cash, img, isRevealed }) => {
+const Bot = ({ position, name, cash, img, isRevealed, cards }) => {
   return (
     <div className="player" style={position}>
       <Avatar className="avatar" src={img}></Avatar>
@@ -20,8 +20,15 @@ const Bot = ({ position, name, cash, img, isRevealed }) => {
         </Typography>
       </Stack>
       <div className="cards-container">
-        <BotCard left revealed={isRevealed && true} />
-        <BotCard revealed={isRevealed && true} />
+        <BotCard
+          left
+          revealed={isRevealed && true}
+          card={cards.length && cards[0]}
+        />
+        <BotCard
+          revealed={isRevealed && true}
+          card={cards.length && cards[1]}
+        />
       </div>
     </div>
   );

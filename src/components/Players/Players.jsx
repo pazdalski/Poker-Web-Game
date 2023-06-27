@@ -20,6 +20,7 @@ const Players = ({ botInfo }) => {
         name={"Crawler"}
         id={0}
         cash={botInfo[0].credits}
+        cards={botInfo[0].cards}
         img={img1}
         isRevealed={botInfo[0].isRevealed}
       />
@@ -28,6 +29,7 @@ const Players = ({ botInfo }) => {
         name={"Ally Alien"}
         id={1}
         cash={botInfo[1].credits}
+        cards={botInfo[1].cards}
         img={img2}
         isRevealed={botInfo[1].isRevealed}
       />
@@ -36,6 +38,7 @@ const Players = ({ botInfo }) => {
         name={"Dino"}
         id={2}
         cash={botInfo[2].credits}
+        cards={botInfo[2].cards}
         img={img3}
         isRevealed={botInfo[2].isRevealed}
       />
@@ -44,6 +47,7 @@ const Players = ({ botInfo }) => {
         name={"Mummy"}
         id={3}
         cash={botInfo[3].credits}
+        cards={botInfo[3].cards}
         img={img4}
         isRevealed={botInfo[3].isRevealed}
       />
