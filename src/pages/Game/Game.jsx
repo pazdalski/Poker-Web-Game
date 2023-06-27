@@ -22,24 +22,22 @@ const Game = () => {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState(false);
 
-  const [status, setStatus] = useState({
-    // placeholder
-    beginnigFold: true,
-  });
   const [playerChoices, setPlayerChoices] = useState({
-    raise: true,
-    fold: true,
-    call: true,
+    raise: false,
+    fold: false,
+    call: false,
   });
+  const [currentPlayer, setCurrentPlayer] = useState(0);
+  const [turn, setTurn] = useState(1);
 
   const notificate = (msg) => {
-    setNotificationStatus(true);
+    setNotificationStatus(false);
+
     setNotificationMessage(msg);
 
     setTimeout(() => {
-      setNotificationStatus(false);
-      //
-    }, 2000);
+      setNotificationStatus(true);
+    }, 100);
   };
 
   const [botInfo, setBotInfo] = useState([
@@ -48,7 +46,7 @@ const Game = () => {
       name: "Crawler",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]], //Placeholder
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: true,
       hasFolded: false,
     },
@@ -58,7 +56,7 @@ const Game = () => {
       cards: [cardsInfo[50], cardsInfo[50]],
       isRevealed: false,
       isPlaying: false,
-      hasFolded: true,
+      hasFolded: false,
     },
     {
       name: "Dino",
@@ -72,7 +70,7 @@ const Game = () => {
       name: "Mummy",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]],
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
     },
@@ -121,16 +119,18 @@ const Game = () => {
       return;
     }
 
-    const randomNumber = Math.floor(Math.random() * avaiableCards.length);
-    const randomCard = avaiableCards[randomNumber];
+    if (round == 2 && tableCards.length == 3) {
+      const randomNumber = Math.floor(Math.random() * avaiableCards.length);
+      const randomCard = avaiableCards[randomNumber];
 
-    const temporaryCards = avaiableCards;
-    temporaryCards.splice(randomNumber, 1);
-    setAvailableCards(temporaryCards);
+      const temporaryCards = avaiableCards;
+      temporaryCards.splice(randomNumber, 1);
+      setAvailableCards(temporaryCards);
 
-    tableCards.push(randomCard);
+      tableCards.push(randomCard);
 
-    console.log("ROUND 2 or 3, 1 card more in stack");
+      notificate("Next card on the table!");
+    }
   };
   const assignCards = () => {
     setBotInfo([
@@ -154,9 +154,57 @@ const Game = () => {
     setPlayerCards([playableCards[8], playableCards[9]]);
   };
 
+  const currentBotAI = () => {
+    console.log("AI WORKING");
+    const randomTimeout = Math.floor(Math.random() * 3500);
+    //round
+    //their chances of winning
+
+    if (!currentPlayer == 4) {
+      //current player
+      setBotInfo({ ...botInfo[currentPlayer], isPlaying: true });
+    }
+
+    if (round == 1) {
+      setTimeout(() => {
+        notificate(botInfo[currentPlayer].name + " is deciding...");
+      }, randomTimeout);
+    }
+
+    switch (turn) {
+      case 6:
+        setRound(2);
+        break;
+      case 11:
+        setRound(3);
+        break;
+      case 16:
+        setRound(4);
+        break;
+    }
+
+    // Show available choices
+    if (currentPlayer == 4) {
+      setPlayerChoices({
+        raise: true,
+        fold: true,
+        call: true,
+      });
+    }
+  };
+
+  const anotherTurn = () => {
+    setTurn((prevTurn) => prevTurn + 1);
+  };
+
+  useEffect(() => {
+    currentBotAI();
+  }, [turn]);
+
   useEffect(() => {
     // New random cards on new round
     randomCards();
+    setTimeout(currentBotAI, 1500);
   }, [round]);
 
   return (

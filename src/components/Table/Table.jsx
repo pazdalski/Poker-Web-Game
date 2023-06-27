@@ -8,7 +8,7 @@ const Table = ({ tableCards }) => {
       <div className="inner-table">
         {tableCards?.length &&
           tableCards.map((card, i) => {
-            return <Card key={i} card={card} />;
+            return <Card key={i} card={card} revealed={true} />;
           })}
       </div>
     </div>
