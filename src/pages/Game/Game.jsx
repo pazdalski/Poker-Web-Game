@@ -12,10 +12,11 @@ import { cardsInfo } from "../../components/CardsInfo";
 
 const Game = () => {
   const [playerCredits, setPlayerCredits] = useState(10000);
+  const [playerCards, setPlayerCards] = useState([]);
   const [totalPot, setTotalPot] = useState(0);
   const [round, setRound] = useState(1);
   const [avaiableCards, setAvailableCards] = useState(cardsInfo);
-  const [playableCards, setPlayableCards] = useState(cardsInfo);
+  const [playableCards, setPlayableCards] = useState([]);
 
   const [botInfo, setBotInfo] = useState([
     // isReaveled is animated
@@ -47,11 +48,12 @@ const Game = () => {
 
   const randomCards = () => {
     setAvailableCards(cardsInfo);
+
     for (let i = 0; i < 10; i++) {
       let randomNumber = Math.floor(Math.random() * avaiableCards.length);
       let randomCard = avaiableCards[randomNumber];
 
-      let temporaryCards = avaiableCards;
+      const temporaryCards = avaiableCards;
       temporaryCards.splice(randomNumber, 1);
 
       setAvailableCards(temporaryCards);
@@ -89,6 +91,9 @@ const Game = () => {
         cards: [playableCards[6], playableCards[7]],
       },
     ]);
+    setPlayerCards([playableCards[8], playableCards[9]]);
+
+    console.log(playableCards);
   };
 
   useEffect(() => {
@@ -108,7 +113,7 @@ const Game = () => {
     >
       <Table />
       <Players botInfo={botInfo} />
-      <UserCards />
+      <UserCards playerCards={playerCards} />
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />
       <UserCredits playerCredits={playerCredits} />

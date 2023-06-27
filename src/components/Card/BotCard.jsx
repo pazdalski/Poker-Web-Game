@@ -1,5 +1,4 @@
 const BotCard = ({ left, revealed, card }) => {
-  console.log(card);
   return (
     <div
       className={`bot-card ${revealed && "bot-card-animated-reveal"}`}
