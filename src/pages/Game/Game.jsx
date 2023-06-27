@@ -41,13 +41,12 @@ const Game = () => {
   };
 
   const [botInfo, setBotInfo] = useState([
-    // isReaveled is animated
     {
       name: "Crawler",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]], //Placeholder
       isRevealed: false,
-      isPlaying: true,
+      isPlaying: false,
       hasFolded: false,
     },
     {
@@ -111,11 +110,9 @@ const Game = () => {
 
         tableCards.push(randomCard);
       }
-      console.log("ROUND 1, 3 cards are in stack");
       return;
     }
     if (tableCards.length >= 5) {
-      console.log("ALL CARDS ARE ASSIGNED, WHO IS THE WINNER?");
       return;
     }
 
@@ -130,6 +127,18 @@ const Game = () => {
       tableCards.push(randomCard);
 
       notificate("Next card on the table!");
+    }
+    if (round == 3 && tableCards.length == 4) {
+      const randomNumber = Math.floor(Math.random() * avaiableCards.length);
+      const randomCard = avaiableCards[randomNumber];
+
+      const temporaryCards = avaiableCards;
+      temporaryCards.splice(randomNumber, 1);
+      setAvailableCards(temporaryCards);
+
+      tableCards.push(randomCard);
+
+      notificate("Last card on the table!");
     }
   };
   const assignCards = () => {
@@ -156,18 +165,35 @@ const Game = () => {
 
   const currentBotAI = () => {
     console.log("AI WORKING");
-    const randomTimeout = Math.floor(Math.random() * 3500);
+    const randomTimeout = Math.floor(Math.random() * 2500) + 1000;
     //round
-    //their chances of winning
+    //CurrentPlayer
+    //Turn
+    if (currentPlayer == 4) {
+      return;
+    }
 
-    if (!currentPlayer == 4) {
+    if (currentPlayer < 4) {
       //current player
-      setBotInfo({ ...botInfo[currentPlayer], isPlaying: true });
+      const temp = [...botInfo];
+      temp[0].isPlaying = false;
+      temp[1].isPlaying = false;
+      temp[2].isPlaying = false;
+      temp[3].isPlaying = false;
+
+      temp[currentPlayer].isPlaying = true;
+      setBotInfo(temp);
     }
 
     if (round == 1) {
+      notificate(botInfo[currentPlayer].name + " is deciding...");
+
+      // Taking 10$ at the beggining of the game
       setTimeout(() => {
-        notificate(botInfo[currentPlayer].name + " is deciding...");
+        const temp = [...botInfo];
+        temp[currentPlayer].credits = temp[currentPlayer].credits - 10;
+        setBotInfo(temp);
+        anotherTurn();
       }, randomTimeout);
     }
 
@@ -195,6 +221,11 @@ const Game = () => {
 
   const anotherTurn = () => {
     setTurn((prevTurn) => prevTurn + 1);
+    setCurrentPlayer((prevPlayer) => prevPlayer + 1);
+    if (currentPlayer > 4) {
+      setCurrentPlayer(0);
+      return;
+    }
   };
 
   useEffect(() => {
@@ -204,7 +235,6 @@ const Game = () => {
   useEffect(() => {
     // New random cards on new round
     randomCards();
-    setTimeout(currentBotAI, 1500);
   }, [round]);
 
   return (
