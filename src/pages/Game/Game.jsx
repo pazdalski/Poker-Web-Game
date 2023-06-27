@@ -190,6 +190,10 @@ const Game = () => {
 
       return;
     }
+    if (botInfo[currentPlayer].hasFolded == true) {
+      anotherTurn();
+      return;
+    }
 
     if (currentPlayer < 4) {
       //current player highlighting
