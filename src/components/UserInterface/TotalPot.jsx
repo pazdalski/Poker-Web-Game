@@ -2,7 +2,7 @@ import { Card, Container, Typography } from "@mui/material";
 import "./UI.css";
 import logo from "../../assets/favicon.png";
 
-const TotalPot = () => {
+const TotalPot = ({ totalPot }) => {
   return (
     <Container
       className="total-pot-container"
@@ -33,7 +33,7 @@ const TotalPot = () => {
           color="#e8cba0"
         >
           <img src={logo} alt="token" style={{ width: "35px" }} />
-          12 540
+          {totalPot}
         </Typography>
       </Card>
     </Container>

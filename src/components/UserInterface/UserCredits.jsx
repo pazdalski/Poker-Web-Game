@@ -1,8 +1,8 @@
 import React from "react";
 import "./UI.css";
-import { Card, Container, Stack, Typography } from "@mui/material";
+import { Card, Stack, Typography } from "@mui/material";
 
-const UserCredits = () => {
+const UserCredits = ({ playerCredits }) => {
   return (
     <Card
       elevation={20}
@@ -19,7 +19,7 @@ const UserCredits = () => {
           Your Credits
         </Typography>
         <Typography variant="h3" color="#e8cba0" fontFamily={"Oswald"}>
-          $12600
+          ${playerCredits}
         </Typography>
       </Stack>
     </Card>

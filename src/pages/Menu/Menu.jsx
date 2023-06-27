@@ -14,6 +14,8 @@ const Menu = () => {
         alignItems: "center",
         justifyContent: "center",
         gap: "20px",
+        backgroundColor: "#141b16",
+        height: "100vh",
       }}
     >
       <img
