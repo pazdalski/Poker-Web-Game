@@ -23,6 +23,8 @@ const Players = ({ botInfo }) => {
         cards={botInfo[0].cards}
         img={img1}
         isRevealed={botInfo[0].isRevealed}
+        isPlaying={botInfo[0].isPlaying}
+        hasFolded={botInfo[0].hasFolded}
       />
       <Bot
         position={playerPositions.player2}
@@ -32,6 +34,8 @@ const Players = ({ botInfo }) => {
         cards={botInfo[1].cards}
         img={img2}
         isRevealed={botInfo[1].isRevealed}
+        isPlaying={botInfo[1].isPlaying}
+        hasFolded={botInfo[1].hasFolded}
       />
       <Bot
         position={playerPositions.player3}
@@ -41,6 +45,8 @@ const Players = ({ botInfo }) => {
         cards={botInfo[2].cards}
         img={img3}
         isRevealed={botInfo[2].isRevealed}
+        isPlaying={botInfo[2].isPlaying}
+        hasFolded={botInfo[2].hasFolded}
       />
       <Bot
         position={playerPositions.player4}
@@ -50,6 +56,8 @@ const Players = ({ botInfo }) => {
         cards={botInfo[3].cards}
         img={img4}
         isRevealed={botInfo[3].isRevealed}
+        isPlaying={botInfo[3].isPlaying}
+        hasFolded={botInfo[3].hasFolded}
       />
     </div>
   );

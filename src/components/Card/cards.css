@@ -13,6 +13,11 @@
   bottom: 40px;
   z-index: 1;
 }
+.cards-container .bot-card.folded {
+  transform: rotatex(50deg) translateY(40px) !important;
+  background: linear-gradient(-45deg, rgb(90, 97, 110) 50%, rgb(86, 92, 105) 52%);
+  border: 3px solid rgb(114, 114, 114);
+}
 .cards-container .bot-card .card-image {
   width: 70px;
   opacity: 0;
@@ -55,4 +60,8 @@
 }
 .user-cards-container .user-card .user-card-revealed {
   width: 100%;
+}
+
+.avatar.isPlaying {
+  box-shadow: 0 0 15px 5px #1976d2;
 }/*# sourceMappingURL=cards.css.map */

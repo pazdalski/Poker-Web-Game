@@ -3,10 +3,22 @@ import React from "react";
 import BotCard from "./Card/BotCard";
 import "./Card/cards.css";
 
-const Bot = ({ position, name, cash, img, isRevealed, cards }) => {
+const Bot = ({
+  position,
+  name,
+  cash,
+  img,
+  isRevealed,
+  cards,
+  isPlaying,
+  hasFolded,
+}) => {
   return (
     <div className="player" style={position}>
-      <Avatar className="avatar" src={img}></Avatar>
+      <Avatar
+        className={`avatar ${isPlaying && "isPlaying"}`}
+        src={img}
+      ></Avatar>
       <Stack
         className="player-info"
         justifyContent={"center"}
@@ -24,10 +36,12 @@ const Bot = ({ position, name, cash, img, isRevealed, cards }) => {
           left
           revealed={isRevealed && true}
           card={cards.length && cards[0]}
+          folded={hasFolded}
         />
         <BotCard
           revealed={isRevealed && true}
           card={cards.length && cards[1]}
+          folded={hasFolded}
         />
       </div>
     </div>

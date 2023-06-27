@@ -1,6 +1,6 @@
 import Players from "../../components/Players/Players";
 import Table from "../../components/Table/Table";
-import { Card, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import UserCards from "../../components/Card/UserCards";
 import TotalPot from "../../components/UserInterface/TotalPot";
 import HierarchyHelp from "../../components/UserInterface/HierarchyHelp";
@@ -38,6 +38,7 @@ const Game = () => {
 
     setTimeout(() => {
       setNotificationStatus(false);
+      //
     }, 2000);
   };
 
@@ -46,26 +47,34 @@ const Game = () => {
     {
       name: "Crawler",
       credits: 10000,
-      isRevealed: true,
       cards: [cardsInfo[50], cardsInfo[50]], //Placeholder
+      isRevealed: true,
+      isPlaying: true,
+      hasFolded: false,
     },
     {
       name: "Ally Alien",
       credits: 10000,
-      isRevealed: true,
       cards: [cardsInfo[50], cardsInfo[50]],
+      isRevealed: false,
+      isPlaying: false,
+      hasFolded: true,
     },
     {
       name: "Dino",
       credits: 10000,
-      isRevealed: true,
       cards: [cardsInfo[50], cardsInfo[50]],
+      isRevealed: false,
+      isPlaying: false,
+      hasFolded: false,
     },
     {
       name: "Mummy",
       credits: 10000,
-      isRevealed: true,
       cards: [cardsInfo[50], cardsInfo[50]],
+      isRevealed: true,
+      isPlaying: false,
+      hasFolded: false,
     },
   ]);
 
@@ -93,6 +102,7 @@ const Game = () => {
   };
   const assignTableCards = () => {
     if (!tableCards?.length) {
+      notificate("Let's play");
       for (let i = 0; i < 3; i++) {
         const randomNumber = Math.floor(Math.random() * avaiableCards.length);
         const randomCard = avaiableCards[randomNumber];
@@ -106,7 +116,7 @@ const Game = () => {
       console.log("ROUND 1, 3 cards are in stack");
       return;
     }
-    if (tableCards.length > 5) {
+    if (tableCards.length >= 5) {
       console.log("ALL CARDS ARE ASSIGNED, WHO IS THE WINNER?");
       return;
     }
@@ -146,7 +156,6 @@ const Game = () => {
 
   useEffect(() => {
     // New random cards on new round
-    notificate("Let's play");
     randomCards();
   }, [round]);
 

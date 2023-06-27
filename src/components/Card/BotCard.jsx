@@ -1,7 +1,9 @@
-const BotCard = ({ left, revealed, card }) => {
+const BotCard = ({ left, revealed, card, folded }) => {
   return (
     <div
-      className={`bot-card ${revealed && "bot-card-animated-reveal"}`}
+      className={`bot-card ${revealed && "bot-card-animated-reveal"} ${
+        folded && "folded"
+      }`}
       style={left ? { left: 40 } : { right: 20 }}
     >
       <img

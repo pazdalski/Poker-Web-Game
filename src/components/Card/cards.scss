@@ -21,6 +21,15 @@
 
     bottom: 40px;
     z-index: 1;
+    &.folded {
+      transform: rotatex(50deg) translateY(40px) !important;
+      background: linear-gradient(
+        -45deg,
+        rgb(90, 97, 110) 50%,
+        rgb(86, 92, 105) 52%
+      );
+      border: 3px solid rgb(114, 114, 114);
+    }
 
     .card-image {
       // Refers to image of real card
@@ -64,4 +73,8 @@
       width: 100%;
     }
   }
+}
+
+.avatar.isPlaying {
+  box-shadow: 0 0 15px 5px #1976d2;
 }
