@@ -166,21 +166,35 @@ const Game = () => {
   const currentBotAI = () => {
     console.log("AI WORKING");
     const randomTimeout = Math.floor(Math.random() * 2500) + 1000;
-    //round
-    //CurrentPlayer
-    //Turn
-    if (currentPlayer == 4) {
-      return;
-    }
-
-    if (currentPlayer < 4) {
-      //current player
+    const resetHighliting = () => {
       const temp = [...botInfo];
       temp[0].isPlaying = false;
       temp[1].isPlaying = false;
       temp[2].isPlaying = false;
       temp[3].isPlaying = false;
+      setBotInfo(temp);
+    };
+    //round
+    //CurrentPlayer
+    //Turn
 
+    // Show available choices
+    if (currentPlayer == 4) {
+      notificate("It's your turn. Good luck!");
+      resetHighliting();
+      setPlayerChoices({
+        raise: true,
+        fold: true,
+        call: true,
+      });
+
+      return;
+    }
+
+    if (currentPlayer < 4) {
+      //current player highlighting
+      resetHighliting();
+      const temp = [...botInfo];
       temp[currentPlayer].isPlaying = true;
       setBotInfo(temp);
     }
@@ -207,15 +221,6 @@ const Game = () => {
       case 16:
         setRound(4);
         break;
-    }
-
-    // Show available choices
-    if (currentPlayer == 4) {
-      setPlayerChoices({
-        raise: true,
-        fold: true,
-        call: true,
-      });
     }
   };
 
