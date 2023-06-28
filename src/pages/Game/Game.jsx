@@ -30,9 +30,86 @@ const Game = () => {
   });
   const [isPlayerOut, setIsPlayerOut] = useState(false);
   const [playerRaise, setPlayerRaise] = useState(10);
+  const [additionalTurns, setAdditionalTurns] = useState(0);
 
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
+
+  const [power, setPower] = useState([
+    // Jack - hand 11
+    // Queen - hand 12
+    // King - hand 13
+    // Ace - hand 14
+
+    {
+      name: "Crawler",
+      hand: 0,
+      power: 10, // Royal flush
+    },
+    {
+      name: "Ally Alien",
+      hand: 0,
+      power: 9, // Straight flush
+    },
+    {
+      name: "Dino",
+      hand: 0,
+      power: 8, // Kareta
+    },
+    {
+      name: "Mummy",
+      hand: 0,
+      power: 7, // Full House
+    },
+    // {
+    //   name: "Player",
+    //   hand: 19,
+    //   power: 6, // Flush
+    // }
+  ]);
+
+  const winner = () => {
+    //Wysoka karta
+    for (let i = 0; i < power.length - 1; i++) {
+      console.log("Winner is:");
+
+      // if (i == 4) {
+      //   return;
+      // }
+    }
+  };
+  const setHandPower = () => {
+    console.log("Setting hand power");
+    for (let i = 0; i < 4; i++) {
+      const cards = botInfo[i].cards;
+
+      for (let j = 0; j < 2; j++) {
+        const temp = [...power];
+
+        if (cards[j].card == "J") {
+          temp[i].hand = temp[i].hand + 11;
+          setPower(temp);
+          console.log("Jack founded:");
+        }
+        if (cards[j].card == "Q") {
+          temp[i].hand = temp[i].hand + 12;
+          setPower(temp);
+          console.log("Queen founded:");
+        }
+        if (cards[j].card == "K") {
+          temp[i].hand = temp[i].hand + 13;
+          setPower(temp);
+          console.log("King founded:");
+        }
+        if (cards[j].card == "A") {
+          temp[i].hand = temp[i].hand + 14;
+          setPower(temp);
+          console.log("Ace founded:");
+        }
+      }
+    }
+    console.log(power);
+  };
 
   const notificate = (msg) => {
     setNotificationStatus(false);
@@ -104,6 +181,9 @@ const Game = () => {
   const assignTableCards = () => {
     if (!tableCards?.length) {
       notificate("Let's play");
+
+      setHandPower();
+
       for (let i = 0; i < 3; i++) {
         const randomNumber = Math.floor(Math.random() * avaiableCards.length);
         const randomCard = avaiableCards[randomNumber];
@@ -194,7 +274,10 @@ const Game = () => {
       if (playerDecide == "raise") {
         setPlayerCredits((prevCredits) => prevCredits - playerRaise);
         setTotalPot((prevPot) => prevPot + playerRaise);
+
         setCurrentCall(playerRaise);
+        setAdditionalTurns((prevTurns) => prevTurns + 4);
+
         anotherTurn();
         return;
       }
@@ -268,11 +351,12 @@ const Game = () => {
       }, randomTimeout);
     }
 
-    if (turn >= 15) {
+    if (turn >= 15 + additionalTurns) {
       setRound(4);
-    } else if (turn >= 10) {
+      winner();
+    } else if (turn >= 10 + additionalTurns) {
       setRound(3);
-    } else if (turn >= 5) {
+    } else if (turn >= 5 + additionalTurns) {
       setRound(2);
     }
   };

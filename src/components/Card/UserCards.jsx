@@ -19,7 +19,10 @@ const UserCards = ({ playerCards, isPlayerOut }) => {
         </div>
         <div
           className={`user-card ${isPlayerOut && "user-card-folded"}`}
-          style={{ transform: "rotate(12deg)" }}
+          style={{
+            transform: "rotate(12deg)",
+            boxShadow: "0 0 15px 5px #0c0c0c75",
+          }}
         >
           <img
             src={playerCards.length && `../${playerCards[1].img}`}
