@@ -27,6 +27,9 @@ const Game = () => {
     fold: false,
     call: false,
   });
+
+  const [playerDecision, setPlayerDecision] = useState("");
+
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
 
@@ -153,11 +156,10 @@ const Game = () => {
   };
 
   const currentBotAI = () => {
-    console.log("AI WORKING");
     const randomTimeout = Math.floor(Math.random() * 2500) + 1000;
     const resetHighliting = () => {
       const temp = [...botInfo];
-      console.log(temp);
+
       temp[0].isPlaying = false;
       temp[1].isPlaying = false;
       temp[2].isPlaying = false;
@@ -178,8 +180,11 @@ const Game = () => {
         call: true,
       });
 
+      //todo Decide
+
       return;
     }
+    //Skip player who folded
     if (botInfo[currentPlayer].hasFolded == true) {
       anotherTurn();
       return;
@@ -197,30 +202,59 @@ const Game = () => {
 
       // Taking 10$ at the beggining of the game
       setTimeout(() => {
+        const callAmount = 10; // This will change later, when bots can calculate %
         const temp = [...botInfo];
-        temp[currentPlayer].credits = temp[currentPlayer].credits - 10;
+        temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
+        setTotalPot((prevPot) => prevPot + callAmount);
+        setBotInfo(temp);
+        anotherTurn();
+      }, randomTimeout);
+    }
+    if (round == 2) {
+      notificate(botInfo[currentPlayer].name + " is deciding...");
+
+      // Taking 10$ at the beggining of the game
+      setTimeout(() => {
+        const callAmount = 10; // This will change later, when bots can calculate %
+        const temp = [...botInfo];
+        temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
+        setTotalPot((prevPot) => prevPot + callAmount);
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
     }
 
-    switch (turn) {
-      case 6:
-        setRound(2);
-        break;
-      case 11:
-        setRound(3);
-        break;
-      case 16:
-        setRound(4);
-        break;
+    if (turn >= 15) {
+      setRound(4);
+      console.log("Round: " + round);
+    } else if (turn >= 10) {
+      setRound(3);
+      console.log("Round: " + round);
+    } else if (turn >= 5) {
+      setRound(2);
+      console.log("Round: " + round);
     }
+
+    // switch (turn) {
+    //   case 5 < turn:
+    //     setRound(2);
+    //     console.log(round);
+    //     break;
+    //   case 11:
+    //     setRound(3);
+    //     break;
+    //   case 16:
+    //     setRound(4);
+    //     break;
+    // }
   };
 
   const anotherTurn = () => {
     setTurn((prevTurn) => prevTurn + 1);
+    console.log("Turn: " + turn);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
-    if (currentPlayer > 4) {
+    console.log("Current player: " + currentPlayer);
+    if (currentPlayer > 3) {
       setCurrentPlayer(0);
       return;
     }
@@ -251,7 +285,11 @@ const Game = () => {
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />
       <UserCredits playerCredits={playerCredits} />
-      <UserButtons playerChoices={playerChoices} />
+      <UserButtons
+        playerChoices={playerChoices}
+        setPlayerDecision={setPlayerDecision}
+        anotherTurn={anotherTurn}
+      />
       <MenuButton />
       {notificationStatus && <Notification msg={notificationMessage} />}
     </Container>
