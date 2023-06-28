@@ -45,7 +45,7 @@ const Game = () => {
       name: "Crawler",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]], //Placeholder
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
     },
@@ -53,7 +53,7 @@ const Game = () => {
       name: "Ally Alien",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]],
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
     },
@@ -61,7 +61,7 @@ const Game = () => {
       name: "Dino",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]],
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
     },
@@ -69,7 +69,7 @@ const Game = () => {
       name: "Mummy",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]],
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
     },
@@ -142,24 +142,13 @@ const Game = () => {
     }
   };
   const assignCards = () => {
-    setBotInfo([
-      {
-        ...botInfo[0],
-        cards: [playableCards[0], playableCards[1]],
-      },
-      {
-        ...botInfo[1],
-        cards: [playableCards[2], playableCards[3]],
-      },
-      {
-        ...botInfo[2],
-        cards: [playableCards[4], playableCards[5]],
-      },
-      {
-        ...botInfo[3],
-        cards: [playableCards[6], playableCards[7]],
-      },
-    ]);
+    const temp = [...botInfo];
+    temp[0].cards = [playableCards[0], playableCards[1]];
+    temp[1].cards = [playableCards[2], playableCards[3]];
+    temp[2].cards = [playableCards[4], playableCards[5]];
+    temp[3].cards = [playableCards[6], playableCards[7]];
+
+    setBotInfo(temp);
     setPlayerCards([playableCards[8], playableCards[9]]);
   };
 
@@ -168,6 +157,7 @@ const Game = () => {
     const randomTimeout = Math.floor(Math.random() * 2500) + 1000;
     const resetHighliting = () => {
       const temp = [...botInfo];
+      console.log(temp);
       temp[0].isPlaying = false;
       temp[1].isPlaying = false;
       temp[2].isPlaying = false;
@@ -202,7 +192,6 @@ const Game = () => {
       temp[currentPlayer].isPlaying = true;
       setBotInfo(temp);
     }
-
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
