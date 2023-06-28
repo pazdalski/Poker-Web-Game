@@ -44,21 +44,25 @@ const Game = () => {
     {
       name: "Crawler",
       hand: 0,
+      kicker: 0,
       power: 10, // Royal flush
     },
     {
       name: "Ally Alien",
       hand: 0,
+      kicker: 0,
       power: 9, // Straight flush
     },
     {
       name: "Dino",
       hand: 0,
+      kicker: 0,
       power: 8, // Kareta
     },
     {
       name: "Mummy",
       hand: 0,
+      kicker: 0,
       power: 7, // Full House
     },
     // {
@@ -69,17 +73,48 @@ const Game = () => {
   ]);
 
   const winner = () => {
+    const temp = [...power];
     //Wysoka karta
-    for (let i = 0; i < power.length - 1; i++) {
-      console.log("Winner is:");
+    for (let i = 0; i < 4; i++) {
+      const allCards = [...tableCards, ...botInfo[i].cards];
+      const handCards = [...botInfo[i].cards];
+      console.log(allCards);
+      // console.table(handCards);
 
-      // if (i == 4) {
-      //   return;
-      // }
+      //# Highest card - it is also kicker
+      const highestCardSort = handCards.sort((a, b) => {
+        return Number(b.power) - Number(a.power);
+      });
+      const highestCard = highestCardSort[0];
+
+      temp[i].kicker = highestCard.power;
+      temp[i].power = highestCard.power;
+
+      //# Pair
+      const duplicateElements = [];
+      const uniquePowers = [];
+
+      for (let i = 0; i < allCards.length; i++) {
+        const power = allCards[i].power;
+        if (uniquePowers.includes(power)) {
+          if (!duplicateElements.includes(allCards[i])) {
+            duplicateElements.push(allCards[i]);
+          }
+        } else {
+          uniquePowers.push(power);
+        }
+      }
+
+      //Ogarnij ilość par i najwyższą parę
+      //Tutaj nie będzie zbierać trójek i karet
+
+      console.log(duplicateElements.length); //? check
+      console.log(duplicateElements); //? check
+
+      setPower(temp);
     }
   };
   const setHandPower = () => {
-    console.log("Setting hand power");
     for (let i = 0; i < 4; i++) {
       const cards = botInfo[i].cards;
 
@@ -107,25 +142,18 @@ const Game = () => {
         const temp = [...power];
         temp[i].hand = 35; // PAIR IN HAND FOUNDED;
         setPower(temp);
-
-        console.log("Pair founded: " + i);
       }
       if (cards[0].card == "K" && cards[1].card == "K") {
         const temp = [...power];
         temp[i].hand = 45; // KING PAIR IN HAND FOUNDED;
         setPower(temp);
-
-        console.log("King pair founded: " + i);
       }
       if (cards[0].card == "A" && cards[1].card == "A") {
         const temp = [...power];
         temp[i].hand = 50; // ACE PAIR IN HAND FOUNDED;
         setPower(temp);
-
-        console.log("Ace pair founded: " + i);
       }
     }
-    console.table(power);
   };
 
   const notificate = (msg) => {
@@ -258,7 +286,7 @@ const Game = () => {
   };
 
   const currentBotAI = (playerDecide) => {
-    let randomTimeout = Math.floor(Math.random() * 2500) + 1000;
+    let randomTimeout = Math.floor(Math.random() * 100) + 0;
     const resetHighliting = () => {
       const temp = [...botInfo];
 
@@ -340,7 +368,7 @@ const Game = () => {
       }, randomTimeout);
     }
     if (round == 2) {
-      randomTimeout = Math.floor(Math.random() * 3100) + 1000;
+      randomTimeout = Math.floor(Math.random() * 100) + 0;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       // Taking 10$ at the beggining of the game
@@ -354,7 +382,7 @@ const Game = () => {
       }, randomTimeout);
     }
     if (round == 3) {
-      randomTimeout = Math.floor(Math.random() * 3100) + 2000;
+      randomTimeout = Math.floor(Math.random() * 100) + 0;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       // Taking 10$ at the beggining of the game
@@ -367,10 +395,14 @@ const Game = () => {
         anotherTurn();
       }, randomTimeout);
     }
-
-    if (turn >= 15 + additionalTurns) {
-      setRound(4);
+    if (round == 4) {
+      resetHighliting();
+      notificate("Who is the winner?");
       winner();
+    }
+
+    if (turn >= 14 + additionalTurns) {
+      setRound(4);
     } else if (turn >= 10 + additionalTurns) {
       setRound(3);
     } else if (turn >= 5 + additionalTurns) {
