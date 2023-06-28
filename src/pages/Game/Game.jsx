@@ -21,6 +21,7 @@ const Game = () => {
   const [tableCards, setTableCards] = useState([]);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState(false);
+  const [currentCall, setCurrentCall] = useState(10);
 
   const [playerChoices, setPlayerChoices] = useState({
     raise: false,
@@ -28,6 +29,7 @@ const Game = () => {
     call: false,
   });
   const [isPlayerOut, setIsPlayerOut] = useState(false);
+  const [playerRaise, setPlayerRaise] = useState(10);
 
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
@@ -174,6 +176,8 @@ const Game = () => {
       resetHighliting();
 
       if (playerDecide == "call") {
+        setPlayerCredits((prevCredits) => prevCredits - currentCall);
+        setTotalPot((prevPot) => prevPot + currentCall);
         anotherTurn();
         return;
       }
@@ -220,10 +224,10 @@ const Game = () => {
 
       // Taking 10$ at the beggining of the game
       setTimeout(() => {
-        const callAmount = 10; // This will change later, when bots can calculate %
+        //  setCurrentCall(50); // This will change later, when bots can calculate %
         const temp = [...botInfo];
-        temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
-        setTotalPot((prevPot) => prevPot + callAmount);
+        temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
+        setTotalPot((prevPot) => prevPot + currentCall);
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
@@ -304,6 +308,10 @@ const Game = () => {
         playerChoices={playerChoices}
         currentBotAI={currentBotAI}
         setPlayerChoices={setPlayerChoices}
+        currentCall={currentCall}
+        setPlayerRaise={setPlayerRaise}
+        playerRaise={playerRaise}
+        playerCredits={playerCredits}
       />
       <MenuButton />
       {notificationStatus && <Notification msg={notificationMessage} />}
