@@ -89,29 +89,43 @@ const Game = () => {
         if (cards[j].card == "J") {
           temp[i].hand = temp[i].hand + 11;
           setPower(temp);
-          console.log("Jack founded:");
-        }
-        if (cards[j].card == "Q") {
+        } else if (cards[j].card == "Q") {
           temp[i].hand = temp[i].hand + 12;
           setPower(temp);
-          console.log("Queen founded:");
-        }
-        if (cards[j].card == "K") {
+        } else if (cards[j].card == "K") {
           temp[i].hand = temp[i].hand + 13;
           setPower(temp);
-          console.log("King founded:");
-        }
-        if (cards[j].card == "A") {
+        } else if (cards[j].card == "A") {
           temp[i].hand = temp[i].hand + 14;
           setPower(temp);
-          console.log("Ace founded:");
         } else {
           temp[i].hand = temp[i].hand + Number(cards[j].card);
           setPower(temp);
         }
       }
+      if (cards[0].card == cards[1].card) {
+        const temp = [...power];
+        temp[i].hand = 35; // PAIR IN HAND FOUNDED;
+        setPower(temp);
+
+        console.log("Pair founded: " + i);
+      }
+      if (cards[0].card == "K" && cards[1].card == "K") {
+        const temp = [...power];
+        temp[i].hand = 45; // KING PAIR IN HAND FOUNDED;
+        setPower(temp);
+
+        console.log("King pair founded: " + i);
+      }
+      if (cards[0].card == "A" && cards[1].card == "A") {
+        const temp = [...power];
+        temp[i].hand = 50; // ACE PAIR IN HAND FOUNDED;
+        setPower(temp);
+
+        console.log("Ace pair founded: " + i);
+      }
     }
-    console.log(power);
+    console.table(power);
   };
 
   const notificate = (msg) => {
