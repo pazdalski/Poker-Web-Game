@@ -27,7 +27,7 @@ const Game = () => {
     fold: false,
     call: false,
   });
-
+  const [isPlayerOut, setIsPlayerOut] = useState(false);
   const [playerDecision, setPlayerDecision] = useState("");
 
   const [currentPlayer, setCurrentPlayer] = useState(0);
@@ -156,7 +156,7 @@ const Game = () => {
   };
 
   const currentBotAI = () => {
-    const randomTimeout = Math.floor(Math.random() * 2500) + 1000;
+    let randomTimeout = Math.floor(Math.random() * 2500) + 1000;
     const resetHighliting = () => {
       const temp = [...botInfo];
 
@@ -172,15 +172,42 @@ const Game = () => {
 
     // Show available choices
     if (currentPlayer == 4) {
-      notificate("It's your turn. Good luck!");
       resetHighliting();
+
+      if (playerDecision == "call") {
+        console.log("called");
+
+        setPlayerDecision("");
+        anotherTurn();
+        return;
+      }
+      if (playerDecision == "fold") {
+        console.log("folded");
+        setIsPlayerOut(true);
+
+        setPlayerDecision("");
+        anotherTurn();
+        return;
+      }
+      if (playerDecision == "raise") {
+        console.log("raised");
+
+        setPlayerDecision("");
+        anotherTurn();
+        return;
+      }
+
+      if (isPlayerOut) {
+        anotherTurn();
+        return;
+      }
+
+      notificate("It's your turn. Good luck!");
       setPlayerChoices({
         raise: true,
         fold: true,
         call: true,
       });
-
-      //todo Decide
 
       return;
     }
@@ -211,6 +238,21 @@ const Game = () => {
       }, randomTimeout);
     }
     if (round == 2) {
+      randomTimeout = Math.floor(Math.random() * 3100) + 1000;
+      notificate(botInfo[currentPlayer].name + " is deciding...");
+
+      // Taking 10$ at the beggining of the game
+      setTimeout(() => {
+        const callAmount = 10; // This will change later, when bots can calculate %
+        const temp = [...botInfo];
+        temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
+        setTotalPot((prevPot) => prevPot + callAmount);
+        setBotInfo(temp);
+        anotherTurn();
+      }, randomTimeout);
+    }
+    if (round == 3) {
+      randomTimeout = Math.floor(Math.random() * 3100) + 2000;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       // Taking 10$ at the beggining of the game
@@ -226,34 +268,16 @@ const Game = () => {
 
     if (turn >= 15) {
       setRound(4);
-      console.log("Round: " + round);
     } else if (turn >= 10) {
       setRound(3);
-      console.log("Round: " + round);
     } else if (turn >= 5) {
       setRound(2);
-      console.log("Round: " + round);
     }
-
-    // switch (turn) {
-    //   case 5 < turn:
-    //     setRound(2);
-    //     console.log(round);
-    //     break;
-    //   case 11:
-    //     setRound(3);
-    //     break;
-    //   case 16:
-    //     setRound(4);
-    //     break;
-    // }
   };
 
   const anotherTurn = () => {
     setTurn((prevTurn) => prevTurn + 1);
-    console.log("Turn: " + turn);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
-    console.log("Current player: " + currentPlayer);
     if (currentPlayer > 3) {
       setCurrentPlayer(0);
       return;
@@ -281,14 +305,15 @@ const Game = () => {
     >
       <Table tableCards={tableCards} />
       <Players botInfo={botInfo} />
-      <UserCards playerCards={playerCards} />
+      <UserCards playerCards={playerCards} isPlayerOut={isPlayerOut} />
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />
       <UserCredits playerCredits={playerCredits} />
       <UserButtons
         playerChoices={playerChoices}
         setPlayerDecision={setPlayerDecision}
-        anotherTurn={anotherTurn}
+        currentBotAI={currentBotAI}
+        setPlayerChoices={setPlayerChoices}
       />
       <MenuButton />
       {notificationStatus && <Notification msg={notificationMessage} />}

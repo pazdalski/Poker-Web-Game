@@ -61,6 +61,15 @@
 .user-cards-container .user-card .user-card-revealed {
   width: 100%;
 }
+.user-cards-container .user-card .user-card-revealed.user-card-image-folded {
+  opacity: 0.5;
+}
+.user-cards-container .user-card.user-card-folded {
+  transform: rotatex(40deg) translateY(30px) rotateZ(15deg) !important;
+  transform-origin: bottom;
+  border: 3px solid rgb(59, 59, 59) !important;
+  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.3);
+}
 
 .avatar.isPlaying {
   box-shadow: 0 0 15px 5px #1976d2;

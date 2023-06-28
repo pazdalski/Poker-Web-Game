@@ -1,7 +1,20 @@
 import { Button, Stack } from "@mui/material";
 import React from "react";
 
-const UserButtons = ({ playerChoices, setPlayerDecision, anotherTurn }) => {
+const UserButtons = ({
+  playerChoices,
+  setPlayerDecision,
+  currentBotAI,
+  setPlayerChoices,
+}) => {
+  const resetPlayerChoices = () => {
+    setPlayerChoices({
+      raise: false,
+      fold: false,
+      call: false,
+    });
+  };
+
   return (
     <Stack className="user-buttons-container" direction={"row"} gap={"20px"}>
       <Button
@@ -11,7 +24,8 @@ const UserButtons = ({ playerChoices, setPlayerDecision, anotherTurn }) => {
         sx={{ fontFamily: "Oswald", fontSize: "28px" }}
         onClick={() => {
           setPlayerDecision("raise");
-          anotherTurn();
+          resetPlayerChoices();
+          currentBotAI();
         }}
       >
         Raise
@@ -23,7 +37,8 @@ const UserButtons = ({ playerChoices, setPlayerDecision, anotherTurn }) => {
         sx={{ fontFamily: "Oswald", fontSize: "28px" }}
         onClick={() => {
           setPlayerDecision("fold");
-          anotherTurn();
+          resetPlayerChoices();
+          currentBotAI();
         }}
       >
         Fold
@@ -35,7 +50,8 @@ const UserButtons = ({ playerChoices, setPlayerDecision, anotherTurn }) => {
         sx={{ fontFamily: "Oswald", fontSize: "28px" }}
         onClick={() => {
           setPlayerDecision("call");
-          anotherTurn();
+          resetPlayerChoices();
+          currentBotAI();
         }}
       >
         Call
