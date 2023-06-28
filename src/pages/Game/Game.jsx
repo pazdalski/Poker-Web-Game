@@ -28,7 +28,6 @@ const Game = () => {
     call: false,
   });
   const [isPlayerOut, setIsPlayerOut] = useState(false);
-  const [playerDecision, setPlayerDecision] = useState("");
 
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
@@ -155,7 +154,7 @@ const Game = () => {
     setPlayerCards([playableCards[8], playableCards[9]]);
   };
 
-  const currentBotAI = () => {
+  const currentBotAI = (playerDecide) => {
     let randomTimeout = Math.floor(Math.random() * 2500) + 1000;
     const resetHighliting = () => {
       const temp = [...botInfo];
@@ -174,25 +173,17 @@ const Game = () => {
     if (currentPlayer == 4) {
       resetHighliting();
 
-      if (playerDecision == "call") {
-        console.log("called");
-
-        setPlayerDecision("");
+      if (playerDecide == "call") {
         anotherTurn();
         return;
       }
-      if (playerDecision == "fold") {
-        console.log("folded");
+      if (playerDecide == "fold") {
         setIsPlayerOut(true);
 
-        setPlayerDecision("");
         anotherTurn();
         return;
       }
-      if (playerDecision == "raise") {
-        console.log("raised");
-
-        setPlayerDecision("");
+      if (playerDecide == "raise") {
         anotherTurn();
         return;
       }
@@ -311,7 +302,6 @@ const Game = () => {
       <UserCredits playerCredits={playerCredits} />
       <UserButtons
         playerChoices={playerChoices}
-        setPlayerDecision={setPlayerDecision}
         currentBotAI={currentBotAI}
         setPlayerChoices={setPlayerChoices}
       />
