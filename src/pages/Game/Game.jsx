@@ -131,6 +131,8 @@ const Game = () => {
       tableCards.push(randomCard);
 
       notificate("Next card on the table!");
+
+      setCurrentCall(10); //! resets current call
     }
     if (round == 3 && tableCards.length == 4) {
       const randomNumber = Math.floor(Math.random() * avaiableCards.length);
@@ -143,6 +145,8 @@ const Game = () => {
       tableCards.push(randomCard);
 
       notificate("Last card on the table!");
+
+      setCurrentCall(10); //! resets current call
     }
   };
   const assignCards = () => {
@@ -188,6 +192,9 @@ const Game = () => {
         return;
       }
       if (playerDecide == "raise") {
+        setPlayerCredits((prevCredits) => prevCredits - playerRaise);
+        setTotalPot((prevPot) => prevPot + playerRaise);
+        setCurrentCall(playerRaise);
         anotherTurn();
         return;
       }

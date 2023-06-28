@@ -50,7 +50,12 @@ const UserButtons = ({
           setToggleSlider(!toggleSlider);
         }}
         color="success"
-        sx={{ position: "absolute", bottom: "50px" }}
+        sx={{
+          position: "absolute",
+          bottom: "50px",
+          opacity: `${playerChoices.raise ? "1" : "0.25"}`,
+        }}
+        disabled={playerChoices.raise ? false : true}
       >
         <LinearScaleIcon
           sx={{
@@ -74,6 +79,7 @@ const UserButtons = ({
         }}
         onClick={() => {
           resetPlayerChoices();
+          setToggleSlider(false);
           currentBotAI("raise");
         }}
       >
