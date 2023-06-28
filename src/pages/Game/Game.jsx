@@ -105,6 +105,9 @@ const Game = () => {
           temp[i].hand = temp[i].hand + 14;
           setPower(temp);
           console.log("Ace founded:");
+        } else {
+          temp[i].hand = temp[i].hand + Number(cards[j].card);
+          setPower(temp);
         }
       }
     }
