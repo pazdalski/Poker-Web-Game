@@ -12,6 +12,8 @@ const Bot = ({
   cards,
   isPlaying,
   hasFolded,
+  power,
+  hand,
 }) => {
   return (
     <div className="player" style={position}>
@@ -28,7 +30,13 @@ const Bot = ({
           {name}
         </Typography>
         <Typography variant="subtitle1" color="white">
-          ${cash}
+          ${cash}{" "}
+          <Typography variant="button" color="primary">
+            {hand}{" "}
+          </Typography>
+          <Typography variant="button" color="gold">
+            {power}
+          </Typography>
         </Typography>
       </Stack>
       <div className="cards-container">

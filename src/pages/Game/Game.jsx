@@ -45,25 +45,25 @@ const Game = () => {
       name: "Crawler",
       hand: 0,
       kicker: 0,
-      power: 10, // Royal flush
+      power: 0, // Royal flush
     },
     {
       name: "Ally Alien",
       hand: 0,
       kicker: 0,
-      power: 9, // Straight flush
+      power: 0, // Straight flush
     },
     {
       name: "Dino",
       hand: 0,
       kicker: 0,
-      power: 8, // Kareta
+      power: 0, // Kareta
     },
     {
       name: "Mummy",
       hand: 0,
       kicker: 0,
-      power: 7, // Full House
+      power: 0, // Full House
     },
     // {
     //   name: "Player",
@@ -159,20 +159,10 @@ const Game = () => {
         );
         temp[i].power = givenPower;
       }
-      //todo Huge problem is when two players have the same power
-      // Then kicker card (highest card excluding pairs in players hand)
-      // I will add this later, lets focus on main situations
-      // console.log("DUPLICATE ELEMENTS:");
-      // console.log(duplicateElements.length); //? check
-      // console.log(duplicateElements); //? check
-      // console.log("UNIQUE POWERS:");
-      // console.log(uniquePowers); //? check
-      // console.log("POWER:");
-      // console.table(power);
-      // console.warn("Next player");
+
       // # ---------------------------------------------------------------- //
 
-      //# THREE OF A KIND and FOUR OF A KIND
+      //# THREE OF A KIND/ FOUR OF A KIND/ FULL HOUSE
 
       const data = [
         {
@@ -259,7 +249,12 @@ const Game = () => {
               console.log("Too many for full house, deleting one last piece");
               sorted.splice(3, 1);
             }
+
             const givenPower = sorted[0].power * 3 + sorted[2].power * 2 + 166;
+            if (temp[i].power < givenPower) {
+              // If current power is less than the given power assign it
+              temp[i].power = givenPower;
+            }
             console.log("FULL HOUSE FOUND: ");
             console.log(givenPower);
             console.log(sorted);
@@ -281,6 +276,10 @@ const Game = () => {
         if (filteredData.length == 2) {
           // THREE OF A KIND
           const givenPower = Number(filteredData[0].power) * 3 + 71;
+          if (temp[i].power < givenPower) {
+            // If current power is less than the given power assign it
+            temp[i].power = givenPower;
+          }
 
           console.log("THREE OF A KIND FOUND: ");
           console.log(givenPower);
@@ -289,6 +288,10 @@ const Game = () => {
         if (filteredData.length == 3) {
           //? FOUR OF A KIND
           const givenPower = Number(filteredData[0].power) * 4 + 227;
+          if (temp[i].power < givenPower) {
+            // If current power is less than the given power assign it
+            temp[i].power = givenPower;
+          }
           console.log("FOUR OF A KIND FOUND: ");
           console.log(givenPower);
           console.log(filteredData);
@@ -303,20 +306,24 @@ const Game = () => {
             }
           });
           const givenPower = Number(sorted[0].power) * 3 + 71;
+          if (temp[i].power < givenPower) {
+            // If current power is less than the given power assign it
+            temp[i].power = givenPower;
+          }
           console.log("2x THREE OF A KIND FOUND: ");
           console.log(givenPower);
           console.log(sorted);
         }
       }
 
-      console.log("DUPLICATE ELEMENTS:");
-      console.log(duplicateElements3.length); //? check
-      console.log(duplicateElements3); //? check
-      console.log("UNIQUE POWERS:");
-      console.log(uniquePowers3); //? check
-      console.log("POWER:");
-      console.table(power);
-      console.warn("Next player");
+      // console.log("DUPLICATE ELEMENTS:");
+      // console.log(duplicateElements3.length); //? check
+      // console.log(duplicateElements3); //? check
+      // console.log("UNIQUE POWERS:");
+      // console.log(uniquePowers3); //? check
+      // console.log("POWER:");
+      // console.table(power);
+      // console.warn("Next player");
       // # ---------------------------------------------------------------- //
 
       setPower(temp);
@@ -647,7 +654,7 @@ const Game = () => {
       }}
     >
       <Table tableCards={tableCards} />
-      <Players botInfo={botInfo} />
+      <Players botInfo={botInfo} power={power} />
       <UserCards playerCards={playerCards} isPlayerOut={isPlayerOut} />
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />

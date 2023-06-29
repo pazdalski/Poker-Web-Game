@@ -12,7 +12,7 @@ const playerPositions = {
   player4: { bottom: 0, right: "-80px" },
 };
 
-const Players = ({ botInfo }) => {
+const Players = ({ botInfo, power }) => {
   return (
     <div className="container">
       <Bot
@@ -25,6 +25,8 @@ const Players = ({ botInfo }) => {
         isRevealed={botInfo[0].isRevealed}
         isPlaying={botInfo[0].isPlaying}
         hasFolded={botInfo[0].hasFolded}
+        power={power[0].power}
+        hand={power[0].hand}
       />
       <Bot
         position={playerPositions.player2}
@@ -36,6 +38,8 @@ const Players = ({ botInfo }) => {
         isRevealed={botInfo[1].isRevealed}
         isPlaying={botInfo[1].isPlaying}
         hasFolded={botInfo[1].hasFolded}
+        power={power[1].power}
+        hand={power[1].hand}
       />
       <Bot
         position={playerPositions.player3}
@@ -47,6 +51,8 @@ const Players = ({ botInfo }) => {
         isRevealed={botInfo[2].isRevealed}
         isPlaying={botInfo[2].isPlaying}
         hasFolded={botInfo[2].hasFolded}
+        power={power[2].power}
+        hand={power[2].hand}
       />
       <Bot
         position={playerPositions.player4}
@@ -58,6 +64,8 @@ const Players = ({ botInfo }) => {
         isRevealed={botInfo[3].isRevealed}
         isPlaying={botInfo[3].isPlaying}
         hasFolded={botInfo[3].hasFolded}
+        power={power[3].power}
+        hand={power[3].hand}
       />
     </div>
   );
