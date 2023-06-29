@@ -10,5 +10,6 @@ body {
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  background-image: url(./assets/green-texture.webp);
+  background-image: url(https://img.oboilux.ru/upload/iblock/7e8/7e85685becf24047a2710ccab91297d4.jpg);
+  background-size: contain;
 }/*# sourceMappingURL=index.css.map */

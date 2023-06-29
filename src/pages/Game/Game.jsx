@@ -78,8 +78,6 @@ const Game = () => {
     for (let i = 0; i < 4; i++) {
       const allCards = [...tableCards, ...botInfo[i].cards];
       const handCards = [...botInfo[i].cards];
-      // console.log(allCards);
-      // console.table(handCards);
 
       //# Highest card - it is also a kicker
       const highestCardSort = handCards.sort((a, b) => {
