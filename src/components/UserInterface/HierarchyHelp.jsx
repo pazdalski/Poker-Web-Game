@@ -1,7 +1,8 @@
 import { Card, Typography } from "@mui/material";
 import React, { useState } from "react";
 import "./UI.css";
-import hierarchyImage from "../../assets/hierarchia.webp";
+import hierarchyImage from "../../assets/hierarchy.jpg";
+import HelpIcon from "@mui/icons-material/Help";
 
 const HierarchyHelp = () => {
   const [helpVisible, setHelpVisible] = useState(false);
@@ -10,7 +11,7 @@ const HierarchyHelp = () => {
     <>
       <Card
         className="hierarchy-help-button"
-        sx={{ backgroundColor: "#99d1ac", cursor: "pointer" }}
+        sx={{ backgroundColor: "#e0e0e0", cursor: "pointer" }}
         onMouseOver={() => {
           setHelpVisible(true);
         }}
@@ -24,11 +25,17 @@ const HierarchyHelp = () => {
           lineHeight={"25px"}
           fontSize={"22px"}
           color={"black"}
-          sx={{ display: "flex", justifyContent: "center", padding: "8px 0" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "8px 0",
+          }}
           fontFamily={"Oswald"}
         >
-          H <br />I <br />
-          E <br /> R <br /> A <br /> R <br /> C <br /> H <br /> Y
+          H <br />E <br />
+          L <br /> P <br /> <HelpIcon />
         </Typography>
       </Card>
       <Card

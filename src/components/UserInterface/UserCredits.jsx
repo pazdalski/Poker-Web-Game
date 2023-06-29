@@ -4,11 +4,7 @@ import { Card, Stack, Typography } from "@mui/material";
 
 const UserCredits = ({ playerCredits }) => {
   return (
-    <Card
-      elevation={20}
-      className="user-credits-container"
-      sx={{ background: "#162738" }}
-    >
+    <Card elevation={22} className="user-credits-container">
       <Stack
         justifyContent={"center"}
         alignItems={"center"}

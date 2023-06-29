@@ -4,10 +4,14 @@
   top: 20px;
 }
 
+.total-pot-card {
+  background: radial-gradient(circle, rgb(26, 47, 68) 0%, rgb(20, 34, 48) 100%);
+}
+
 .hierarchy-help-button {
   position: absolute;
   right: 0;
-  height: 240px;
+  height: 140px;
   width: 30px;
   top: 50px;
   font-family: "Oswald", sans-serif;
@@ -18,10 +22,14 @@
   transition: 0.4s all;
   position: absolute;
   width: 350px;
-  height: 384px;
+  height: 395px;
   right: -500px;
   top: 50px;
   z-index: 10;
+}
+
+.help-visible {
+  right: 40px;
 }
 
 .user-credits-container {
@@ -30,7 +38,7 @@
   bottom: 25px;
   width: 250px;
   height: 100px;
-  background-color: #162738;
+  background: radial-gradient(circle, rgb(26, 47, 68) 0%, rgb(20, 34, 48) 100%);
   font-size: 32px;
   color: white;
 }

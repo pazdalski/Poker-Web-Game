@@ -17,6 +17,7 @@ const Notification = ({ msg }) => {
         alignItems: "center",
         justifyContent: "center",
         zIndex: 1,
+        boxShadow: "0 0 15px 5px #0c0c0c90",
       }}
       className="notificaiton-animation"
     >

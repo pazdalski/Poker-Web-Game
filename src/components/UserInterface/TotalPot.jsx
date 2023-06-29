@@ -22,6 +22,7 @@ const TotalPot = ({ totalPot }) => {
           borderBottom: " 4px solid #051627",
           p: "10px 0",
         }}
+        className="total-pot-card"
       >
         <Typography variant="h6" color="white" fontFamily={"Oswald"}>
           Total pot

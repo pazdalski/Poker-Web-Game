@@ -2,6 +2,11 @@
   opacity: 0;
   transform: translateY(-10%);
   animation: animation 0.5s ease-in-out 1 forwards;
+  background: radial-gradient(
+    circle,
+    rgba(26, 47, 68, 1) 0%,
+    rgb(20, 34, 48) 100%
+  );
 }
 
 @keyframes animation {
