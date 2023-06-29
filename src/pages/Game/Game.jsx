@@ -136,7 +136,7 @@ const Game = () => {
       }
       if (duplicateElements.length == 3) {
         const sorted = duplicateElements.sort((a, b) => {
-          if (b.power > a.power) {
+          if (b.power < a.power) {
             return 1;
           } else {
             return -1;
@@ -152,7 +152,6 @@ const Game = () => {
           11 +
           8; // 40-76 (Adding single pair parameters and additional 8 to make it better than 1 pair)
         // It is the same as 2 pairs but there is no combination as three pairs, so i have to sort it out
-        console.log(sorted);
         console.log(
           "THREE PAIRS FOUND (taking 2 highest) for: " +
             power[i].name +
@@ -160,27 +159,165 @@ const Game = () => {
         );
         temp[i].power = givenPower;
       }
-
+      //todo Huge problem is when two players have the same power
+      // Then kicker card (highest card excluding pairs in players hand)
+      // I will add this later, lets focus on main situations
+      // console.log("DUPLICATE ELEMENTS:");
+      // console.log(duplicateElements.length); //? check
+      // console.log(duplicateElements); //? check
+      // console.log("UNIQUE POWERS:");
+      // console.log(uniquePowers); //? check
+      // console.log("POWER:");
+      // console.table(power);
+      // console.warn("Next player");
       // # ---------------------------------------------------------------- //
-      // ! Która karta jest powtórzona????
 
-      //Ogarnij ilość par i najwyższą parę (być może 2x asy mogą dawać 2x14)
-      //Tutaj nie będzie zbierać trójek i karet
-      //
-      //
-      //
-      //
-      //
-      //
-      //
+      //# THREE OF A KIND and FOUR OF A KIND
+
+      const data = [
+        {
+          category: "spades",
+          card: "2",
+          power: "2",
+          img: "cards/5_of_spades.png",
+        },
+        {
+          category: "spades",
+          card: "2",
+          power: "2",
+          img: "cards/king_of_spades.png",
+        },
+        {
+          category: "spades",
+          card: "5",
+          power: "5",
+          img: "cards/8_of_spades.png",
+        },
+        {
+          category: "clubs",
+          card: "2",
+          power: "2",
+          img: "cards/king_of_clubs.png",
+        },
+        {
+          category: "clubs",
+          card: "5",
+          power: "5",
+          img: "cards/jack_of_clubs.png",
+        },
+        {
+          category: "hearts",
+          card: "A",
+          power: "14",
+          img: "cards/king_of_hearts.png",
+        },
+        {
+          category: "diamonds",
+          card: "7",
+          power: "7",
+          img: "cards/9_of_diamonds.png",
+        },
+      ];
+
+      const duplicateElements3 = [];
+      const uniquePowers3 = [];
+
+      for (let i = 0; i < allCards.length; i++) {
+        const power = allCards[i].power;
+        // Jeżeli uniquePowers ma sprawdzany power
+        if (uniquePowers3.includes(power)) {
+          // jeżeli duplateElements nie zawiera karty to dodaj
+          if (!duplicateElements3.includes(allCards[i])) {
+            duplicateElements3.push(allCards[i]);
+          }
+        } else {
+          // Dodaj do uniquePowers jeśli jest unikalny
+          uniquePowers3.push(power);
+        }
+      }
+      console.log("duplicateElements3");
+      console.log(duplicateElements3);
+
+      if (duplicateElements3.length >= 2) {
+        if (duplicateElements3.length >= 3) {
+          // Full House
+          const sorted = duplicateElements3.sort((a, b) => {
+            if (b.power > a.power) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
+
+          if (
+            (sorted[0].power == sorted[1].power &&
+              sorted[1].power !== sorted[2].power) ||
+            (sorted[1].power == sorted[2].power &&
+              sorted[0].power !== sorted[1].power)
+          ) {
+            if (sorted.length == 4) {
+              console.log("Too many for full house, deleting one last piece");
+              sorted.splice(3, 1);
+            }
+            const givenPower = sorted[0].power * 3 + sorted[2].power * 2 + 166;
+            console.log("FULL HOUSE FOUND: ");
+            console.log(givenPower);
+            console.log(sorted);
+          }
+        }
+
+        const counter = {};
+        // Przechodzenie przez dane i zliczanie wystąpień wartości "power"
+        duplicateElements3.forEach((item) => {
+          const power = item.power;
+          counter[power] = (counter[power] || 0) + 1;
+        });
+
+        // Filtracja danych, pozostawienie tylko elementów, które mają przynajmniej dwa wystąpienia
+        const filteredData = duplicateElements3.filter(
+          (item) => counter[item.power] >= 2
+        );
+
+        if (filteredData.length == 2) {
+          // THREE OF A KIND
+          const givenPower = Number(filteredData[0].power) * 3 + 71;
+
+          console.log("THREE OF A KIND FOUND: ");
+          console.log(givenPower);
+          console.log(filteredData);
+        }
+        if (filteredData.length == 3) {
+          //? FOUR OF A KIND
+          const givenPower = Number(filteredData[0].power) * 4 + 227;
+          console.log("FOUR OF A KIND FOUND: ");
+          console.log(givenPower);
+          console.log(filteredData);
+        }
+        if (filteredData.length == 4) {
+          //? 2x THREE OF A KIND
+          const sorted = duplicateElements3.sort((a, b) => {
+            if (b.power < a.power) {
+              return 1;
+            } else {
+              return -1;
+            }
+          });
+          const givenPower = Number(sorted[0].power) * 3 + 71;
+          console.log("2x THREE OF A KIND FOUND: ");
+          console.log(givenPower);
+          console.log(sorted);
+        }
+      }
+
       console.log("DUPLICATE ELEMENTS:");
-      console.log(duplicateElements.length); //? check
-      console.log(duplicateElements); //? check
+      console.log(duplicateElements3.length); //? check
+      console.log(duplicateElements3); //? check
       console.log("UNIQUE POWERS:");
-      console.log(uniquePowers); //? check
+      console.log(uniquePowers3); //? check
       console.log("POWER:");
       console.table(power);
       console.warn("Next player");
+      // # ---------------------------------------------------------------- //
 
       setPower(temp);
     }
