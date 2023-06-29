@@ -78,10 +78,10 @@ const Game = () => {
     for (let i = 0; i < 4; i++) {
       const allCards = [...tableCards, ...botInfo[i].cards];
       const handCards = [...botInfo[i].cards];
-      console.log(allCards);
+      // console.log(allCards);
       // console.table(handCards);
 
-      //# Highest card - it is also kicker
+      //# Highest card - it is also a kicker
       const highestCardSort = handCards.sort((a, b) => {
         return Number(b.power) - Number(a.power);
       });
@@ -90,26 +90,97 @@ const Game = () => {
       temp[i].kicker = highestCard.power;
       temp[i].power = highestCard.power;
 
+      // # ---------------------------------------------------------------- //
+
       //# Pair
       const duplicateElements = [];
       const uniquePowers = [];
 
       for (let i = 0; i < allCards.length; i++) {
         const power = allCards[i].power;
+        // Jeżeli uniquePowers ma sprawdzany power
         if (uniquePowers.includes(power)) {
+          // jeżeli duplateElements nie zawiera karty to dodaj
           if (!duplicateElements.includes(allCards[i])) {
             duplicateElements.push(allCards[i]);
           }
         } else {
+          // Dodaj do uniquePowers jeśli jest unikalny
           uniquePowers.push(power);
         }
       }
+      if (duplicateElements.length == 1) {
+        const givenPower = Number(duplicateElements[0].power) * 2 + 11; // 15-39
 
-      //Ogarnij ilość par i najwyższą parę
+        console.log(
+          "ONE PAIR FOUND for: " +
+            power[i].name +
+            ` assigning ${givenPower} power`
+        );
+        temp[i].power = givenPower;
+      }
+      if (duplicateElements.length == 2) {
+        const givenPower =
+          Number(duplicateElements[0].power) * 2 +
+          11 +
+          Number(duplicateElements[1].power) * 2 +
+          11 +
+          8; // 40-76 (Adding single pair parameters and additional 8 to make it better than 1 pair)
+
+        console.log(
+          "TWO PAIRS FOUND for: " +
+            power[i].name +
+            ` assigning ${givenPower} power`
+        );
+        temp[i].power = givenPower;
+      }
+      if (duplicateElements.length == 3) {
+        const sorted = duplicateElements.sort((a, b) => {
+          if (b.power > a.power) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+        if (sorted[0].power == sorted[1].power) {
+          sorted.splice(1, 1);
+        }
+        const givenPower =
+          Number(sorted[0].power) * 2 +
+          11 +
+          Number(sorted[1].power) * 2 +
+          11 +
+          8; // 40-76 (Adding single pair parameters and additional 8 to make it better than 1 pair)
+        // It is the same as 2 pairs but there is no combination as three pairs, so i have to sort it out
+        console.log(sorted);
+        console.log(
+          "THREE PAIRS FOUND (taking 2 highest) for: " +
+            power[i].name +
+            ` assigning ${givenPower} power`
+        );
+        temp[i].power = givenPower;
+      }
+
+      // # ---------------------------------------------------------------- //
+      // ! Która karta jest powtórzona????
+
+      //Ogarnij ilość par i najwyższą parę (być może 2x asy mogą dawać 2x14)
       //Tutaj nie będzie zbierać trójek i karet
-
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      console.log("DUPLICATE ELEMENTS:");
       console.log(duplicateElements.length); //? check
       console.log(duplicateElements); //? check
+      console.log("UNIQUE POWERS:");
+      console.log(uniquePowers); //? check
+      console.log("POWER:");
+      console.table(power);
+      console.warn("Next player");
 
       setPower(temp);
     }
