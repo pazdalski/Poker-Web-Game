@@ -49,6 +49,12 @@
 }
 
 @keyframes cardReveal {
+  50% {
+    box-shadow: 15px 15px 15px 15px #0c0c0c20;
+  }
+  70% {
+    box-shadow: 25px 25px 15px 15px #0c0c0c00;
+  }
   100% {
     transform: rotateY(0turn);
   }

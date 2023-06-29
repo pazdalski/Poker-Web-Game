@@ -1,8 +1,6 @@
 import React from "react";
 import "./table.css";
 import Card from "../Card/Card";
-import StyleIcon from "@mui/icons-material/Style";
-import logo from "../../assets/logo.png";
 
 const Table = ({ tableCards }) => {
   return (
