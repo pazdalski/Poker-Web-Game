@@ -401,7 +401,7 @@ const Game = () => {
 
     setTimeout(() => {
       nextGame();
-    }, 3000);
+    }, 6000);
   };
 
   const nextGame = () => {
@@ -453,15 +453,13 @@ const Game = () => {
     setTotalPot(0);
     setIsPlayerOut(false);
     setTableCards([]);
+    setPlayableCards([]);
 
     setGame((prevgame) => prevgame + 1);
     anotherTurn();
     console.log("next game");
   };
-  const setNewCards = () => {
-    const stAA = [...cardsInfo];
-    setAvailableCards(stAA);
-  };
+
   const setHandPower = () => {
     for (let i = 0; i < 4; i++) {
       const cards = botInfo[i].cards;
@@ -555,9 +553,6 @@ const Game = () => {
 
   const randomCards = () => {
     setAvailableCards([...cardsInfo]);
-    console.log("availableCards");
-    console.log(availableCards);
-    console.log("availableCards");
 
     for (let i = 0; i < 10; i++) {
       let randomNumber = Math.floor(Math.random() * availableCards.length);
