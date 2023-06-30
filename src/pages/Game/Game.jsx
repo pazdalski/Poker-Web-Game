@@ -14,12 +14,13 @@ import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
 
 const Game = () => {
+  const stableCards = JSON.parse(JSON.stringify(cardsInfo));
   const [playerCredits, setPlayerCredits] = useState(10000);
   const [playerCards, setPlayerCards] = useState([]);
   const [totalPot, setTotalPot] = useState(0);
   const [round, setRound] = useState(1);
   const [game, setGame] = useState(1);
-  const [availableCards, setAvailableCards] = useState([...cardsInfo]);
+  const [availableCards, setAvailableCards] = useState(stableCards);
   const [playableCards, setPlayableCards] = useState([]);
   const [tableCards, setTableCards] = useState([]);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -395,6 +396,7 @@ const Game = () => {
     setTimeout(() => {
       setBlackoutOnWinnings(true);
       setBotInfo(tempBotInfo);
+      setAvailableCards([...stableCards]);
     }, 1000);
 
     setTimeout(() => {
@@ -456,7 +458,10 @@ const Game = () => {
     anotherTurn();
     console.log("next game");
   };
-
+  const setNewCards = () => {
+    const stAA = [...cardsInfo];
+    setAvailableCards(stAA);
+  };
   const setHandPower = () => {
     for (let i = 0; i < 4; i++) {
       const cards = botInfo[i].cards;
@@ -549,8 +554,7 @@ const Game = () => {
   ]);
 
   const randomCards = () => {
-    setAvailableCards(JSON.parse(JSON.stringify(cardsInfo)));
-
+    setAvailableCards([...cardsInfo]);
     console.log("availableCards");
     console.log(availableCards);
     console.log("availableCards");
