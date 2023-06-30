@@ -6,10 +6,26 @@ import img3 from "../../assets/bot-images/bot3.png";
 import img4 from "../../assets/bot-images/bot4.png";
 
 const playerPositions = {
-  player1: { bottom: 0, left: "-80px" },
-  player2: { top: 0, left: "-80px" },
-  player3: { top: 0, right: "-80px" },
-  player4: { bottom: 0, right: "-80px" },
+  player1: {
+    bottom: 0,
+    left: "-80px",
+    transform: "perspective(1800px) rotateY(35deg)",
+  },
+  player2: {
+    top: 0,
+    left: "-120px",
+    transform: "perspective(2000px) rotateY(35deg)",
+  },
+  player3: {
+    top: 0,
+    right: "-120px",
+    transform: "perspective(2000px) rotateY(-35deg)",
+  },
+  player4: {
+    bottom: 0,
+    right: "-80px",
+    transform: "perspective(2000px) rotateY(-35deg)",
+  },
 };
 
 const Players = ({ botInfo, power }) => {

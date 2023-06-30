@@ -6,6 +6,7 @@ const Table = ({ tableCards }) => {
   return (
     <div className="table">
       <div className="inner-table">
+        <div className="table-light "></div>
         <img
           src={
             "https://www.vgw.co/wp-content/uploads/2021/07/global-pocker.png"

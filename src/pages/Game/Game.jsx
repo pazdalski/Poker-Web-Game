@@ -356,8 +356,14 @@ const Game = () => {
       }
     });
 
+    const filteredPlayers = sortedPlayers.filter((player) => {
+      if (!botInfo[player.index].hasFolded) {
+        return player;
+      }
+    });
+
     // In which way the player won?
-    const powerOfTheWinner = sortedPlayers[0].power;
+    const powerOfTheWinner = filteredPlayers[0].power;
 
     if (powerOfTheWinner <= 14) {
       setblackoutInfo("HIGHEST CARD");
@@ -383,7 +389,7 @@ const Game = () => {
 
     // Decide who is the winner
     const tempBotInfo = [...botInfo];
-    const indexOfWinner = sortedPlayers[0].index;
+    const indexOfWinner = filteredPlayers[0].index;
 
     tempBotInfo[indexOfWinner].isWinner = true;
     tempBotInfo[indexOfWinner].credits =
@@ -589,7 +595,6 @@ const Game = () => {
       const randomCard = availableCards[randomNumber];
 
       const temporaryCards = availableCards;
-      console.log(temporaryCards);
       temporaryCards.splice(randomNumber, 1);
       setAvailableCards(temporaryCards);
 
@@ -626,7 +631,7 @@ const Game = () => {
   };
 
   const currentBotAI = (playerDecide) => {
-    let randomTimeout = Math.floor(Math.random() * 100) + 0;
+    let randomTimeout = Math.floor(Math.random() * 2000) + 1500;
     const resetHighliting = () => {
       const temp = [...botInfo];
 
@@ -658,7 +663,7 @@ const Game = () => {
         setTotalPot((prevPot) => prevPot + playerRaise);
 
         setCurrentCall(playerRaise);
-        setAdditionalTurns((prevTurns) => prevTurns + 4);
+        setAdditionalTurns((prevTurns) => prevTurns + 3);
 
         anotherTurn();
         return;
@@ -703,9 +708,20 @@ const Game = () => {
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
+
+      // Players have 35% chance of folding if their cards are bad
+      if (power[currentPlayer].hand <= 10) {
+        const random = Math.floor(Math.random() * 50);
+        if (random < 35) {
+          const temp = [...botInfo];
+          temp[currentPlayer].hasFolded = true;
+          setBotInfo(temp);
+        }
+        notificate(botInfo[currentPlayer].name + " has folded!");
+      }
     }
     if (round == 2) {
-      randomTimeout = Math.floor(Math.random() * 100) + 0;
+      randomTimeout = Math.floor(Math.random() * 2700) + 1500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       // Taking 10$ at the beggining of the game
@@ -719,7 +735,7 @@ const Game = () => {
       }, randomTimeout);
     }
     if (round == 3) {
-      randomTimeout = Math.floor(Math.random() * 100) + 0;
+      randomTimeout = Math.floor(Math.random() * 3200) + 1500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       // Taking 10$ at the beggining of the game
@@ -737,19 +753,26 @@ const Game = () => {
       notificate("Who is the winner?");
       winner();
     }
-
-    if (turn >= 14 + additionalTurns) {
+  };
+  const checkWhichRound = () => {
+    console.log(turn);
+    if (turn > 13 + additionalTurns) {
+      console.warn("round 4");
       setRound(4);
-    } else if (turn >= 10 + additionalTurns) {
+    } else if (turn > 9 + additionalTurns) {
+      console.warn("round 3");
       setRound(3);
-    } else if (turn >= 5 + additionalTurns) {
+    } else if (turn > 5 + additionalTurns) {
+      console.warn("round 2");
       setRound(2);
+      // todo figure out how to handle additional turns
     }
   };
 
   const anotherTurn = () => {
     setTurn((prevTurn) => prevTurn + 1);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
+    checkWhichRound();
     if (currentPlayer > 3) {
       setCurrentPlayer(0);
       return;
@@ -757,7 +780,13 @@ const Game = () => {
   };
 
   useEffect(() => {
-    currentBotAI();
+    if (power[0].hand == 0) {
+      setTimeout(() => {
+        currentBotAI();
+      }, 1000);
+    } else {
+      currentBotAI();
+    }
   }, [turn]);
 
   useEffect(() => {

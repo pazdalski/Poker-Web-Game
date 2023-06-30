@@ -19,7 +19,7 @@ const Bot = ({
   return (
     <div className={`player ${isWinner && "winner"}`} style={position}>
       <Avatar
-        className={`avatar ${(isPlaying && "isPlaying", isWinner && "winner")}`}
+        className={`avatar ${isPlaying && "isPlaying"}`}
         src={img}
       ></Avatar>
       <Stack

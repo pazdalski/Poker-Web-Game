@@ -14,8 +14,7 @@ const UserCards = ({ playerCards, isPlayerOut }) => {
       <Stack direction={"row"} justifyContent={"center"}>
         <div
           className={`user-card  userCardOpeningLeftAnim ${
-            (isPlayerOut && "user-card-folded",
-            idleAnimation && "idleAnimationLeft")
+            idleAnimation && "idleAnimationLeft"
           }`}
         >
           <img
@@ -29,8 +28,7 @@ const UserCards = ({ playerCards, isPlayerOut }) => {
         </div>
         <div
           className={`user-card userCardOpeningRightAnim ${
-            (isPlayerOut && "user-card-folded",
-            idleAnimation && "idleAnimationRight")
+            idleAnimation && "idleAnimationRight"
           }`}
         >
           <img

@@ -16,7 +16,35 @@
   box-shadow: 0 0 25px 5px black;
   border: 25px solid #5e1b19;
   border-radius: 2000px;
+  .table-light {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 149;
+    animation: tableLightAnimation 5s ease-in-out infinite;
+    background: radial-gradient(
+      circle,
+      rgba(243, 243, 243, 0.15) 15%,
+      rgba(201, 201, 201, 0) 50%
+    );
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+  }
 }
+
+@keyframes tableLightAnimation {
+  0% {
+    transform: translateX(-50px);
+  }
+  50% {
+    transform: translateX(50px);
+  }
+  100% {
+    transform: translateX(-50px);
+  }
+}
+
 .inner-table {
   width: 950px;
   height: 450px;

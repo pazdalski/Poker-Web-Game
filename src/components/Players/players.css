@@ -9,9 +9,11 @@
   right: 0;
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
+  z-index: 5;
+  image-rendering: pixelated;
 }
 .container .player.winner {
-  z-index: 150;
+  z-index: 152;
 }
 .container .player .avatar {
   width: 80px;
@@ -19,8 +21,8 @@
   border: 5px solid #162738;
   z-index: 3;
 }
-.container .player .avatar.winner {
-  box-shadow: 0 0 15px 2px gold;
+.container .player .avatar.isPlaying {
+  box-shadow: 0 0 15px 2px #1976d2;
 }
 .container .player .player-info {
   position: absolute;

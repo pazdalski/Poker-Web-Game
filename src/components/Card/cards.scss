@@ -78,12 +78,18 @@
         opacity: 0.5;
       }
     }
-    &.user-card-folded {
-      transform: rotatex(40deg) translateY(30px) rotateZ(15deg) !important;
-      transform-origin: bottom;
-      border: 3px solid rgb(59, 59, 59) !important;
-      box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.3);
-    }
+  }
+  .shiny-texture {
+    position: absolute;
+    background: linear-gradient(
+      rgba(255, 255, 255, 0) 35%,
+      rgba(241, 241, 241, 0.4) 50%,
+      rgba(39, 39, 39, 0.2) 65%
+    );
+    width: 100%;
+    height: 100%;
+    top: 0;
+    animation: shinyTextureAnim 8s ease infinite;
   }
 }
 
@@ -99,18 +105,7 @@
 .idleAnimationRight {
   animation: idleAnimRight 8s ease infinite;
 }
-.shiny-texture {
-  position: absolute;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0) 35%,
-    rgba(241, 241, 241, 0.4) 50%,
-    rgba(39, 39, 39, 0.2) 65%
-  );
-  width: 100%;
-  height: 100%;
-  top: 0;
-  animation: shinyTextureAnim 8s ease infinite;
-}
+
 @keyframes shinyTextureAnim {
   0%,
   100% {

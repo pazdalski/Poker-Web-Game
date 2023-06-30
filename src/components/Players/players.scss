@@ -9,8 +9,10 @@
     right: 0;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
+    z-index: 5;
+    image-rendering: pixelated;
     &.winner {
-      z-index: 150;
+      z-index: 152;
     }
 
     .avatar {
@@ -18,8 +20,8 @@
       height: 80px;
       border: 5px solid #162738;
       z-index: 3;
-      &.winner {
-        box-shadow: 0 0 15px 2px gold;
+      &.isPlaying {
+        box-shadow: 0 0 15px 2px #1976d2;
       }
     }
     .player-info {
