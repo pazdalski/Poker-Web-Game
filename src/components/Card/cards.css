@@ -58,6 +58,7 @@
   transform: rotateY(0.5turn);
   border: 3px solid rgb(224, 224, 224);
   border-radius: 7px;
+  overflow: hidden;
   width: 150px;
   height: 225px;
 }
@@ -74,6 +75,77 @@
   box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.3);
 }
 
+.userCardOpeningLeftAnim {
+  animation: userCardOpeningLeft 1s ease-in-out 1 forwards;
+}
+
+.idleAnimationLeft {
+  animation: idleAnimLeft 8s ease infinite;
+}
+
+.userCardOpeningRightAnim {
+  animation: userCardOpeningRight 0.8s ease-in-out 1 forwards;
+}
+
+.idleAnimationRight {
+  animation: idleAnimRight 8s ease infinite;
+}
+
+.shiny-texture {
+  position: absolute;
+  background: linear-gradient(rgba(255, 255, 255, 0) 35%, rgba(241, 241, 241, 0.4) 50%, rgba(39, 39, 39, 0.2) 65%);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  animation: shinyTextureAnim 8s ease infinite;
+}
+
+@keyframes shinyTextureAnim {
+  0%, 100% {
+    transform: translateY(0%) rotate(50deg) scale(250%);
+  }
+  50% {
+    transform: translateY(-5px) rotate(25deg) scale(250%);
+  }
+}
+@keyframes userCardOpeningLeft {
+  0% {
+    transform: translateY(215px) rotate(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(-12deg) rotateY(30deg);
+    box-shadow: -25px 75px 15px 15px rgba(12, 12, 12, 0.3764705882);
+  }
+}
+@keyframes userCardOpeningRight {
+  0% {
+    transform: translateY(215px) rotate(0deg) rotateZ(0deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(12deg) rotateY(-30deg);
+    box-shadow: -15px 75px 15px 15px rgba(12, 12, 12, 0.3764705882);
+  }
+}
+@keyframes idleAnimLeft {
+  0%, 100% {
+    transform: translateY(0px) rotate(-12deg) rotateY(30deg);
+    box-shadow: -25px 75px 15px 15px rgba(12, 12, 12, 0.3764705882);
+  }
+  50% {
+    transform: translateY(5px) rotate(-14deg) rotateY(40deg);
+    box-shadow: -25px 75px 15px 15px rgba(12, 12, 12, 0.3764705882);
+  }
+}
+@keyframes idleAnimRight {
+  0%, 100% {
+    transform: translateY(0px) rotate(12deg) rotateY(-30deg);
+    box-shadow: -15px 75px 15px 15px rgba(12, 12, 12, 0.3764705882);
+  }
+  50% {
+    transform: translateY(12px) rotate(14deg) rotateY(-35deg);
+    box-shadow: -15px 75px 15px 15px rgba(12, 12, 12, 0.3764705882);
+  }
+}
 .avatar.isPlaying {
   box-shadow: 0 0 15px 5px #1976d2;
 }/*# sourceMappingURL=cards.css.map */

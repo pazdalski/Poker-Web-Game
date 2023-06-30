@@ -397,6 +397,9 @@ const Game = () => {
       setBlackoutOnWinnings(true);
       setBotInfo(tempBotInfo);
       setAvailableCards([...stableCards]);
+      notificate(
+        `${tempBotInfo[indexOfWinner].name} is the winner! $${totalPot} in winnings`
+      );
     }, 1000);
 
     setTimeout(() => {
@@ -457,7 +460,6 @@ const Game = () => {
 
     setGame((prevgame) => prevgame + 1);
     anotherTurn();
-    console.log("next game");
   };
 
   const setHandPower = () => {
