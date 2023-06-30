@@ -85,9 +85,9 @@
 
   .progress {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
-    height: 5px;
+    height: 2px;
     width: 0%;
     background: #e8cba0;
     &.progress-true {

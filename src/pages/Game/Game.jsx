@@ -18,7 +18,8 @@ const Game = () => {
   const [playerCards, setPlayerCards] = useState([]);
   const [totalPot, setTotalPot] = useState(0);
   const [round, setRound] = useState(1);
-  const [avaiableCards, setAvailableCards] = useState(cardsInfo);
+  const [game, setGame] = useState(1);
+  const [availableCards, setAvailableCards] = useState([...cardsInfo]);
   const [playableCards, setPlayableCards] = useState([]);
   const [tableCards, setTableCards] = useState([]);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -354,6 +355,7 @@ const Game = () => {
       }
     });
 
+    // In which way the player won?
     const powerOfTheWinner = sortedPlayers[0].power;
 
     if (powerOfTheWinner <= 14) {
@@ -392,7 +394,67 @@ const Game = () => {
       setBlackoutOnWinnings(true);
       setBotInfo(tempBotInfo);
     }, 1000);
+
+    setTimeout(() => {
+      nextGame();
+    }, 3000);
   };
+
+  const nextGame = () => {
+    const temp = [...botInfo];
+    for (let i = 0; i < 4; i++) {
+      temp[i].isRevealed = false;
+      temp[i].isPlaying = false;
+      temp[i].hasFolded = false;
+      temp[i].isWinner = false;
+    }
+    setBotInfo(temp);
+
+    setblackoutInfo("");
+    setBlackoutOnWinnings(false);
+
+    setPower([
+      {
+        name: "Crawler",
+        hand: 0,
+        kicker: 0,
+        power: 0,
+        index: 0,
+      },
+      {
+        name: "Ally Alien",
+        hand: 0,
+        kicker: 0,
+        power: 0,
+        index: 1,
+      },
+      {
+        name: "Dino",
+        hand: 0,
+        kicker: 0,
+        power: 0,
+        index: 2,
+      },
+      {
+        name: "Mummy",
+        hand: 0,
+        kicker: 0,
+        power: 0,
+        index: 3,
+      },
+    ]);
+
+    setRound(1);
+    setTurn(1);
+    setTotalPot(0);
+    setIsPlayerOut(false);
+    setTableCards([]);
+
+    setGame((prevgame) => prevgame + 1);
+    anotherTurn();
+    console.log("next game");
+  };
+
   const setHandPower = () => {
     for (let i = 0; i < 4; i++) {
       const cards = botInfo[i].cards;
@@ -415,7 +477,7 @@ const Game = () => {
         } else {
           temp[i].hand = temp[i].hand + Number(cards[j].card);
           setPower(temp);
-        }
+        } //todo Change it since there is power attribute
       }
       if (cards[0].card == cards[1].card) {
         const temp = [...power];
@@ -449,7 +511,7 @@ const Game = () => {
     {
       name: "Crawler",
       credits: 10000,
-      cards: [cardsInfo[50], cardsInfo[50]], //Placeholder
+      cards: [], //Placeholder
       isRevealed: false,
       isPlaying: false,
       hasFolded: false,
@@ -458,7 +520,7 @@ const Game = () => {
     {
       name: "Ally Alien",
       credits: 10000,
-      cards: [cardsInfo[50], cardsInfo[50]],
+      cards: [],
       isRevealed: false,
       isPlaying: false,
       hasFolded: false,
@@ -467,7 +529,7 @@ const Game = () => {
     {
       name: "Dino",
       credits: 10000,
-      cards: [cardsInfo[50], cardsInfo[50]],
+      cards: [],
       isRevealed: false,
       isPlaying: false,
       hasFolded: false,
@@ -476,7 +538,7 @@ const Game = () => {
     {
       name: "Mummy",
       credits: 10000,
-      cards: [cardsInfo[50], cardsInfo[50]],
+      cards: [],
       isRevealed: false,
       isPlaying: false,
       hasFolded: false,
@@ -485,13 +547,17 @@ const Game = () => {
   ]);
 
   const randomCards = () => {
-    setAvailableCards(cardsInfo);
+    setAvailableCards(JSON.parse(JSON.stringify(cardsInfo)));
+
+    console.log("availableCards");
+    console.log(availableCards);
+    console.log("availableCards");
 
     for (let i = 0; i < 10; i++) {
-      let randomNumber = Math.floor(Math.random() * avaiableCards.length);
-      let randomCard = avaiableCards[randomNumber];
+      let randomNumber = Math.floor(Math.random() * availableCards.length);
+      let randomCard = availableCards[randomNumber];
 
-      const temporaryCards = avaiableCards;
+      const temporaryCards = availableCards;
       temporaryCards.splice(randomNumber, 1);
 
       setAvailableCards(temporaryCards);
@@ -506,6 +572,7 @@ const Game = () => {
     assignCards();
     assignTableCards();
   };
+
   const assignTableCards = () => {
     if (!tableCards?.length) {
       notificate("Let's play");
@@ -513,10 +580,10 @@ const Game = () => {
       setHandPower();
 
       for (let i = 0; i < 3; i++) {
-        const randomNumber = Math.floor(Math.random() * avaiableCards.length);
-        const randomCard = avaiableCards[randomNumber];
+        const randomNumber = Math.floor(Math.random() * availableCards.length);
+        const randomCard = availableCards[randomNumber];
 
-        const temporaryCards = avaiableCards;
+        const temporaryCards = availableCards;
         temporaryCards.splice(randomNumber, 1);
         setAvailableCards(temporaryCards);
 
@@ -529,10 +596,11 @@ const Game = () => {
     }
 
     if (round == 2 && tableCards.length == 3) {
-      const randomNumber = Math.floor(Math.random() * avaiableCards.length);
-      const randomCard = avaiableCards[randomNumber];
+      const randomNumber = Math.floor(Math.random() * availableCards.length);
+      const randomCard = availableCards[randomNumber];
 
-      const temporaryCards = avaiableCards;
+      const temporaryCards = availableCards;
+      console.log(temporaryCards);
       temporaryCards.splice(randomNumber, 1);
       setAvailableCards(temporaryCards);
 
@@ -543,10 +611,10 @@ const Game = () => {
       setCurrentCall(10); //! resets current call
     }
     if (round == 3 && tableCards.length == 4) {
-      const randomNumber = Math.floor(Math.random() * avaiableCards.length);
-      const randomCard = avaiableCards[randomNumber];
+      const randomNumber = Math.floor(Math.random() * availableCards.length);
+      const randomCard = availableCards[randomNumber];
 
-      const temporaryCards = avaiableCards;
+      const temporaryCards = availableCards;
       temporaryCards.splice(randomNumber, 1);
       setAvailableCards(temporaryCards);
 
@@ -579,9 +647,6 @@ const Game = () => {
       temp[3].isPlaying = false;
       setBotInfo(temp);
     };
-    //round
-    //CurrentPlayer
-    //Turn
 
     // Show available choices
     if (currentPlayer == 4) {
@@ -707,8 +772,11 @@ const Game = () => {
   }, [turn]);
 
   useEffect(() => {
-    // New random cards on new round
+    // New random cards on new game
     randomCards();
+  }, [game]);
+  useEffect(() => {
+    assignTableCards();
   }, [round]);
 
   return (

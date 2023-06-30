@@ -71,7 +71,12 @@ export const cardsInfo = [
   },
   { category: "hearts", card: "9", power: "9", img: "cards/9_of_hearts.png" },
   { category: "spades", card: "9", power: "9", img: "cards/9_of_spades.png" },
-  { category: "clubs", card: "10", power: "10", img: "cards/10_of_clubs.png" },
+  {
+    category: "clubs",
+    card: "10",
+    power: "10",
+    img: "cards/10_of_clubs.png",
+  },
   {
     category: "diamonds",
     card: "10",
@@ -90,7 +95,12 @@ export const cardsInfo = [
     power: "10",
     img: "cards/10_of_spades.png",
   },
-  { category: "clubs", card: "J", power: "11", img: "cards/jack_of_clubs.png" },
+  {
+    category: "clubs",
+    card: "J",
+    power: "11",
+    img: "cards/jack_of_clubs.png",
+  },
   {
     category: "diamonds",
     card: "J",
@@ -133,7 +143,12 @@ export const cardsInfo = [
     power: "12",
     img: "cards/queen_of_spades.png",
   },
-  { category: "clubs", card: "K", power: "13", img: "cards/king_of_clubs.png" },
+  {
+    category: "clubs",
+    card: "K",
+    power: "13",
+    img: "cards/king_of_clubs.png",
+  },
   {
     category: "diamonds",
     card: "K",
@@ -152,7 +167,12 @@ export const cardsInfo = [
     power: "13",
     img: "cards/king_of_spades.png",
   },
-  { category: "clubs", card: "A", power: "14", img: "cards/ace_of_clubs.png" },
+  {
+    category: "clubs",
+    card: "A",
+    power: "14",
+    img: "cards/ace_of_clubs.png",
+  },
   {
     category: "diamonds",
     card: "A",
