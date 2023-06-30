@@ -123,7 +123,7 @@ const Game = () => {
           11 +
           Number(duplicateElements[1].power) * 2 +
           11 +
-          8; // 40-76 (Adding single pair parameters and additional 8 to make it better than 1 pair)
+          8; // 40-84 (Adding single pair parameters and additional 8 to make it better than 1 pair)
 
         console.log(
           "TWO PAIRS FOUND for: " +
@@ -223,12 +223,10 @@ const Game = () => {
           uniquePowers3.push(power);
         }
       }
-      console.log("duplicateElements3");
-      console.log(duplicateElements3);
 
       if (duplicateElements3.length >= 2) {
         if (duplicateElements3.length >= 3) {
-          // Full House
+          //? Full House
           const sorted = duplicateElements3.sort((a, b) => {
             if (b.power > a.power) {
               return 1;
@@ -253,8 +251,11 @@ const Game = () => {
               // If current power is less than the given power assign it
               temp[i].power = givenPower;
             }
-            console.log("FULL HOUSE FOUND: ");
-            console.log(givenPower);
+            console.log(
+              "FULL HOUSE FOUND for: " +
+                botInfo[i].name +
+                ` Assigning ${givenPower} power`
+            );
             console.log(sorted);
           }
         }
@@ -272,26 +273,32 @@ const Game = () => {
         );
 
         if (filteredData.length == 2) {
-          // THREE OF A KIND
-          const givenPower = Number(filteredData[0].power) * 3 + 71;
+          //? THREE OF A KIND
+          const givenPower = Number(filteredData[0].power) * 3 + 79; //85-121
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
           }
 
-          console.log("THREE OF A KIND FOUND: ");
-          console.log(givenPower);
+          console.log(
+            "THREE OF A KIND for: " +
+              botInfo[i].name +
+              ` Assigning ${givenPower} power`
+          );
           console.log(filteredData);
         }
         if (filteredData.length == 3) {
           //? FOUR OF A KIND
-          const givenPower = Number(filteredData[0].power) * 4 + 227;
+          const givenPower = Number(filteredData[0].power) * 4 + 236; //244-292
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
           }
-          console.log("FOUR OF A KIND FOUND: ");
-          console.log(givenPower);
+          console.log(
+            "FOUR OF A KIND for: " +
+              botInfo[i].name +
+              ` Assigning ${givenPower} power`
+          );
           console.log(filteredData);
         }
         if (filteredData.length == 4) {
@@ -303,16 +310,20 @@ const Game = () => {
               return -1;
             }
           });
-          const givenPower = Number(sorted[0].power) * 3 + 71;
+          const givenPower = Number(sorted[0].power) * 3 + 79; //85-121
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
           }
-          console.log("2x THREE OF A KIND FOUND: ");
-          console.log(givenPower);
+          console.log(
+            "2x THREE OF A KIND for: " +
+              botInfo[i].name +
+              ` Assigning ${givenPower} power`
+          );
           console.log(sorted);
         }
       }
+      console.log("");
 
       // console.log("DUPLICATE ELEMENTS:");
       // console.log(duplicateElements3.length); //? check
