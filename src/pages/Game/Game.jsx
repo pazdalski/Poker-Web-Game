@@ -134,7 +134,7 @@ const Game = () => {
         temp[i].power = givenPower;
       }
       if (duplicateElements.length == 3) {
-        const sorted = duplicateElements3.sort((a, b) => {
+        const sorted = duplicateElements.sort((a, b) => {
           if (Number(b.power) > Number(a.power)) {
             return 1;
           } else {
@@ -162,51 +162,6 @@ const Game = () => {
       // # ---------------------------------------------------------------- //
 
       //# THREE OF A KIND/ FOUR OF A KIND/ FULL HOUSE
-
-      const data = [
-        {
-          category: "spades",
-          card: "2",
-          power: "2",
-          img: "cards/5_of_spades.png",
-        },
-        {
-          category: "spades",
-          card: "2",
-          power: "2",
-          img: "cards/king_of_spades.png",
-        },
-        {
-          category: "spades",
-          card: "5",
-          power: "5",
-          img: "cards/8_of_spades.png",
-        },
-        {
-          category: "clubs",
-          card: "2",
-          power: "2",
-          img: "cards/king_of_clubs.png",
-        },
-        {
-          category: "clubs",
-          card: "5",
-          power: "5",
-          img: "cards/jack_of_clubs.png",
-        },
-        {
-          category: "hearts",
-          card: "A",
-          power: "14",
-          img: "cards/king_of_hearts.png",
-        },
-        {
-          category: "diamonds",
-          card: "7",
-          power: "7",
-          img: "cards/9_of_diamonds.png",
-        },
-      ];
 
       const duplicateElements3 = [];
       const uniquePowers3 = [];
@@ -243,7 +198,7 @@ const Game = () => {
               sorted[0].power !== sorted[1].power)
           ) {
             if (sorted.length == 4) {
-              console.log("Too many for full house, deleting one last piece");
+              //Too many for full house, deleting one last piece
               sorted.splice(3, 1);
             }
 
@@ -257,8 +212,6 @@ const Game = () => {
                   ` Assigning ${givenPower} power`
               );
             }
-
-            console.log(sorted);
           }
         }
 
@@ -287,8 +240,6 @@ const Game = () => {
                 ` Assigning ${givenPower} power`
             );
           }
-
-          console.log(filteredData);
         }
         if (filteredData.length == 3) {
           //? FOUR OF A KIND
@@ -303,7 +254,6 @@ const Game = () => {
                 ` Assigning ${givenPower} power`
             );
           }
-          console.log(filteredData);
         }
         if (filteredData.length == 4) {
           //? 2x THREE OF A KIND
@@ -332,7 +282,6 @@ const Game = () => {
       console.log("");
 
       //# STRAIGHT / STRAIGHT FLUSH / ROYAL FLUSH
-
       const straightDetection = straightCombination;
 
       const sorted = allCards.sort((a, b) => {
@@ -342,28 +291,55 @@ const Game = () => {
           return -1;
         }
       });
-      const sortedCardsArray = sorted.map((item) => {
-        return item.power;
-      });
+      const sortedCardsArray = sorted
+        .map((item) => {
+          return item.power;
+        })
+        .join(""); // It looks like this 141312111098 just to detect if its a straight combination
       straightDetection.forEach((detection) => {
         if (sortedCardsArray.includes(detection.combination)) {
           //? Straight
+          let indexOfDetection = sortedCardsArray.indexOf(
+            detection.combination
+          );
+
+          if (sortedCardsArray.charAt(0) == 1) {
+            // If straight detected from character "1" that means it is a 2 letter number, so index wouldnt be right without "/2"
+            indexOfDetection = Math.ceil(indexOfDetection / 2);
+          }
+
           const givenPower = Number(detection.power); //122-130
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
 
-            console.warn(
+            console.log(
               "STRAIGHT for: " +
                 botInfo[i].name +
                 ` Assigning ${givenPower} power`
             );
           }
-          return detection.power;
+
+          const isStraightFlush =
+            sorted[indexOfDetection].category ==
+              sorted[indexOfDetection + 1].category &&
+            sorted[indexOfDetection + 1].category ==
+              sorted[indexOfDetection + 2].category &&
+            sorted[indexOfDetection + 2].category ==
+              sorted[indexOfDetection + 3].category &&
+            sorted[indexOfDetection + 3].category ==
+              sorted[indexOfDetection + 4].category;
+
+          if (isStraightFlush) {
+            temp[i].power = temp[i].power + 171;
+            console.log(
+              "STRAIGHT FLUSH for: " +
+                botInfo[i].name +
+                ` Assigning ${temp[i].power} power`
+            );
+          }
         }
       });
-
-      console.log(sortedCardsArray);
 
       // # ---------------------------------------------------------------- //
 
