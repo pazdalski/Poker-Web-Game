@@ -6,7 +6,7 @@ const TotalPot = ({ totalPot }) => {
   return (
     <Container
       className="total-pot-container"
-      sx={{ display: "flex", justifyContent: "center" }}
+      sx={{ display: "flex", justifyContent: "center", zIndex: "150" }}
     >
       <Card
         variant="elevation"

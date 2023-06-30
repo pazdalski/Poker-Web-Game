@@ -12,13 +12,14 @@ const Bot = ({
   cards,
   isPlaying,
   hasFolded,
+  isWinner,
   power,
   hand,
 }) => {
   return (
-    <div className="player" style={position}>
+    <div className={`player ${isWinner && "winner"}`} style={position}>
       <Avatar
-        className={`avatar ${isPlaying && "isPlaying"}`}
+        className={`avatar ${(isPlaying && "isPlaying", isWinner && "winner")}`}
         src={img}
       ></Avatar>
       <Stack
@@ -30,13 +31,13 @@ const Bot = ({
           {name}
         </Typography>
         <Typography variant="subtitle1" color="white">
-          ${cash}{" "}
-          <Typography variant="button" color="primary">
+          ${cash}
+          {/* <Typography variant="button" color="primary">
             {hand}{" "}
           </Typography>
           <Typography variant="button" color="gold">
             {power}
-          </Typography>
+          </Typography> */}
         </Typography>
       </Stack>
       <div className="cards-container">

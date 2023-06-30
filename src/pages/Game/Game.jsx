@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { cardsInfo } from "../../components/CardsInfo";
 import Notification from "../../components/Notification";
 import { straightCombination } from "../../components/StraightCombination";
+import Blackout from "../../components/UserInterface/Blackout";
 
 const Game = () => {
   const [playerCredits, setPlayerCredits] = useState(10000);
@@ -32,44 +33,46 @@ const Game = () => {
   const [isPlayerOut, setIsPlayerOut] = useState(false);
   const [playerRaise, setPlayerRaise] = useState(10);
   const [additionalTurns, setAdditionalTurns] = useState(0);
+  const [blackoutOnWinnings, setBlackoutOnWinnings] = useState(false);
+  const [blackoutInfo, setblackoutInfo] = useState("Highest card");
 
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
 
   const [power, setPower] = useState([
-    // Jack - hand 11
-    // Queen - hand 12
-    // King - hand 13
-    // Ace - hand 14
-
     {
       name: "Crawler",
       hand: 0,
       kicker: 0,
-      power: 0, // Royal flush
+      power: 0,
+      index: 0,
     },
     {
       name: "Ally Alien",
       hand: 0,
       kicker: 0,
-      power: 0, // Straight flush
+      power: 0,
+      index: 1,
     },
     {
       name: "Dino",
       hand: 0,
       kicker: 0,
-      power: 0, // Kareta
+      power: 0,
+      index: 2,
     },
     {
       name: "Mummy",
       hand: 0,
       kicker: 0,
-      power: 0, // Full House
+      power: 0,
+      index: 3,
     },
     // {
     //   name: "Player",
     //   hand: 19,
-    //   power: 6, // Flush
+    //   power: 6,
+    // index:4,
     // }
   ]);
 
@@ -275,11 +278,8 @@ const Game = () => {
                 ` Assigning ${givenPower} power`
             );
           }
-
-          console.log(sorted);
         }
       }
-      console.log("");
 
       //# STRAIGHT / STRAIGHT FLUSH / ROYAL FLUSH
       const straightDetection = straightCombination;
@@ -345,6 +345,53 @@ const Game = () => {
 
       setPower(temp);
     }
+
+    const sortedPlayers = power.sort((a, b) => {
+      if (Number(b.power) > Number(a.power)) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+
+    const powerOfTheWinner = sortedPlayers[0].power;
+
+    if (powerOfTheWinner <= 14) {
+      setblackoutInfo("HIGHEST CARD");
+    } else if (powerOfTheWinner <= 39) {
+      setblackoutInfo("ONE PAIR");
+    } else if (powerOfTheWinner <= 84) {
+      setblackoutInfo("TWO PAIRS");
+    } else if (powerOfTheWinner <= 121) {
+      setblackoutInfo("THREE OF A KIND");
+    } else if (powerOfTheWinner <= 130) {
+      setblackoutInfo("STRAIGHT");
+    } else if (powerOfTheWinner <= 186) {
+      setblackoutInfo("FLUSH");
+    } else if (powerOfTheWinner <= 243) {
+      setblackoutInfo("FULL HOUSE");
+    } else if (powerOfTheWinner <= 292) {
+      setblackoutInfo("FOUR OF A KIND");
+    } else if (powerOfTheWinner <= 300) {
+      setblackoutInfo("STRAIGHT FLUSH");
+    } else if (powerOfTheWinner <= 301) {
+      setblackoutInfo("ROYAL FLUSH");
+    }
+
+    // Decide who is the winner
+    const tempBotInfo = [...botInfo];
+    const indexOfWinner = sortedPlayers[0].index;
+
+    tempBotInfo[indexOfWinner].isWinner = true;
+    tempBotInfo[0].isRevealed = true;
+    tempBotInfo[1].isRevealed = true;
+    tempBotInfo[2].isRevealed = true;
+    tempBotInfo[3].isRevealed = true;
+
+    setTimeout(() => {
+      setBlackoutOnWinnings(true);
+      setBotInfo(tempBotInfo);
+    }, 1000);
   };
   const setHandPower = () => {
     for (let i = 0; i < 4; i++) {
@@ -403,33 +450,37 @@ const Game = () => {
       name: "Crawler",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]], //Placeholder
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
+      isWinner: false,
     },
     {
       name: "Ally Alien",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]],
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
+      isWinner: false,
     },
     {
       name: "Dino",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]],
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
+      isWinner: false,
     },
     {
       name: "Mummy",
       credits: 10000,
       cards: [cardsInfo[50], cardsInfo[50]],
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
+      isWinner: false,
     },
   ]);
 
@@ -686,6 +737,10 @@ const Game = () => {
         playerCredits={playerCredits}
       />
       <MenuButton />
+      <Blackout
+        blackoutOnWinnings={blackoutOnWinnings}
+        blackoutInfo={blackoutInfo}
+      />
       {notificationStatus && <Notification msg={notificationMessage} />}
     </Container>
   );

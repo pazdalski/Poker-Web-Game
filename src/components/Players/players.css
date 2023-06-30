@@ -10,11 +10,17 @@
   border-top-left-radius: 40px;
   border-bottom-left-radius: 40px;
 }
+.container .player.winner {
+  z-index: 150;
+}
 .container .player .avatar {
   width: 80px;
   height: 80px;
   border: 5px solid #162738;
   z-index: 3;
+}
+.container .player .avatar.winner {
+  box-shadow: 0 0 15px 2px gold;
 }
 .container .player .player-info {
   position: absolute;

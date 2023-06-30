@@ -9,12 +9,18 @@
     right: 0;
     border-top-left-radius: 40px;
     border-bottom-left-radius: 40px;
+    &.winner {
+      z-index: 150;
+    }
 
     .avatar {
       width: 80px;
       height: 80px;
       border: 5px solid #162738;
       z-index: 3;
+      &.winner {
+        box-shadow: 0 0 15px 2px gold;
+      }
     }
     .player-info {
       position: absolute;

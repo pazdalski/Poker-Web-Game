@@ -25,6 +25,7 @@ const Players = ({ botInfo, power }) => {
         isRevealed={botInfo[0].isRevealed}
         isPlaying={botInfo[0].isPlaying}
         hasFolded={botInfo[0].hasFolded}
+        isWinner={botInfo[0].isWinner}
         power={power[0].power}
         hand={power[0].hand}
       />
@@ -38,6 +39,7 @@ const Players = ({ botInfo, power }) => {
         isRevealed={botInfo[1].isRevealed}
         isPlaying={botInfo[1].isPlaying}
         hasFolded={botInfo[1].hasFolded}
+        isWinner={botInfo[1].isWinner}
         power={power[1].power}
         hand={power[1].hand}
       />
@@ -51,6 +53,7 @@ const Players = ({ botInfo, power }) => {
         isRevealed={botInfo[2].isRevealed}
         isPlaying={botInfo[2].isPlaying}
         hasFolded={botInfo[2].hasFolded}
+        isWinner={botInfo[2].isWinner}
         power={power[2].power}
         hand={power[2].hand}
       />
@@ -64,6 +67,7 @@ const Players = ({ botInfo, power }) => {
         isRevealed={botInfo[3].isRevealed}
         isPlaying={botInfo[3].isPlaying}
         hasFolded={botInfo[3].hasFolded}
+        isWinner={botInfo[3].isWinner}
         power={power[3].power}
         hand={power[3].hand}
       />
