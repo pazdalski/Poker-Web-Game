@@ -385,6 +385,8 @@ const Game = () => {
     const indexOfWinner = sortedPlayers[0].index;
 
     tempBotInfo[indexOfWinner].isWinner = true;
+    tempBotInfo[indexOfWinner].credits =
+      tempBotInfo[indexOfWinner].credits + totalPot;
     tempBotInfo[0].isRevealed = true;
     tempBotInfo[1].isRevealed = true;
     tempBotInfo[2].isRevealed = true;
