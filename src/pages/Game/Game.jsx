@@ -10,6 +10,7 @@ import MenuButton from "../../components/UserInterface/MenuButton";
 import { useEffect, useState } from "react";
 import { cardsInfo } from "../../components/CardsInfo";
 import Notification from "../../components/Notification";
+import { straightCombination } from "../../components/StraightCombination";
 
 const Game = () => {
   const [playerCredits, setPlayerCredits] = useState(10000);
@@ -250,12 +251,13 @@ const Game = () => {
             if (temp[i].power < givenPower) {
               // If current power is less than the given power assign it
               temp[i].power = givenPower;
+              console.log(
+                "FULL HOUSE FOUND for: " +
+                  botInfo[i].name +
+                  ` Assigning ${givenPower} power`
+              );
             }
-            console.log(
-              "FULL HOUSE FOUND for: " +
-                botInfo[i].name +
-                ` Assigning ${givenPower} power`
-            );
+
             console.log(sorted);
           }
         }
@@ -278,13 +280,14 @@ const Game = () => {
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
+
+            console.log(
+              "THREE OF A KIND for: " +
+                botInfo[i].name +
+                ` Assigning ${givenPower} power`
+            );
           }
 
-          console.log(
-            "THREE OF A KIND for: " +
-              botInfo[i].name +
-              ` Assigning ${givenPower} power`
-          );
           console.log(filteredData);
         }
         if (filteredData.length == 3) {
@@ -293,12 +296,13 @@ const Game = () => {
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
+
+            console.log(
+              "FOUR OF A KIND for: " +
+                botInfo[i].name +
+                ` Assigning ${givenPower} power`
+            );
           }
-          console.log(
-            "FOUR OF A KIND for: " +
-              botInfo[i].name +
-              ` Assigning ${givenPower} power`
-          );
           console.log(filteredData);
         }
         if (filteredData.length == 4) {
@@ -314,25 +318,21 @@ const Game = () => {
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
+
+            console.log(
+              "2x THREE OF A KIND for: " +
+                botInfo[i].name +
+                ` Assigning ${givenPower} power`
+            );
           }
-          console.log(
-            "2x THREE OF A KIND for: " +
-              botInfo[i].name +
-              ` Assigning ${givenPower} power`
-          );
+
           console.log(sorted);
         }
       }
       console.log("");
 
-      // console.log("DUPLICATE ELEMENTS:");
-      // console.log(duplicateElements3.length); //? check
-      // console.log(duplicateElements3); //? check
-      // console.log("UNIQUE POWERS:");
-      // console.log(uniquePowers3); //? check
-      // console.log("POWER:");
-      // console.table(power);
-      // console.warn("Next player");
+      //# STRAIGHT / STRAIGHT FLUSH / ROYAL FLUSH
+
       // # ---------------------------------------------------------------- //
 
       setPower(temp);
