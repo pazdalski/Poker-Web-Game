@@ -15,6 +15,9 @@ const Blackout = ({ blackoutOnWinnings, blackoutInfo }) => {
       >
         <StarIcon /> {blackoutInfo} <StarIcon />
       </Typography>
+      <div
+        className={`progress ${blackoutOnWinnings && "progress-true"}`}
+      ></div>
     </div>
   );
 };

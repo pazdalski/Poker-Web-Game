@@ -80,9 +80,25 @@
   z-index: 149;
   animation: blackout-animation 1s linear 1 forwards;
 }
+.blackout .progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  width: 0%;
+  background: #e8cba0;
+}
+.blackout .progress.progress-true {
+  animation: progress-animation 5s linear 1 forwards;
+}
 
 @keyframes blackout-animation {
   100% {
     opacity: 1;
+  }
+}
+@keyframes progress-animation {
+  100% {
+    width: 100%;
   }
 }/*# sourceMappingURL=UI.css.map */
