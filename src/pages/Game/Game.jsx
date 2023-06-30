@@ -134,8 +134,8 @@ const Game = () => {
         temp[i].power = givenPower;
       }
       if (duplicateElements.length == 3) {
-        const sorted = duplicateElements.sort((a, b) => {
-          if (b.power < a.power) {
+        const sorted = duplicateElements3.sort((a, b) => {
+          if (Number(b.power) > Number(a.power)) {
             return 1;
           } else {
             return -1;
@@ -229,7 +229,7 @@ const Game = () => {
         if (duplicateElements3.length >= 3) {
           //? Full House
           const sorted = duplicateElements3.sort((a, b) => {
-            if (b.power > a.power) {
+            if (Number(b.power) > Number(a.power)) {
               return 1;
             } else {
               return -1;
@@ -308,7 +308,7 @@ const Game = () => {
         if (filteredData.length == 4) {
           //? 2x THREE OF A KIND
           const sorted = duplicateElements3.sort((a, b) => {
-            if (b.power < a.power) {
+            if (Number(b.power) > Number(a.power)) {
               return 1;
             } else {
               return -1;
@@ -332,6 +332,38 @@ const Game = () => {
       console.log("");
 
       //# STRAIGHT / STRAIGHT FLUSH / ROYAL FLUSH
+
+      const straightDetection = straightCombination;
+
+      const sorted = allCards.sort((a, b) => {
+        if (Number(b.power) > Number(a.power)) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+      const sortedCardsArray = sorted.map((item) => {
+        return item.power;
+      });
+      straightDetection.forEach((detection) => {
+        if (sortedCardsArray.includes(detection.combination)) {
+          //? Straight
+          const givenPower = Number(detection.power); //122-130
+          if (temp[i].power < givenPower) {
+            // If current power is less than the given power assign it
+            temp[i].power = givenPower;
+
+            console.warn(
+              "STRAIGHT for: " +
+                botInfo[i].name +
+                ` Assigning ${givenPower} power`
+            );
+          }
+          return detection.power;
+        }
+      });
+
+      console.log(sortedCardsArray);
 
       // # ---------------------------------------------------------------- //
 
