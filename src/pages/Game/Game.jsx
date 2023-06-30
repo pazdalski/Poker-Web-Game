@@ -467,22 +467,8 @@ const Game = () => {
       for (let j = 0; j < 2; j++) {
         const temp = [...power];
 
-        if (cards[j].card == "J") {
-          temp[i].hand = temp[i].hand + 11;
-          setPower(temp);
-        } else if (cards[j].card == "Q") {
-          temp[i].hand = temp[i].hand + 12;
-          setPower(temp);
-        } else if (cards[j].card == "K") {
-          temp[i].hand = temp[i].hand + 13;
-          setPower(temp);
-        } else if (cards[j].card == "A") {
-          temp[i].hand = temp[i].hand + 14;
-          setPower(temp);
-        } else {
-          temp[i].hand = temp[i].hand + Number(cards[j].card);
-          setPower(temp);
-        } //todo Change it since there is power attribute
+        temp[i].hand = temp[i].hand + Number(cards[j].power);
+        setPower(temp);
       }
       if (cards[0].card == cards[1].card) {
         const temp = [...power];
