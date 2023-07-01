@@ -463,7 +463,6 @@ const Game = () => {
       },
     ]);
 
-    console.warn(round);
     setRound(1);
     setTurn(1);
     setAdditionalTurns(0);
@@ -636,24 +635,29 @@ const Game = () => {
     setBotInfo(temp);
     setPlayerCards([playableCards[8], playableCards[9]]);
   };
+  const resetHighlighting = () => {
+    const temp = [...botInfo];
+
+    temp[0].isPlaying = false;
+    temp[1].isPlaying = false;
+    temp[2].isPlaying = false;
+    temp[3].isPlaying = false;
+    setBotInfo(temp);
+  };
+  const addTurns = (amount) => {
+    setAdditionalTurns((prevTurns) => prevTurns + amount);
+
+    anotherTurn();
+  };
 
   const currentBotAI = (playerDecide) => {
-    console.error(round);
     let randomTimeout = Math.floor(Math.random() * 1000) + 500;
-    const resetHighlighting = () => {
-      const temp = [...botInfo];
-
-      temp[0].isPlaying = false;
-      temp[1].isPlaying = false;
-      temp[2].isPlaying = false;
-      temp[3].isPlaying = false;
-      setBotInfo(temp);
-    };
 
     console.log("Turns till next round:");
-    console.log(turnsTillNextRound[0] - turn);
+    console.log(turnsTillNextRound[round - 1] - turn);
     console.log("turn:");
     console.log(turn);
+    console.log("");
 
     // Show available choices
     if (currentPlayer == 4) {
@@ -684,14 +688,11 @@ const Game = () => {
 
           return;
         } else if (turnsTillNextRound[round - 1] - turn == 0) {
-          setAdditionalTurns((prevTurns) => prevTurns + 3);
           console.log("turnsTillNextRound[round - 1] - turn == 0");
           console.log("additional turns to next round 3");
+          addTurns(3);
         }
 
-        // setAdditionalTurns((prevTurns) => prevTurns + 3);
-
-        anotherTurn();
         return;
       }
 
@@ -781,6 +782,7 @@ const Game = () => {
     }
   };
   const checkWhichRound = () => {
+    console.log("additional turns " + additionalTurns);
     if (turn > 13 + additionalTurns) {
       console.warn("set to round 4");
       setRound(4);
@@ -796,6 +798,11 @@ const Game = () => {
 
   const anotherTurn = () => {
     setTurn((prevTurn) => prevTurn + 1);
+    setTurnsTillNextRound([
+      5 + additionalTurns,
+      9 + additionalTurns,
+      13 + additionalTurns,
+    ]);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
     checkWhichRound();
     if (currentPlayer > 3) {
