@@ -22,7 +22,7 @@
     bottom: 40px;
     z-index: 1;
     &.folded {
-      transform: rotatex(50deg) translateY(40px) !important;
+      transform: rotateX(50deg) translateY(40px) !important;
       background: linear-gradient(
         -45deg,
         rgb(90, 97, 110) 50%,
@@ -155,7 +155,4 @@
     transform: translateY(12px) rotate(14deg) rotateY(-35deg);
     box-shadow: -15px 75px 15px 15px #0c0c0c60;
   }
-}
-.avatar.isPlaying {
-  box-shadow: 0 0 15px 5px #1976d2;
 }

@@ -19,9 +19,6 @@
       height: 80px;
       border: 5px solid #162738;
       z-index: 4;
-      &.isPlaying {
-        box-shadow: 0 0 15px 2px #1976d2;
-      }
     }
     .player-info {
       position: absolute;
@@ -34,7 +31,7 @@
       left: 40px;
       z-index: 3;
       box-shadow: 0 0 15px 5px #0c0c0c75;
-      transition: 0.7s all;
+      transition: 0.5s all;
     }
   }
 }

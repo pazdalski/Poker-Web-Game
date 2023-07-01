@@ -20,9 +20,6 @@
   border: 5px solid #162738;
   z-index: 4;
 }
-.container .player .avatar.isPlaying {
-  box-shadow: 0 0 15px 2px #1976d2;
-}
 .container .player .player-info {
   position: absolute;
   width: 180px;
@@ -34,5 +31,5 @@
   left: 40px;
   z-index: 3;
   box-shadow: 0 0 15px 5px rgba(12, 12, 12, 0.4588235294);
-  transition: 0.7s all;
+  transition: 0.5s all;
 }/*# sourceMappingURL=players.css.map */

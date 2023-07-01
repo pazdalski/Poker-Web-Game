@@ -41,6 +41,12 @@ const Game = () => {
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
 
+  const [turnsTillNextRound, setTurnsTillNextRound] = useState([
+    5 + additionalTurns,
+    9 + additionalTurns,
+    13 + additionalTurns,
+  ]);
+
   const [power, setPower] = useState([
     {
       name: "Crawler",
@@ -457,15 +463,16 @@ const Game = () => {
       },
     ]);
 
+    console.warn(round);
     setRound(1);
     setTurn(1);
+    setAdditionalTurns(0);
     setTotalPot(0);
     setIsPlayerOut(false);
     setTableCards([]);
     setPlayableCards([]);
 
     setGame((prevGame) => prevGame + 1);
-    anotherTurn();
   };
 
   const setHandPower = () => {
@@ -631,7 +638,8 @@ const Game = () => {
   };
 
   const currentBotAI = (playerDecide) => {
-    let randomTimeout = Math.floor(Math.random() * 2000) + 1500;
+    console.error(round);
+    let randomTimeout = Math.floor(Math.random() * 1000) + 500;
     const resetHighlighting = () => {
       const temp = [...botInfo];
 
@@ -641,6 +649,11 @@ const Game = () => {
       temp[3].isPlaying = false;
       setBotInfo(temp);
     };
+
+    console.log("Turns till next round:");
+    console.log(turnsTillNextRound[0] - turn);
+    console.log("turn:");
+    console.log(turn);
 
     // Show available choices
     if (currentPlayer == 4) {
@@ -663,7 +676,20 @@ const Game = () => {
         setTotalPot((prevPot) => prevPot + playerRaise);
 
         setCurrentCall(playerRaise);
-        setAdditionalTurns((prevTurns) => prevTurns + 3);
+
+        if (turnsTillNextRound[round - 1] - turn == 4) {
+          anotherTurn();
+          console.log("turnsTillNextRound[round - 1] - turn == 4");
+          console.log("additional turns to next round 0");
+
+          return;
+        } else if (turnsTillNextRound[round - 1] - turn == 0) {
+          setAdditionalTurns((prevTurns) => prevTurns + 3);
+          console.log("turnsTillNextRound[round - 1] - turn == 0");
+          console.log("additional turns to next round 3");
+        }
+
+        // setAdditionalTurns((prevTurns) => prevTurns + 3);
 
         anotherTurn();
         return;
@@ -721,7 +747,7 @@ const Game = () => {
       }
     }
     if (round == 2) {
-      randomTimeout = Math.floor(Math.random() * 2700) + 1500;
+      randomTimeout = Math.floor(Math.random() * 2000) + 500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       // Taking 10$ at the beginning of the game
@@ -735,7 +761,7 @@ const Game = () => {
       }, randomTimeout);
     }
     if (round == 3) {
-      randomTimeout = Math.floor(Math.random() * 3200) + 1500;
+      randomTimeout = Math.floor(Math.random() * 2000) + 500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       // Taking 10$ at the beginning of the game
@@ -755,14 +781,13 @@ const Game = () => {
     }
   };
   const checkWhichRound = () => {
-    console.log(turn);
     if (turn > 13 + additionalTurns) {
-      console.warn("round 4");
+      console.warn("set to round 4");
       setRound(4);
     } else if (turn > 9 + additionalTurns) {
       console.warn("round 3");
       setRound(3);
-    } else if (turn > 5 + additionalTurns) {
+    } else if (turn > 4 + additionalTurns) {
       console.warn("round 2");
       setRound(2);
       // todo figure out how to handle additional turns

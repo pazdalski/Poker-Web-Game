@@ -1,6 +1,6 @@
 import { Container, Button, Typography } from "@mui/material";
 import React from "react";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo/logo-color.png";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { Link } from "react-router-dom";
 

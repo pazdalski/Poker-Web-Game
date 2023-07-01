@@ -8,7 +8,7 @@ import img4 from "../../assets/bot-images/bot4.png";
 const playerPositions = {
   player1: {
     bottom: 0,
-    left: "-120px",
+    left: "-80px",
   },
   player2: {
     top: 0,

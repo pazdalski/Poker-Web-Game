@@ -25,10 +25,7 @@ const Bot = ({
         className={`player ${isWinner && "winner"}`}
         style={isPlaying ? transform : position}
       >
-        <Avatar
-          className={`avatar ${isPlaying && "isPlaying"}`}
-          src={img}
-        ></Avatar>
+        <Avatar className="avatar" src={img}></Avatar>
         <Stack
           className={`player-info  ${isPlaying && "shadow"}`}
           justifyContent={"center"}

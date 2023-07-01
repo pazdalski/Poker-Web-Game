@@ -18,14 +18,11 @@
 }
 
 @keyframes tableLightAnimation {
-  0% {
-    transform: translateX(-50px);
+  0%, 100% {
+    transform: translateX(-75px);
   }
   50% {
-    transform: translateX(50px);
-  }
-  100% {
-    transform: translateX(-50px);
+    transform: translateX(75px);
   }
 }
 .inner-table {

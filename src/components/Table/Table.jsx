@@ -1,6 +1,7 @@
 import React from "react";
 import "./table.css";
 import Card from "../Card/Card";
+import logo from "../../assets/logo/logo-white.png";
 
 const Table = ({ tableCards }) => {
   return (
@@ -8,10 +9,12 @@ const Table = ({ tableCards }) => {
       <div className="inner-table">
         <div className="table-light "></div>
         <img
-          src={
-            "https://www.vgw.co/wp-content/uploads/2021/07/global-pocker.png"
-          }
-          style={{ position: "absolute", opacity: "0.02", width: "450px" }}
+          src={logo}
+          style={{
+            position: "absolute",
+            opacity: "0.05",
+            width: "550px",
+          }}
         />
         {tableCards?.length &&
           tableCards.map((card, i) => {
