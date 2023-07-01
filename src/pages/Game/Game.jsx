@@ -36,7 +36,7 @@ const Game = () => {
   const [playerRaise, setPlayerRaise] = useState(10);
   const [additionalTurns, setAdditionalTurns] = useState(0);
   const [blackoutOnWinnings, setBlackoutOnWinnings] = useState(false);
-  const [blackoutInfo, setblackoutInfo] = useState("Highest card");
+  const [blackoutInfo, setBlackoutInfo] = useState("Highest card");
 
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
@@ -80,7 +80,7 @@ const Game = () => {
 
   const winner = () => {
     const temp = [...power];
-    //Wysoka karta
+    //? Highest Card
     for (let i = 0; i < 4; i++) {
       const allCards = [...tableCards, ...botInfo[i].cards];
       const handCards = [...botInfo[i].cards];
@@ -102,14 +102,14 @@ const Game = () => {
 
       for (let i = 0; i < allCards.length; i++) {
         const power = allCards[i].power;
-        // Jeżeli uniquePowers ma sprawdzany power
+        // If unique power has checked power
         if (uniquePowers.includes(power)) {
-          // jeżeli duplateElements nie zawiera karty to dodaj
+          // If duplicateElements doesn't contain card, then add
           if (!duplicateElements.includes(allCards[i])) {
             duplicateElements.push(allCards[i]);
           }
         } else {
-          // Dodaj do uniquePowers jeśli jest unikalny
+          // Add to uniquePowers if its unique
           uniquePowers.push(power);
         }
       }
@@ -173,14 +173,14 @@ const Game = () => {
 
       for (let i = 0; i < allCards.length; i++) {
         const power = allCards[i].power;
-        // Jeżeli uniquePowers ma sprawdzany power
+        // If unique power has checked power
         if (uniquePowers3.includes(power)) {
-          // jeżeli duplateElements nie zawiera karty to dodaj
+          // If duplicateElements doesn't contain card, then add
           if (!duplicateElements3.includes(allCards[i])) {
             duplicateElements3.push(allCards[i]);
           }
         } else {
-          // Dodaj do uniquePowers jeśli jest unikalny
+          // Add to uniquePowers if its unique
           uniquePowers3.push(power);
         }
       }
@@ -221,13 +221,13 @@ const Game = () => {
         }
 
         const counter = {};
-        // Przechodzenie przez dane i zliczanie wystąpień wartości "power"
+        // Iterating through data and counting the number of times when power is detected
         duplicateElements3.forEach((item) => {
           const power = item.power;
           counter[power] = (counter[power] || 0) + 1;
         });
 
-        // Filtracja danych, pozostawienie tylko elementów, które mają przynajmniej dwa wystąpienia
+        // Filtering the data, leaves only elements which have at least two appearance
         const filteredData = duplicateElements3.filter(
           (item) => counter[item.power] >= 2
         );
@@ -306,7 +306,7 @@ const Game = () => {
           );
 
           if (sortedCardsArray.charAt(0) == 1) {
-            // If straight detected from character "1" that means it is a 2 letter number, so index wouldnt be right without "/2"
+            // If straight detected from character "1" that means it is a 2 letter number, so index wouldn't be right without "/2"
             indexOfDetection = Math.ceil(indexOfDetection / 2);
           }
 
@@ -366,25 +366,25 @@ const Game = () => {
     const powerOfTheWinner = filteredPlayers[0].power;
 
     if (powerOfTheWinner <= 14) {
-      setblackoutInfo("HIGHEST CARD");
+      setBlackoutInfo("HIGHEST CARD");
     } else if (powerOfTheWinner <= 39) {
-      setblackoutInfo("ONE PAIR");
+      setBlackoutInfo("ONE PAIR");
     } else if (powerOfTheWinner <= 84) {
-      setblackoutInfo("TWO PAIRS");
+      setBlackoutInfo("TWO PAIRS");
     } else if (powerOfTheWinner <= 121) {
-      setblackoutInfo("THREE OF A KIND");
+      setBlackoutInfo("THREE OF A KIND");
     } else if (powerOfTheWinner <= 130) {
-      setblackoutInfo("STRAIGHT");
+      setBlackoutInfo("STRAIGHT");
     } else if (powerOfTheWinner <= 186) {
-      setblackoutInfo("FLUSH");
+      setBlackoutInfo("FLUSH");
     } else if (powerOfTheWinner <= 243) {
-      setblackoutInfo("FULL HOUSE");
+      setBlackoutInfo("FULL HOUSE");
     } else if (powerOfTheWinner <= 292) {
-      setblackoutInfo("FOUR OF A KIND");
+      setBlackoutInfo("FOUR OF A KIND");
     } else if (powerOfTheWinner <= 300) {
-      setblackoutInfo("STRAIGHT FLUSH");
+      setBlackoutInfo("STRAIGHT FLUSH");
     } else if (powerOfTheWinner <= 301) {
-      setblackoutInfo("ROYAL FLUSH");
+      setBlackoutInfo("ROYAL FLUSH");
     }
 
     // Decide who is the winner
@@ -423,7 +423,7 @@ const Game = () => {
     }
     setBotInfo(temp);
 
-    setblackoutInfo("");
+    setBlackoutInfo("");
     setBlackoutOnWinnings(false);
 
     setPower([
@@ -464,7 +464,7 @@ const Game = () => {
     setTableCards([]);
     setPlayableCards([]);
 
-    setGame((prevgame) => prevgame + 1);
+    setGame((prevGame) => prevGame + 1);
     anotherTurn();
   };
 
@@ -632,7 +632,7 @@ const Game = () => {
 
   const currentBotAI = (playerDecide) => {
     let randomTimeout = Math.floor(Math.random() * 2000) + 1500;
-    const resetHighliting = () => {
+    const resetHighlighting = () => {
       const temp = [...botInfo];
 
       temp[0].isPlaying = false;
@@ -644,7 +644,7 @@ const Game = () => {
 
     // Show available choices
     if (currentPlayer == 4) {
-      resetHighliting();
+      resetHighlighting();
 
       if (playerDecide == "call") {
         setPlayerCredits((prevCredits) => prevCredits - currentCall);
@@ -691,7 +691,7 @@ const Game = () => {
 
     if (currentPlayer < 4) {
       //current player highlighting
-      resetHighliting();
+      resetHighlighting();
       const temp = [...botInfo];
       temp[currentPlayer].isPlaying = true;
       setBotInfo(temp);
@@ -699,7 +699,7 @@ const Game = () => {
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // Taking 10$ at the beggining of the game
+      // Taking 10$ at the beginning of the game
       setTimeout(() => {
         //  setCurrentCall(50); // This will change later, when bots can calculate %
         const temp = [...botInfo];
@@ -724,7 +724,7 @@ const Game = () => {
       randomTimeout = Math.floor(Math.random() * 2700) + 1500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // Taking 10$ at the beggining of the game
+      // Taking 10$ at the beginning of the game
       setTimeout(() => {
         const callAmount = 10; // This will change later, when bots can calculate %
         const temp = [...botInfo];
@@ -738,7 +738,7 @@ const Game = () => {
       randomTimeout = Math.floor(Math.random() * 3200) + 1500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // Taking 10$ at the beggining of the game
+      // Taking 10$ at the beginning of the game
       setTimeout(() => {
         const callAmount = 10; // This will change later, when bots can calculate %
         const temp = [...botInfo];
@@ -749,7 +749,7 @@ const Game = () => {
       }, randomTimeout);
     }
     if (round == 4) {
-      resetHighliting();
+      resetHighlighting();
       notificate("Who is the winner?");
       winner();
     }
