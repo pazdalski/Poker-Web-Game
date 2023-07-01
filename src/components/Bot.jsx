@@ -5,6 +5,9 @@ import "./Card/cards.css";
 
 const Bot = ({
   position,
+  shadowPositions,
+  transform,
+  shadowTransform,
   name,
   cash,
   img,
@@ -17,43 +20,49 @@ const Bot = ({
   hand,
 }) => {
   return (
-    <div className={`player ${isWinner && "winner"}`} style={position}>
-      <Avatar
-        className={`avatar ${isPlaying && "isPlaying"}`}
-        src={img}
-      ></Avatar>
-      <Stack
-        className="player-info"
-        justifyContent={"center"}
-        alignItems={"center"}
+    <>
+      <div
+        className={`player ${isWinner && "winner"}`}
+        style={isPlaying ? transform : position}
       >
-        <Typography variant="h6" fontWeight={"bold"} color="white">
-          {name}
-        </Typography>
-        <Typography variant="subtitle1" color="white">
-          ${cash}
-          <Typography variant="button" color="primary">
-            {hand}{" "}
+        <Avatar
+          className={`avatar ${isPlaying && "isPlaying"}`}
+          src={img}
+        ></Avatar>
+        <Stack
+          className={`player-info  ${isPlaying && "shadow"}`}
+          justifyContent={"center"}
+          alignItems={"center"}
+          style={isPlaying ? shadowTransform : shadowPositions}
+        >
+          <Typography variant="h6" fontWeight={"bold"} color="white">
+            {name}
           </Typography>
-          <Typography variant="button" color="gold">
-            {power}
+          <Typography variant="subtitle1" color="white">
+            ${cash}
+            <Typography variant="button" color="primary">
+              {hand}{" "}
+            </Typography>
+            <Typography variant="button" color="gold">
+              {power}
+            </Typography>
           </Typography>
-        </Typography>
-      </Stack>
-      <div className="cards-container">
-        <BotCard
-          left
-          revealed={isRevealed && true}
-          card={cards.length && cards[0]}
-          folded={hasFolded}
-        />
-        <BotCard
-          revealed={isRevealed && true}
-          card={cards.length && cards[1]}
-          folded={hasFolded}
-        />
+        </Stack>
+        <div className="cards-container">
+          <BotCard
+            left
+            revealed={isRevealed && true}
+            card={cards.length && cards[0]}
+            folded={hasFolded}
+          />
+          <BotCard
+            revealed={isRevealed && true}
+            card={cards.length && cards[1]}
+            folded={hasFolded}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

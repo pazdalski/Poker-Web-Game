@@ -8,23 +8,73 @@ import img4 from "../../assets/bot-images/bot4.png";
 const playerPositions = {
   player1: {
     bottom: 0,
-    left: "-80px",
-    transform: "perspective(1800px) rotateY(35deg)",
+    left: "-120px",
   },
   player2: {
     top: 0,
     left: "-120px",
-    transform: "perspective(2000px) rotateY(35deg)",
   },
   player3: {
     top: 0,
     right: "-120px",
-    transform: "perspective(2000px) rotateY(-35deg)",
   },
   player4: {
     bottom: 0,
     right: "-80px",
-    transform: "perspective(2000px) rotateY(-35deg)",
+  },
+};
+const playerTransform = {
+  player1: {
+    bottom: 0,
+    left: "-80px",
+    transform: "rotateY(30deg) rotateX(10deg) scale(105%)",
+    transition: "0.7s all",
+  },
+  player2: {
+    top: 0,
+    left: "-120px",
+    transform: "rotateY(30deg) rotateX(10deg) scale(105%)",
+    transition: "0.7s all",
+  },
+  player3: {
+    top: 0,
+    right: "-80px",
+    transform: "rotateY(-30deg) rotateX(10deg) scale(105%)",
+    transition: "0.7s all",
+  },
+  player4: {
+    bottom: 0,
+    right: "-40px",
+    transform: "rotateY(-30deg) rotateX(10deg) scale(105%)",
+    transition: "0.7s all",
+  },
+};
+const shadowPositions = {
+  player1: {
+    "box-shadow": "0 0 15px 5px #0c0c0c75",
+  },
+  player2: {
+    "box-shadow": "0 0 15px 5px #0c0c0c75",
+  },
+  player3: {
+    "box-shadow": "0 0 15px 5px #0c0c0c75",
+  },
+  player4: {
+    "box-shadow": "0 0 15px 5px #0c0c0c75",
+  },
+};
+const shadowTransform = {
+  player1: {
+    "box-shadow": "-35px 35px 15px 5px #0c0c0c50",
+  },
+  player2: {
+    "box-shadow": "-35px 35px 15px 5px #0c0c0c50",
+  },
+  player3: {
+    "box-shadow": "35px 35px 15px 5px #0c0c0c50",
+  },
+  player4: {
+    "box-shadow": "35px 35px 15px 5px #0c0c0c50",
   },
 };
 
@@ -33,6 +83,9 @@ const Players = ({ botInfo, power }) => {
     <div className="container">
       <Bot
         position={playerPositions.player1}
+        shadowPositions={shadowPositions.player1}
+        transform={playerTransform.player1}
+        shadowTransform={shadowTransform.player1}
         name={"Crawler"}
         id={0}
         cash={botInfo[0].credits}
@@ -47,6 +100,9 @@ const Players = ({ botInfo, power }) => {
       />
       <Bot
         position={playerPositions.player2}
+        shadowPositions={shadowPositions.player2}
+        transform={playerTransform.player2}
+        shadowTransform={shadowTransform.player2}
         name={"Ally Alien"}
         id={1}
         cash={botInfo[1].credits}
@@ -61,6 +117,9 @@ const Players = ({ botInfo, power }) => {
       />
       <Bot
         position={playerPositions.player3}
+        shadowPositions={shadowPositions.player3}
+        transform={playerTransform.player3}
+        shadowTransform={shadowTransform.player3}
         name={"Dino"}
         id={2}
         cash={botInfo[2].credits}
@@ -75,6 +134,9 @@ const Players = ({ botInfo, power }) => {
       />
       <Bot
         position={playerPositions.player4}
+        shadowPositions={shadowPositions.player4}
+        transform={playerTransform.player4}
+        shadowTransform={shadowTransform.player4}
         name={"Mummy"}
         id={3}
         cash={botInfo[3].credits}
