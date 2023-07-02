@@ -28,6 +28,7 @@ const Game = () => {
   const [currentCall, setCurrentCall] = useState(10);
   const [isRaisedCurrently, setIsRaisedCurrently] = useState(false);
   const [raisedCount, setRaisedCount] = useState(0);
+  const [nextRoundOnPlayer, setNextRoundOnPlayer] = useState(4);
 
   const [playerChoices, setPlayerChoices] = useState({
     raise: false,
@@ -647,32 +648,20 @@ const Game = () => {
     setBotInfo(temp);
   };
 
-  const raisePot = (raise) => {
+  const raisePot = (raise, nextRoundOnIndex) => {
     setTotalPot((prevPot) => prevPot + raise);
     setRaisedCount((prevCount) => prevCount + 1);
+    setNextRoundOnPlayer(nextRoundOnIndex);
 
     if (turnsTillNextRound[round - 1] - turn == 4) {
       anotherTurn();
-      console.log("turnsTillNextRound[round - 1] - turn == 4");
-      console.log("additional turns to next round 0");
     } else if (turnsTillNextRound[round - 1] - turn == 0) {
-      console.log(
-        "%c turnsTillNextRound[round - 1] - turn == 0, additional turns to next round 3",
-        "color:pink"
-      );
-      setAdditionalTurns((prevTurns) => prevTurns + 3);
-
       anotherTurn();
     }
   };
 
   const currentBotAI = (playerDecide) => {
     let randomTimeout = Math.floor(Math.random() * 1000) + 500;
-
-    console.log("%c Turns till next round: ", "color: orange");
-    console.log(turnsTillNextRound[round - 1] - turn);
-    console.log("%c Turn: " + turn, "background: #000; color: #bada55");
-    console.log("");
 
     // Show available choices
     if (currentPlayer == 4) {
@@ -694,7 +683,7 @@ const Game = () => {
         setPlayerCredits((prevCredits) => prevCredits - playerRaise);
         setCurrentCall(playerRaise);
 
-        raisePot(currentCall); // Raise the pot to current call
+        raisePot(currentCall, 3); // Raise the pot to current call
         return;
       }
 
@@ -783,25 +772,27 @@ const Game = () => {
       winner();
     }
   };
+
   const checkWhichRound = () => {
-    console.log("additional turns " + additionalTurns);
-    if (turn > 13 + additionalTurns) {
-      console.warn("set to round 4");
-      setRound(4);
-    } else if (turn > 9 + additionalTurns) {
-      console.warn("round 3");
-      setRound(3);
-    } else if (turn > 4 + additionalTurns) {
-      console.warn("round 2");
-      setRound(2);
-      // todo figure out how to handle additional turns
+    console.log("currentPlayer");
+    console.log(currentPlayer);
+    if (currentPlayer < 4) {
+      console.log(botInfo[currentPlayer].name);
+    }
+    console.log("nextRoundOnPlayer");
+    console.log(nextRoundOnPlayer);
+    console.log("");
+    if (currentPlayer == nextRoundOnPlayer) {
+      setRound((prevRound) => prevRound + 1);
+      console.warn("next Round");
     }
   };
 
   const anotherTurn = () => {
     setTurn((prevTurn) => prevTurn + 1);
-    checkWhichRound();
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
+
+    checkWhichRound();
 
     if (currentPlayer > 3) {
       // Change to player
@@ -809,9 +800,6 @@ const Game = () => {
       return;
     }
   };
-  useEffect(() => {
-    checkWhichRound();
-  }, [raisedCount]);
 
   useEffect(() => {
     if (power[0].hand == 0) {
