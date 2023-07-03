@@ -36,6 +36,15 @@
   align-items: center;
   gap: 16px;
 }
+.inner-table .chips {
+  position: absolute;
+  top: 280px;
+  opacity: 0;
+  transition: 0.5s all;
+}
+.inner-table .chips.animated {
+  opacity: 1;
+}
 .inner-table .card {
   width: 80px;
   height: 115px;

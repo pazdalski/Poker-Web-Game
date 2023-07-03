@@ -7,7 +7,7 @@ import HierarchyHelp from "../../components/UserInterface/HierarchyHelp";
 import UserCredits from "../../components/UserInterface/UserCredits";
 import UserButtons from "../../components/UserInterface/UserButtons";
 import MenuButton from "../../components/UserInterface/MenuButton";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { cardsInfo } from "../../components/CardsInfo";
 import Notification from "../../components/Notification";
 import { straightCombination } from "../../components/StraightCombination";
@@ -49,8 +49,6 @@ const Game = ({ botReactionTimeChoice }) => {
     },
   ]);
   const [currentCall, setCurrentCall] = useState(10);
-  const [isRaisedCurrently, setIsRaisedCurrently] = useState(false);
-  const [raisedCount, setRaisedCount] = useState(0);
   const [nextRoundOnPlayer, setNextRoundOnPlayer] = useState(4);
   const [botsReactionTime, setBotReactionTime] = useState([
     {
@@ -562,6 +560,7 @@ const Game = ({ botReactionTimeChoice }) => {
 
     setRound(1);
     setTurn(1);
+    setCurrentPlayer(0);
     setTotalPot(0);
     setTableCards([]);
     setPlayableCards([]);
@@ -663,8 +662,6 @@ const Game = ({ botReactionTimeChoice }) => {
       tableCards.push(randomCard);
 
       notificate("Next card on the table!");
-
-      setCurrentCall(10); //! resets current call
     }
     if (round == 3 && tableCards.length == 4) {
       const randomNumber = Math.floor(Math.random() * availableCards.length);
@@ -677,8 +674,6 @@ const Game = ({ botReactionTimeChoice }) => {
       tableCards.push(randomCard);
 
       notificate("Last card on the table!");
-
-      setCurrentCall(10); //! resets current call
     }
   };
   const assignCards = () => {
@@ -702,11 +697,11 @@ const Game = ({ botReactionTimeChoice }) => {
     setBotInfo(temp);
   };
 
-  const raisePot = (raise, nextRoundOnIndex) => {
+  const raisePot = (raise, nextRoundOnIndex, isPlayer) => {
     setTotalPot((prevPot) => prevPot + raise);
     setCurrentCall(raise);
     setNextRoundOnPlayer(nextRoundOnIndex);
-    notificateBot(`RAISED $${raise}`, "raise");
+    isPlayer ? console.log("") : notificateBot(`RAISED $${raise}`, "raise");
 
     if (nextRoundOnIndex == -1) {
       setNextRoundOnPlayer(4);
@@ -743,7 +738,6 @@ const Game = ({ botReactionTimeChoice }) => {
       return;
     }
 
-    console.log(currentPlayer);
     //current player highlighting
     resetHighlighting();
     const temp = [...botInfo];
@@ -780,10 +774,9 @@ const Game = ({ botReactionTimeChoice }) => {
         temp[4].credits = temp[4].credits - playerRaise;
         setBotInfo(temp);
 
-        // setPlayerCredits((prevCredits) => prevCredits - playerRaise);
         setCurrentCall(playerRaise);
 
-        raisePot(currentCall, 3); // Raise the pot to current call
+        raisePot(playerRaise, 3, true); // Raise the pot to current call
         return;
       }
 
@@ -803,7 +796,7 @@ const Game = ({ botReactionTimeChoice }) => {
       // Players have 35% chance of folding if their cards are bad
       if (power[currentPlayer].hand <= 10) {
         const random = Math.floor(Math.random() * 50);
-        if (random < 99) {
+        if (random < 35) {
           setTimeout(() => {
             const temp = [...botInfo];
             temp[currentPlayer].hasFolded = true;
@@ -822,7 +815,7 @@ const Game = ({ botReactionTimeChoice }) => {
         temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
         setTotalPot((prevPot) => prevPot + currentCall);
         setBotInfo(temp);
-        notificateBot("Call", "call");
+        notificateBot(`Call $${currentCall}`, "call");
         anotherTurn();
       }, randomTimeout);
     }
@@ -855,11 +848,10 @@ const Game = ({ botReactionTimeChoice }) => {
       }
 
       setTimeout(() => {
-        const callAmount = 0;
         const temp = [...botInfo];
-        temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
-        setTotalPot((prevPot) => prevPot + callAmount);
-        notificateBot("Call", "call");
+        temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
+        setTotalPot((prevPot) => prevPot + currentCall);
+        notificateBot(`Call $${currentCall}`, "call");
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
@@ -868,11 +860,10 @@ const Game = ({ botReactionTimeChoice }) => {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       setTimeout(() => {
-        const callAmount = 0;
         const temp = [...botInfo];
-        temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
-        setTotalPot((prevPot) => prevPot + callAmount);
-        notificateBot("Call", "call");
+        temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
+        setTotalPot((prevPot) => prevPot + currentCall);
+        notificateBot(`Call $${currentCall}`, "call");
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
@@ -884,7 +875,7 @@ const Game = ({ botReactionTimeChoice }) => {
       setRound((prevRound) => prevRound + 1);
       if (round == 4) {
         resetHighlighting();
-        notificate("Who is the winner?");
+        notificate("Let's see the cards!");
         winner();
       }
     }
@@ -921,6 +912,7 @@ const Game = ({ botReactionTimeChoice }) => {
   useEffect(() => {
     assignTableCards();
     setPlayersPower();
+    round == 1 ? setCurrentCall(10) : setCurrentCall(0);
 
     const temp = [...botNotification];
     // Reset notifications
@@ -941,7 +933,7 @@ const Game = ({ botReactionTimeChoice }) => {
         height: "100vh",
       }}
     >
-      <Table tableCards={tableCards} />
+      <Table tableCards={tableCards} totalPot={totalPot} />
       <Players
         botInfo={botInfo}
         power={power}
@@ -976,6 +968,7 @@ const Game = ({ botReactionTimeChoice }) => {
         nextRoundOnPlayer={nextRoundOnPlayer}
         round={round}
         power={power}
+        currentCall={currentCall}
       />
       <PlayerTurnEffect isPlayerPlaying={botInfo[4].isPlaying} />
     </Container>

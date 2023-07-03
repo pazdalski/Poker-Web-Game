@@ -1,16 +1,17 @@
 
 Todo:
-  ☐ Notifications above players avatar (folded, call)
+  ✔ Notifications above players avatar (folded, call) @done(23-07-03 16:19)
   ✔ Players choice @today @done(23-06-28 08:51)
   ✔ Decide who is the winner @high @done(23-06-30 15:20)
-  ☐ Add kicker group to power arr
+  ✘ Add kicker group to power arr @cancelled(23-07-03 16:19)
   ✔ More animations @done(23-06-30 17:23)
-  ☐ Raising (bots)
+  ✔ Raising (bots) @done(23-07-03 16:19)
   ✔ Fix raising additional rounds @done(23-07-03 08:53)
   ✔ Raising (player) @done(23-06-28 11:04)
   ✔ Player can win too @high @today @done(23-07-03 10:14)
   ☐ Player cant go back to menu on round 2 and higher
-
+  ☐ Bugfix: raised call is still existin in the next round on turn 1
+  
 
 
   

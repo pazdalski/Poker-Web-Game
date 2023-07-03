@@ -1,7 +1,14 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 
-const DevMode = ({ turn, currentPlayer, nextRoundOnPlayer, round, power }) => {
+const DevMode = ({
+  turn,
+  currentPlayer,
+  nextRoundOnPlayer,
+  round,
+  power,
+  currentCall,
+}) => {
   return (
     <Stack
       direction={"column"}
@@ -52,6 +59,14 @@ const DevMode = ({ turn, currentPlayer, nextRoundOnPlayer, round, power }) => {
         </Typography>
         <Typography variant="button" color="gold">
           {power[4].power}
+        </Typography>
+      </Box>
+      <Box>
+        <Typography variant="button" color="white">
+          Current Call{" "}
+        </Typography>
+        <Typography variant="button" color="gold">
+          {currentCall}
         </Typography>
       </Box>
     </Stack>
