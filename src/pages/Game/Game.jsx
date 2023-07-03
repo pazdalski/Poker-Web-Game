@@ -13,11 +13,11 @@ import Notification from "../../components/Notification";
 import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
 import DevMode from "../../components/UserInterface/DevMode";
+import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
 
 const Game = () => {
-  const stableCards = JSON.parse(JSON.stringify(cardsInfo));
-  const [playerCredits, setPlayerCredits] = useState(10000);
-  const [playerCards, setPlayerCards] = useState([]);
+  const stableCards = JSON.parse(JSON.stringify(cardsInfo)); //! Doesn't change over time
+
   const [totalPot, setTotalPot] = useState(0);
   const [round, setRound] = useState(1);
   const [game, setGame] = useState(1);
@@ -645,7 +645,6 @@ const Game = () => {
     temp[4].cards = [playableCards[8], playableCards[9]];
 
     setBotInfo(temp);
-    setPlayerCards([playableCards[8], playableCards[9]]); // ! delete later
   };
   const resetHighlighting = () => {
     const temp = [...botInfo];
@@ -654,6 +653,7 @@ const Game = () => {
     temp[1].isPlaying = false;
     temp[2].isPlaying = false;
     temp[3].isPlaying = false;
+    temp[4].isPlaying = false;
     setBotInfo(temp);
   };
 
@@ -695,10 +695,11 @@ const Game = () => {
 
     // Show available choices
     if (currentPlayer == 4) {
-      resetHighlighting();
-
       if (playerDecide == "call") {
-        setPlayerCredits((prevCredits) => prevCredits - currentCall);
+        const temp = [...botInfo];
+        temp[4].credits = temp[4].credits - currentCall;
+        setBotInfo(temp);
+
         setTotalPot((prevPot) => prevPot + currentCall);
         anotherTurn();
         return;
@@ -712,7 +713,11 @@ const Game = () => {
         return;
       }
       if (playerDecide == "raise") {
-        setPlayerCredits((prevCredits) => prevCredits - playerRaise);
+        const temp = [...botInfo];
+        temp[4].credits = temp[4].credits - playerRaise;
+        setBotInfo(temp);
+
+        // setPlayerCredits((prevCredits) => prevCredits - playerRaise);
         setCurrentCall(playerRaise);
 
         raisePot(currentCall, 3); // Raise the pot to current call
@@ -836,10 +841,13 @@ const Game = () => {
     >
       <Table tableCards={tableCards} />
       <Players botInfo={botInfo} power={power} />
-      <UserCards playerCards={playerCards} isPlayerOut={botInfo[4].hasFolded} />
+      <UserCards
+        playerCards={botInfo[4].cards}
+        isPlayerOut={botInfo[4].hasFolded}
+      />
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />
-      <UserCredits playerCredits={playerCredits} />
+      <UserCredits playerCredits={botInfo[4].credits} />
       <UserButtons
         playerChoices={playerChoices}
         currentBotAI={currentBotAI}
@@ -847,7 +855,7 @@ const Game = () => {
         currentCall={currentCall}
         setPlayerRaise={setPlayerRaise}
         playerRaise={playerRaise}
-        playerCredits={playerCredits}
+        playerCredits={botInfo[4].credits}
       />
       <MenuButton />
       <Blackout
@@ -862,6 +870,7 @@ const Game = () => {
         round={round}
         power={power}
       />
+      <PlayerTurnEffect isPlayerPlaying={botInfo[4].isPlaying} />
     </Container>
   );
 };

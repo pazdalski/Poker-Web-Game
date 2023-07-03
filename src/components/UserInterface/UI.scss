@@ -96,6 +96,25 @@
   }
 }
 
+.player-turn-effect {
+  position: absolute;
+  width: 100vw;
+  height: 50px;
+  background: linear-gradient(
+    0deg,
+    rgba(62, 169, 231, 0.25) 0%,
+    rgba(100, 158, 222, 0) 100%
+  );
+  opacity: 0;
+  bottom: 0;
+  left: 0;
+  pointer-events: none;
+  transition: 1s all;
+  &.isPlaying {
+    opacity: 1;
+  }
+}
+
 @keyframes blackout-animation {
   100% {
     opacity: 1;
