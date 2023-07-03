@@ -12,6 +12,7 @@ import { cardsInfo } from "../../components/CardsInfo";
 import Notification from "../../components/Notification";
 import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
+import DevMode from "../../components/UserInterface/DevMode";
 
 const Game = () => {
   const stableCards = JSON.parse(JSON.stringify(cardsInfo));
@@ -653,11 +654,7 @@ const Game = () => {
     setRaisedCount((prevCount) => prevCount + 1);
     setNextRoundOnPlayer(nextRoundOnIndex);
 
-    if (turnsTillNextRound[round - 1] - turn == 4) {
-      anotherTurn();
-    } else if (turnsTillNextRound[round - 1] - turn == 0) {
-      anotherTurn();
-    }
+    anotherTurn(true);
   };
 
   const currentBotAI = (playerDecide) => {
@@ -774,25 +771,19 @@ const Game = () => {
   };
 
   const checkWhichRound = () => {
-    console.log("currentPlayer");
-    console.log(currentPlayer);
-    if (currentPlayer < 4) {
-      console.log(botInfo[currentPlayer].name);
-    }
-    console.log("nextRoundOnPlayer");
-    console.log(nextRoundOnPlayer);
-    console.log("");
     if (currentPlayer == nextRoundOnPlayer) {
       setRound((prevRound) => prevRound + 1);
       console.warn("next Round");
     }
   };
 
-  const anotherTurn = () => {
+  const anotherTurn = (delayNextRound) => {
     setTurn((prevTurn) => prevTurn + 1);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
 
-    checkWhichRound();
+    {
+      delayNextRound ? console.log("s") : checkWhichRound();
+    }
 
     if (currentPlayer > 3) {
       // Change to player
@@ -851,6 +842,11 @@ const Game = () => {
         blackoutInfo={blackoutInfo}
       />
       {notificationStatus && <Notification msg={notificationMessage} />}
+      <DevMode
+        turn={turn}
+        currentPlayer={currentPlayer}
+        nextRoundOnPlayer={nextRoundOnPlayer}
+      />
     </Container>
   );
 };
