@@ -2,6 +2,7 @@ import { Avatar, Stack, Typography } from "@mui/material";
 import React from "react";
 import BotCard from "./Card/BotCard";
 import "./Card/cards.css";
+import PlayerNotification from "./Players/PlayerNotification";
 
 const Bot = ({
   position,
@@ -18,6 +19,7 @@ const Bot = ({
   isWinner,
   power,
   hand,
+  botNotification,
 }) => {
   return (
     <>
@@ -25,6 +27,7 @@ const Bot = ({
         className={`player ${isWinner && "winner"}`}
         style={isPlaying ? transform : position}
       >
+        <PlayerNotification botNotification={botNotification} />
         <Avatar className="avatar" src={img}></Avatar>
         <Stack
           className={`player-info  ${isPlaying && "shadow"}`}

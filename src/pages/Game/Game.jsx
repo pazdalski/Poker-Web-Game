@@ -26,6 +26,28 @@ const Game = ({ botReactionTimeChoice }) => {
   const [tableCards, setTableCards] = useState([]);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationStatus, setNotificationStatus] = useState(false);
+  const [botNotification, setBotNotification] = useState([
+    {
+      message: "CALL",
+      status: false,
+      type: "call",
+    },
+    {
+      message: "FOLD",
+      status: false,
+      type: "fold",
+    },
+    {
+      message: "RAISE 345$",
+      status: false,
+      type: "raise",
+    },
+    {
+      message: "CALL",
+      status: false,
+      type: "call",
+    },
+  ]);
   const [currentCall, setCurrentCall] = useState(10);
   const [isRaisedCurrently, setIsRaisedCurrently] = useState(false);
   const [raisedCount, setRaisedCount] = useState(0);
@@ -684,12 +706,27 @@ const Game = ({ botReactionTimeChoice }) => {
     setTotalPot((prevPot) => prevPot + raise);
     setCurrentCall(raise);
     setNextRoundOnPlayer(nextRoundOnIndex);
+    notificateBot(`RAISED $${raise}`, "raise");
 
     if (nextRoundOnIndex == -1) {
       setNextRoundOnPlayer(4);
     }
 
     anotherTurn(true); // Delay checking which round (Bugfix)
+  };
+  const notificateBot = (msg, type) => {
+    const temp = [...botNotification];
+
+    temp[currentPlayer].status = false;
+    temp[currentPlayer].message = msg;
+    temp[currentPlayer].type = type;
+
+    setBotNotification(temp);
+
+    setTimeout(() => {
+      temp[currentPlayer].status = true;
+      setBotNotification(temp);
+    }, 100);
   };
 
   const currentBotAI = (playerDecide) => {
@@ -777,9 +814,10 @@ const Game = ({ botReactionTimeChoice }) => {
       // Players have 35% chance of folding if their cards are bad
       if (power[currentPlayer].hand <= 10) {
         const random = Math.floor(Math.random() * 50);
-        if (random < 35) {
+        if (random < 85) {
           const temp = [...botInfo];
           temp[currentPlayer].hasFolded = true;
+          notificateBot("FOLD", "fold");
           setBotInfo(temp);
         }
         notificate(botInfo[currentPlayer].name + " has folded!");
@@ -790,7 +828,7 @@ const Game = ({ botReactionTimeChoice }) => {
 
       if (power[currentPlayer].power > 30) {
         // If the player has cards with over 75 power, then they have 35% to raise
-        console.log("rzut monetą");
+        console.log("throwing");
         const random = Math.floor(Math.random() * 99);
 
         if (random < 100) {
@@ -875,6 +913,14 @@ const Game = ({ botReactionTimeChoice }) => {
   useEffect(() => {
     assignTableCards();
     setPlayersPower();
+
+    const temp = [...botNotification];
+    // Reset notifications
+    temp[0].status = false;
+    temp[1].status = false;
+    temp[2].status = false;
+    temp[3].status = false;
+    setBotNotification(temp);
   }, [round]);
 
   return (
@@ -888,7 +934,11 @@ const Game = ({ botReactionTimeChoice }) => {
       }}
     >
       <Table tableCards={tableCards} />
-      <Players botInfo={botInfo} power={power} />
+      <Players
+        botInfo={botInfo}
+        power={power}
+        botNotification={botNotification}
+      />
       <UserCards
         playerCards={botInfo[4].cards}
         isPlayerOut={botInfo[4].hasFolded}

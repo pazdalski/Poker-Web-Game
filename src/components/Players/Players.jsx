@@ -78,7 +78,7 @@ const shadowTransform = {
   },
 };
 
-const Players = ({ botInfo, power }) => {
+const Players = ({ botInfo, power, botNotification }) => {
   return (
     <div className="container">
       <Bot
@@ -97,6 +97,7 @@ const Players = ({ botInfo, power }) => {
         isWinner={botInfo[0].isWinner}
         power={power[0].power}
         hand={power[0].hand}
+        botNotification={botNotification[0]}
       />
       <Bot
         position={playerPositions.player2}
@@ -114,6 +115,7 @@ const Players = ({ botInfo, power }) => {
         isWinner={botInfo[1].isWinner}
         power={power[1].power}
         hand={power[1].hand}
+        botNotification={botNotification[1]}
       />
       <Bot
         position={playerPositions.player3}
@@ -131,6 +133,7 @@ const Players = ({ botInfo, power }) => {
         isWinner={botInfo[2].isWinner}
         power={power[2].power}
         hand={power[2].hand}
+        botNotification={botNotification[2]}
       />
       <Bot
         position={playerPositions.player4}
@@ -148,6 +151,7 @@ const Players = ({ botInfo, power }) => {
         isWinner={botInfo[3].isWinner}
         power={power[3].power}
         hand={power[3].hand}
+        botNotification={botNotification[3]}
       />
     </div>
   );
