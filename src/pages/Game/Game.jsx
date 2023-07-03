@@ -36,19 +36,59 @@ const Game = () => {
     fold: false,
     call: false,
   });
-  const [isPlayerOut, setIsPlayerOut] = useState(false);
   const [playerRaise, setPlayerRaise] = useState(10);
-  const [additionalTurns, setAdditionalTurns] = useState(0);
   const [blackoutOnWinnings, setBlackoutOnWinnings] = useState(false);
   const [blackoutInfo, setBlackoutInfo] = useState("Highest card");
 
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [turn, setTurn] = useState(1);
 
-  const [turnsTillNextRound, setTurnsTillNextRound] = useState([
-    5 + additionalTurns,
-    9 + additionalTurns,
-    13 + additionalTurns,
+  const [botInfo, setBotInfo] = useState([
+    {
+      name: "Crawler",
+      credits: 10000,
+      cards: [], //Placeholder
+      isRevealed: false,
+      isPlaying: false,
+      hasFolded: false,
+      isWinner: false,
+    },
+    {
+      name: "Ally Alien",
+      credits: 10000,
+      cards: [],
+      isRevealed: false,
+      isPlaying: false,
+      hasFolded: false,
+      isWinner: false,
+    },
+    {
+      name: "Dino",
+      credits: 10000,
+      cards: [],
+      isRevealed: false,
+      isPlaying: false,
+      hasFolded: false,
+      isWinner: false,
+    },
+    {
+      name: "Mummy",
+      credits: 10000,
+      cards: [],
+      isRevealed: false,
+      isPlaying: false,
+      hasFolded: false,
+      isWinner: false,
+    },
+    {
+      name: "Player",
+      credits: 10000,
+      cards: [],
+      isRevealed: false,
+      isPlaying: false,
+      hasFolded: false,
+      isWinner: false,
+    },
   ]);
 
   const [power, setPower] = useState([
@@ -80,18 +120,19 @@ const Game = () => {
       power: 0,
       index: 3,
     },
-    // {
-    //   name: "Player",
-    //   hand: 19,
-    //   power: 6,
-    // index:4,
-    // }
+    {
+      name: "Player",
+      hand: 0,
+      kicker: 0,
+      power: 0,
+      index: 4,
+    },
   ]);
 
   const winner = () => {
     const temp = [...power];
     //? Highest Card
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       const allCards = [...tableCards, ...botInfo[i].cards];
       const handCards = [...botInfo[i].cards];
 
@@ -425,7 +466,7 @@ const Game = () => {
 
   const nextGame = () => {
     const temp = [...botInfo];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 5; i++) {
       temp[i].isRevealed = false;
       temp[i].isPlaying = false;
       temp[i].hasFolded = false;
@@ -465,13 +506,18 @@ const Game = () => {
         power: 0,
         index: 3,
       },
+      {
+        name: "Player",
+        hand: 0,
+        kicker: 0,
+        power: 0,
+        index: 4,
+      },
     ]);
 
     setRound(1);
     setTurn(1);
-    setAdditionalTurns(0);
     setTotalPot(0);
-    setIsPlayerOut(false);
     setTableCards([]);
     setPlayableCards([]);
 
@@ -515,45 +561,6 @@ const Game = () => {
       setNotificationStatus(true);
     }, 100);
   };
-
-  const [botInfo, setBotInfo] = useState([
-    {
-      name: "Crawler",
-      credits: 10000,
-      cards: [], //Placeholder
-      isRevealed: false,
-      isPlaying: false,
-      hasFolded: false,
-      isWinner: false,
-    },
-    {
-      name: "Ally Alien",
-      credits: 10000,
-      cards: [],
-      isRevealed: false,
-      isPlaying: false,
-      hasFolded: false,
-      isWinner: false,
-    },
-    {
-      name: "Dino",
-      credits: 10000,
-      cards: [],
-      isRevealed: false,
-      isPlaying: false,
-      hasFolded: false,
-      isWinner: false,
-    },
-    {
-      name: "Mummy",
-      credits: 10000,
-      cards: [],
-      isRevealed: false,
-      isPlaying: false,
-      hasFolded: false,
-      isWinner: false,
-    },
-  ]);
 
   const randomCards = () => {
     setAvailableCards([...cardsInfo]);
@@ -635,9 +642,10 @@ const Game = () => {
     temp[1].cards = [playableCards[2], playableCards[3]];
     temp[2].cards = [playableCards[4], playableCards[5]];
     temp[3].cards = [playableCards[6], playableCards[7]];
+    temp[4].cards = [playableCards[8], playableCards[9]];
 
     setBotInfo(temp);
-    setPlayerCards([playableCards[8], playableCards[9]]);
+    setPlayerCards([playableCards[8], playableCards[9]]); // ! delete later
   };
   const resetHighlighting = () => {
     const temp = [...botInfo];
@@ -671,6 +679,20 @@ const Game = () => {
       return;
     }
 
+    //current player highlighting
+    resetHighlighting();
+    const temp = [...botInfo];
+    temp[currentPlayer].isPlaying = true;
+    setBotInfo(temp);
+
+    console.log(botInfo[currentPlayer]); // dev
+
+    //Skip player who folded
+    if (botInfo[currentPlayer].hasFolded == true) {
+      anotherTurn();
+      return;
+    }
+
     // Show available choices
     if (currentPlayer == 4) {
       resetHighlighting();
@@ -682,7 +704,9 @@ const Game = () => {
         return;
       }
       if (playerDecide == "fold") {
-        setIsPlayerOut(true);
+        const temp = [...botInfo];
+        temp[4].hasFolded = true;
+        setBotInfo(temp);
 
         anotherTurn();
         return;
@@ -695,11 +719,6 @@ const Game = () => {
         return;
       }
 
-      if (isPlayerOut) {
-        anotherTurn();
-        return;
-      }
-
       notificate("It's your turn. Good luck!");
       setPlayerChoices({
         raise: true,
@@ -709,19 +728,7 @@ const Game = () => {
 
       return;
     }
-    //Skip player who folded
-    if (botInfo[currentPlayer].hasFolded == true) {
-      anotherTurn();
-      return;
-    }
 
-    if (currentPlayer < 4) {
-      //current player highlighting
-      resetHighlighting();
-      const temp = [...botInfo];
-      temp[currentPlayer].isPlaying = true;
-      setBotInfo(temp);
-    }
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
@@ -750,9 +757,8 @@ const Game = () => {
       randomTimeout = Math.floor(Math.random() * 2000) + 500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // Taking 10$ at the beginning of the game
       setTimeout(() => {
-        const callAmount = 10; // This will change later, when bots can calculate %
+        const callAmount = 0; // This will change later, when bots can calculate %
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
         setTotalPot((prevPot) => prevPot + callAmount);
@@ -764,9 +770,8 @@ const Game = () => {
       randomTimeout = Math.floor(Math.random() * 2000) + 500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // Taking 10$ at the beginning of the game
       setTimeout(() => {
-        const callAmount = 10; // This will change later, when bots can calculate %
+        const callAmount = 0; // This will change later, when bots can calculate %
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
         setTotalPot((prevPot) => prevPot + callAmount);
@@ -791,7 +796,7 @@ const Game = () => {
     setTurn((prevTurn) => prevTurn + 1);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
 
-    delayNextRound ? console.log("s") : checkWhichRound();
+    delayNextRound ? console.log("") : checkWhichRound();
 
     if (currentPlayer > 3) {
       // Change to player
@@ -831,7 +836,7 @@ const Game = () => {
     >
       <Table tableCards={tableCards} />
       <Players botInfo={botInfo} power={power} />
-      <UserCards playerCards={playerCards} isPlayerOut={isPlayerOut} />
+      <UserCards playerCards={playerCards} isPlayerOut={botInfo[4].hasFolded} />
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />
       <UserCredits playerCredits={playerCredits} />
@@ -855,6 +860,7 @@ const Game = () => {
         currentPlayer={currentPlayer}
         nextRoundOnPlayer={nextRoundOnPlayer}
         round={round}
+        power={power}
       />
     </Container>
   );
