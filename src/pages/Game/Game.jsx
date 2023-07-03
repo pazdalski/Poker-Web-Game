@@ -654,11 +654,22 @@ const Game = () => {
     setRaisedCount((prevCount) => prevCount + 1);
     setNextRoundOnPlayer(nextRoundOnIndex);
 
-    anotherTurn(true);
+    anotherTurn(true); // Delay checking which round (Bugfix)
   };
 
   const currentBotAI = (playerDecide) => {
     let randomTimeout = Math.floor(Math.random() * 1000) + 500;
+    if (round == 4) {
+      resetHighlighting();
+      notificate("Who is the winner?");
+      winner();
+      setPlayerChoices({
+        raise: false,
+        fold: false,
+        call: false,
+      });
+      return;
+    }
 
     // Show available choices
     if (currentPlayer == 4) {
@@ -763,17 +774,16 @@ const Game = () => {
         anotherTurn();
       }, randomTimeout);
     }
-    if (round == 4) {
-      resetHighlighting();
-      notificate("Who is the winner?");
-      winner();
-    }
   };
 
   const checkWhichRound = () => {
     if (currentPlayer == nextRoundOnPlayer) {
       setRound((prevRound) => prevRound + 1);
-      console.warn("next Round");
+      if (round == 4) {
+        resetHighlighting();
+        notificate("Who is the winner?");
+        winner();
+      }
     }
   };
 
@@ -781,9 +791,7 @@ const Game = () => {
     setTurn((prevTurn) => prevTurn + 1);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
 
-    {
-      delayNextRound ? console.log("s") : checkWhichRound();
-    }
+    delayNextRound ? console.log("s") : checkWhichRound();
 
     if (currentPlayer > 3) {
       // Change to player
@@ -846,6 +854,7 @@ const Game = () => {
         turn={turn}
         currentPlayer={currentPlayer}
         nextRoundOnPlayer={nextRoundOnPlayer}
+        round={round}
       />
     </Container>
   );
