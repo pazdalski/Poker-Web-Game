@@ -150,8 +150,7 @@ const Game = ({ botReactionTimeChoice }) => {
       index: 4,
     },
   ]);
-
-  const winner = () => {
+  const setPlayersPower = () => {
     const temp = [...power];
     //? Highest Card
     for (let i = 0; i < 5; i++) {
@@ -420,7 +419,9 @@ const Game = ({ botReactionTimeChoice }) => {
 
       setPower(temp);
     }
+  };
 
+  const winner = () => {
     const sortedPlayers = power.sort((a, b) => {
       if (Number(b.power) > Number(a.power)) {
         return 1;
@@ -681,8 +682,12 @@ const Game = ({ botReactionTimeChoice }) => {
 
   const raisePot = (raise, nextRoundOnIndex) => {
     setTotalPot((prevPot) => prevPot + raise);
-    setRaisedCount((prevCount) => prevCount + 1);
+    setCurrentCall(raise);
     setNextRoundOnPlayer(nextRoundOnIndex);
+
+    if (nextRoundOnIndex == -1) {
+      setNextRoundOnPlayer(4);
+    }
 
     anotherTurn(true); // Delay checking which round (Bugfix)
   };
@@ -708,8 +713,6 @@ const Game = ({ botReactionTimeChoice }) => {
     const temp = [...botInfo];
     temp[currentPlayer].isPlaying = true;
     setBotInfo(temp);
-
-    console.log(botInfo[currentPlayer]); // dev
 
     //Skip player who folded
     if (botInfo[currentPlayer].hasFolded == true) {
@@ -785,6 +788,28 @@ const Game = ({ botReactionTimeChoice }) => {
     if (round == 2) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
+      if (power[currentPlayer].power > 30) {
+        // If the player has cards with over 75 power, then they have 35% to raise
+        console.log("rzut monetą");
+        const random = Math.floor(Math.random() * 99);
+
+        if (random < 100) {
+          const randomAmountToRaise = Math.floor(Math.random() * 350);
+          if (randomAmountToRaise < currentCall) {
+            anotherTurn();
+            return;
+          }
+          notificate(
+            botInfo[currentPlayer].name + "is raising to " + randomAmountToRaise
+          );
+          console.log("RAISING");
+          setTimeout(() => {
+            raisePot(randomAmountToRaise, currentPlayer - 1);
+          }, randomTimeout);
+          return;
+        }
+      }
+
       setTimeout(() => {
         const callAmount = 0; // This will change later, when bots can calculate %
         const temp = [...botInfo];
@@ -849,6 +874,7 @@ const Game = ({ botReactionTimeChoice }) => {
 
   useEffect(() => {
     assignTableCards();
+    setPlayersPower();
   }, [round]);
 
   return (
