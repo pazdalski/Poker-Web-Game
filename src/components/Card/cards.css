@@ -51,6 +51,9 @@
   bottom: -30px;
   width: 1200px;
 }
+.user-cards-container.playerWin {
+  z-index: 152 !important;
+}
 .user-cards-container .user-card {
   width: 75px;
   height: 125px;

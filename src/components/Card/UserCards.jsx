@@ -2,7 +2,7 @@ import { Container, Stack } from "@mui/material";
 import "./cards.css";
 import { useState } from "react";
 
-const UserCards = ({ playerCards, isPlayerOut }) => {
+const UserCards = ({ playerCards, isPlayerOut, didPlayerWin }) => {
   const [idleAnimation, setIdleAnimation] = useState(false);
 
   setTimeout(() => {
@@ -10,7 +10,9 @@ const UserCards = ({ playerCards, isPlayerOut }) => {
   }, 1000);
 
   return (
-    <Container className="user-cards-container">
+    <Container
+      className={`user-cards-container ${didPlayerWin && "playerWin"}`}
+    >
       <Stack direction={"row"} justifyContent={"center"}>
         <div
           className={`user-card  userCardOpeningLeftAnim ${

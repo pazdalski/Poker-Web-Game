@@ -67,6 +67,9 @@
   position: absolute;
   bottom: -30px;
   width: 1200px;
+  &.playerWin {
+    z-index: 152 !important;
+  }
   .user-card {
     @include bot-card;
     overflow: hidden;
@@ -79,6 +82,7 @@
       }
     }
   }
+
   .shiny-texture {
     position: absolute;
     background: linear-gradient(

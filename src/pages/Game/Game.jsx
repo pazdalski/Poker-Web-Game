@@ -15,7 +15,7 @@ import Blackout from "../../components/UserInterface/Blackout";
 import DevMode from "../../components/UserInterface/DevMode";
 import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
 
-const Game = () => {
+const Game = ({ botReactionTimeChoice }) => {
   const stableCards = JSON.parse(JSON.stringify(cardsInfo)); //! Doesn't change over time
 
   const [totalPot, setTotalPot] = useState(0);
@@ -30,6 +30,28 @@ const Game = () => {
   const [isRaisedCurrently, setIsRaisedCurrently] = useState(false);
   const [raisedCount, setRaisedCount] = useState(0);
   const [nextRoundOnPlayer, setNextRoundOnPlayer] = useState(4);
+  const [botsReactionTime, setBotReactionTime] = useState([
+    {
+      //Instant
+      max: 50,
+      min: 5,
+    },
+    {
+      //Fast
+      max: 1500,
+      min: 500,
+    },
+    {
+      //Human-Like
+      max: 3000,
+      min: 1500,
+    },
+    {
+      //Analyze
+      max: 3500,
+      min: 1500,
+    },
+  ]);
 
   const [playerChoices, setPlayerChoices] = useState({
     raise: false,
@@ -666,7 +688,9 @@ const Game = () => {
   };
 
   const currentBotAI = (playerDecide) => {
-    let randomTimeout = Math.floor(Math.random() * 1000) + 500;
+    let randomTimeout =
+      Math.floor(Math.random() * botsReactionTime[botReactionTimeChoice].max) +
+      botsReactionTime[botReactionTimeChoice].min;
     if (round == 4) {
       resetHighlighting();
       notificate("Who is the winner?");
@@ -759,7 +783,6 @@ const Game = () => {
       }
     }
     if (round == 2) {
-      randomTimeout = Math.floor(Math.random() * 2000) + 500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       setTimeout(() => {
@@ -772,7 +795,6 @@ const Game = () => {
       }, randomTimeout);
     }
     if (round == 3) {
-      randomTimeout = Math.floor(Math.random() * 2000) + 500;
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       setTimeout(() => {
@@ -844,6 +866,7 @@ const Game = () => {
       <UserCards
         playerCards={botInfo[4].cards}
         isPlayerOut={botInfo[4].hasFolded}
+        didPlayerWin={botInfo[4].isWinner}
       />
       <TotalPot totalPot={totalPot} />
       <HierarchyHelp />
