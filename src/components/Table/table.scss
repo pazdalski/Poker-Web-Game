@@ -24,7 +24,7 @@
     animation: tableLightAnimation 5s ease-in-out infinite;
     background: radial-gradient(
       circle,
-      rgba(243, 243, 243, 0.15) 15%,
+      rgba(243, 243, 243, 0.18) 15%,
       rgba(201, 201, 201, 0) 50%
     );
     pointer-events: none;
@@ -36,10 +36,10 @@
 @keyframes tableLightAnimation {
   0%,
   100% {
-    transform: translateX(-75px);
+    transform: translateX(-100px);
   }
   50% {
-    transform: translateX(75px);
+    transform: translateX(100px);
   }
 }
 

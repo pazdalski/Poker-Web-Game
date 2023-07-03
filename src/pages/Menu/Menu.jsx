@@ -7,9 +7,10 @@ import {
   Stack,
 } from "@mui/material";
 import React from "react";
-import logo from "../../assets/logo/logo-color.png";
+import logo from "../../assets/logo/logo-white.png";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import { Link } from "react-router-dom";
+import "./menu.css";
 
 const Menu = ({ setBotReactionTimeChoice, botReactionTimeChoice }) => {
   return (
@@ -28,7 +29,7 @@ const Menu = ({ setBotReactionTimeChoice, botReactionTimeChoice }) => {
       <img
         src={logo}
         alt="placeholder logo"
-        style={{ width: "250px", margin: "40px 0" }}
+        style={{ width: "450px", margin: "40px 0" }}
       />
       <Link to={"/game"}>
         <Button
@@ -39,67 +40,67 @@ const Menu = ({ setBotReactionTimeChoice, botReactionTimeChoice }) => {
           Play
         </Button>
       </Link>
-      <Stack>
-        <Typography variant="button" color="white">
-          Bot's reaction time
-        </Typography>
-        <ToggleButtonGroup
-          color="success"
-          value={botReactionTimeChoice}
-          exclusive
-          aria-label="Platform"
-          sx={{ width: "450px" }}
-        >
-          <ToggleButton
-            sx={{ color: "white", width: "112.5px" }}
-            fullWidth
-            value="0"
-            onClick={() => {
-              setBotReactionTimeChoice("0");
-            }}
+      <div className="reaction-time-button">
+        BOT'S REACTION TIME
+        <Stack className="reaction-time-choice">
+          <ToggleButtonGroup
+            color="warning"
+            value={botReactionTimeChoice}
+            exclusive
+            aria-label="Platform"
+            sx={{ width: "450px" }}
           >
-            Instant
-          </ToggleButton>
-          <ToggleButton
-            sx={{ color: "white", width: "112.5px" }}
-            fullWidth
-            value="1"
-            onClick={() => {
-              setBotReactionTimeChoice("1");
-            }}
-          >
-            Fast
-          </ToggleButton>
-          <ToggleButton
-            sx={{
-              color: "white",
-              width: "112.5px",
-              display: "flex",
-              flexDirection: "column",
-            }}
-            fullWidth
-            value="2"
-            onClick={() => {
-              setBotReactionTimeChoice("2");
-            }}
-          >
-            Human-like <br />
-            <Typography variant="button" color="gold" fontSize={8}>
-              Recommended
-            </Typography>
-          </ToggleButton>
-          <ToggleButton
-            sx={{ color: "white", width: "112.5px" }}
-            fullWidth
-            value="3"
-            onClick={() => {
-              setBotReactionTimeChoice("3");
-            }}
-          >
-            Analyze
-          </ToggleButton>
-        </ToggleButtonGroup>
-      </Stack>
+            <ToggleButton
+              sx={{ color: "white", width: "112.5px" }}
+              fullWidth
+              value="0"
+              onClick={() => {
+                setBotReactionTimeChoice("0");
+              }}
+            >
+              Instant
+            </ToggleButton>
+            <ToggleButton
+              sx={{ color: "white", width: "112.5px" }}
+              fullWidth
+              value="1"
+              onClick={() => {
+                setBotReactionTimeChoice("1");
+              }}
+            >
+              Fast
+            </ToggleButton>
+            <ToggleButton
+              sx={{
+                color: "white",
+                width: "112.5px",
+                display: "flex",
+                flexDirection: "column",
+              }}
+              fullWidth
+              value="2"
+              onClick={() => {
+                setBotReactionTimeChoice("2");
+              }}
+            >
+              Human-like <br />
+              <Typography variant="button" color="gold" fontSize={8}>
+                Recommended
+              </Typography>
+            </ToggleButton>
+            <ToggleButton
+              sx={{ color: "white", width: "112.5px" }}
+              fullWidth
+              value="3"
+              onClick={() => {
+                setBotReactionTimeChoice("3");
+              }}
+            >
+              Analyze
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </Stack>
+      </div>
 
       <Button
         startIcon={<GitHubIcon sx={{ width: "34px", height: "34px" }} />}

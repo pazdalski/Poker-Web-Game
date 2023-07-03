@@ -11,7 +11,7 @@ const HierarchyHelp = () => {
     <>
       <Card
         className="hierarchy-help-button"
-        sx={{ backgroundColor: "#e0e0e0", cursor: "pointer" }}
+        sx={{ backgroundColor: "#162738", cursor: "pointer" }}
         onMouseOver={() => {
           setHelpVisible(true);
         }}
@@ -24,7 +24,7 @@ const HierarchyHelp = () => {
           fontWeight={"bold"}
           lineHeight={"25px"}
           fontSize={"22px"}
-          color={"black"}
+          color={"#e8cba0"}
           sx={{
             display: "flex",
             flexDirection: "column",
