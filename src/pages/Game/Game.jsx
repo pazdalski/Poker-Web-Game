@@ -723,10 +723,8 @@ const Game = ({ botReactionTimeChoice }) => {
 
     setBotNotification(temp);
 
-    setTimeout(() => {
-      temp[currentPlayer].status = true;
-      setBotNotification(temp);
-    }, 100);
+    temp[currentPlayer].status = true;
+    setBotNotification(temp);
   };
 
   const currentBotAI = (playerDecide) => {
@@ -745,6 +743,7 @@ const Game = ({ botReactionTimeChoice }) => {
       return;
     }
 
+    console.log(currentPlayer);
     //current player highlighting
     resetHighlighting();
     const temp = [...botInfo];
@@ -801,32 +800,36 @@ const Game = ({ botReactionTimeChoice }) => {
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
+      // Players have 35% chance of folding if their cards are bad
+      if (power[currentPlayer].hand <= 10) {
+        const random = Math.floor(Math.random() * 50);
+        if (random < 99) {
+          setTimeout(() => {
+            const temp = [...botInfo];
+            temp[currentPlayer].hasFolded = true;
+            notificateBot("FOLD", "fold");
+            setBotInfo(temp);
+            notificate(botInfo[currentPlayer].name + " has folded!");
+            anotherTurn();
+          }, randomTimeout);
+          return;
+        }
+      }
+
       // Taking 10$ at the beginning of the game
       setTimeout(() => {
-        //  setCurrentCall(50); // This will change later, when bots can calculate %
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
         setTotalPot((prevPot) => prevPot + currentCall);
         setBotInfo(temp);
+        notificateBot("Call", "call");
         anotherTurn();
       }, randomTimeout);
-
-      // Players have 35% chance of folding if their cards are bad
-      if (power[currentPlayer].hand <= 10) {
-        const random = Math.floor(Math.random() * 50);
-        if (random < 85) {
-          const temp = [...botInfo];
-          temp[currentPlayer].hasFolded = true;
-          notificateBot("FOLD", "fold");
-          setBotInfo(temp);
-        }
-        notificate(botInfo[currentPlayer].name + " has folded!");
-      }
     }
     if (round == 2) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      if (power[currentPlayer].power > 30) {
+      Raising: if (power[currentPlayer].power > 30) {
         // If the player has cards with over 75 power, then they have 35% to raise
         console.log("throwing");
         const random = Math.floor(Math.random() * 99);
@@ -834,14 +837,17 @@ const Game = ({ botReactionTimeChoice }) => {
         if (random < 100) {
           const randomAmountToRaise = Math.floor(Math.random() * 350);
           if (randomAmountToRaise < currentCall) {
-            anotherTurn();
-            return;
+            break Raising;
           }
-          notificate(
-            botInfo[currentPlayer].name + "is raising to " + randomAmountToRaise
-          );
+
           console.log("RAISING");
+
           setTimeout(() => {
+            notificate(
+              botInfo[currentPlayer].name +
+                " is raising to " +
+                randomAmountToRaise
+            );
             raisePot(randomAmountToRaise, currentPlayer - 1);
           }, randomTimeout);
           return;
@@ -849,10 +855,11 @@ const Game = ({ botReactionTimeChoice }) => {
       }
 
       setTimeout(() => {
-        const callAmount = 0; // This will change later, when bots can calculate %
+        const callAmount = 0;
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
         setTotalPot((prevPot) => prevPot + callAmount);
+        notificateBot("Call", "call");
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
@@ -861,10 +868,11 @@ const Game = ({ botReactionTimeChoice }) => {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       setTimeout(() => {
-        const callAmount = 0; // This will change later, when bots can calculate %
+        const callAmount = 0;
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - callAmount;
         setTotalPot((prevPot) => prevPot + callAmount);
+        notificateBot("Call", "call");
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
