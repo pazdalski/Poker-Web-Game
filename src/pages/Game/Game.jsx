@@ -100,7 +100,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Crawler",
       credits: 10000,
       cards: [], //Placeholder
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -109,7 +109,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Ally Alien",
       credits: 10000,
       cards: [],
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -118,7 +118,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Dino",
       credits: 10000,
       cards: [],
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -127,7 +127,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Mummy",
       credits: 10000,
       cards: [],
-      isRevealed: false,
+      isRevealed: true,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -382,6 +382,61 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
                 ` Assigning ${givenPower} power`
             );
           }
+        }
+      }
+      //# FLUSH
+      const duplicatedHearts = [];
+      const duplicatedSpades = [];
+      const duplicatedDiamonds = [];
+      const duplicatedClubs = [];
+      let flushCategory = [];
+
+      function getOccurrence(array, category) {
+        allCards.forEach((c) => {
+          if (c.category == category) {
+            array.push(c);
+          }
+        });
+      }
+
+      getOccurrence(duplicatedHearts, "hearts");
+      getOccurrence(duplicatedSpades, "spades");
+      getOccurrence(duplicatedDiamonds, "diamonds");
+      getOccurrence(duplicatedClubs, "clubs");
+
+      if (duplicatedHearts.length >= 5) {
+        flushCategory = duplicatedHearts;
+      }
+      if (duplicatedSpades.length >= 5) {
+        flushCategory = duplicatedHearts;
+      }
+      if (duplicatedDiamonds.length >= 5) {
+        flushCategory = duplicatedHearts;
+      }
+      if (duplicatedClubs.length >= 5) {
+        flushCategory = duplicatedHearts;
+      }
+
+      if (flushCategory.length >= 5) {
+        flushCategory.sort((a, b) => {
+          return b.power - a.power;
+        });
+        console.log(flushCategory);
+        const givenPower =
+          Number(flushCategory[0].power) +
+          Number(flushCategory[1].power) +
+          Number(flushCategory[2].power) +
+          Number(flushCategory[3].power) +
+          Number(flushCategory[4].power) +
+          110; //123 - 177
+
+        if (temp[i].power < givenPower) {
+          // If current power is less than the given power assign it
+          temp[i].power = givenPower;
+
+          console.log(
+            "FLUSH for: " + botInfo[i].name + ` Assigning ${givenPower} power`
+          );
         }
       }
 
