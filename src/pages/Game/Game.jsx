@@ -7,7 +7,7 @@ import HierarchyHelp from "../../components/UserInterface/HierarchyHelp";
 import UserCredits from "../../components/UserInterface/UserCredits";
 import UserButtons from "../../components/UserInterface/UserButtons";
 import MenuButton from "../../components/UserInterface/MenuButton";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { cardsInfo } from "../../components/CardsInfo";
 import Notification from "../../components/Notification";
 import { straightCombination } from "../../components/StraightCombination";
@@ -50,6 +50,7 @@ const Game = ({ botReactionTimeChoice }) => {
   ]);
   const [currentCall, setCurrentCall] = useState(10);
   const [nextRoundOnPlayer, setNextRoundOnPlayer] = useState(4);
+  const [isRaisedCurrently, setIsRaisedCurrently] = useState(false);
   const [botsReactionTime, setBotReactionTime] = useState([
     {
       //Instant
@@ -702,6 +703,7 @@ const Game = ({ botReactionTimeChoice }) => {
     setCurrentCall(raise);
     setNextRoundOnPlayer(nextRoundOnIndex);
     isPlayer ? console.log("") : notificateBot(`RAISED $${raise}`, "raise");
+    setIsRaisedCurrently(true);
 
     if (nextRoundOnIndex == -1) {
       setNextRoundOnPlayer(4);
@@ -790,13 +792,52 @@ const Game = ({ botReactionTimeChoice }) => {
       return;
     }
 
+    // Possible actions for round 1:
+    // 1.Players have 25% chance of folding if their cards are bad
+    // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
+    // 3.If player has very low cards (20<) and round is raised then fold (40%)
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // Players have 35% chance of folding if their cards are bad
+      // 1.Players have 25% chance of folding if their cards are bad (less than 10)
       if (power[currentPlayer].hand <= 10) {
-        const random = Math.floor(Math.random() * 50);
-        if (random < 35) {
+        const random = Math.floor(Math.random() * 100);
+        if (random <= 25) {
+          setTimeout(() => {
+            const temp = [...botInfo];
+            temp[currentPlayer].hasFolded = true;
+            notificateBot("FOLD", "fold");
+            setBotInfo(temp);
+            notificate(botInfo[currentPlayer].name + " has folded!");
+            anotherTurn();
+          }, randomTimeout);
+          return;
+        }
+      }
+      // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
+      Raising: if (power[currentPlayer].hand >= 35) {
+        const random = Math.floor(Math.random() * 100);
+        if (random < 10) {
+          const randomAmountToRaise = Math.floor(Math.random() * 89) + 11;
+          if (randomAmountToRaise < currentCall) {
+            break Raising;
+          }
+
+          setTimeout(() => {
+            notificate(
+              botInfo[currentPlayer].name +
+                " is raising to " +
+                randomAmountToRaise
+            );
+            raisePot(randomAmountToRaise, currentPlayer - 1);
+          }, randomTimeout);
+          return;
+        }
+      }
+      // 3.If player has very low cards (20<) and round is raised then fold (40%)
+      if (power[currentPlayer].hand <= 20 && isRaisedCurrently) {
+        const random = Math.floor(Math.random() * 100);
+        if (random <= 40) {
           setTimeout(() => {
             const temp = [...botInfo];
             temp[currentPlayer].hasFolded = true;
@@ -822,18 +863,15 @@ const Game = ({ botReactionTimeChoice }) => {
     if (round == 2) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      Raising: if (power[currentPlayer].power > 30) {
+      Raising: if (power[currentPlayer].power > 75) {
         // If the player has cards with over 75 power, then they have 35% to raise
-        console.log("throwing");
-        const random = Math.floor(Math.random() * 99);
+        const random = Math.floor(Math.random() * 100);
 
-        if (random < 100) {
+        if (random < 35) {
           const randomAmountToRaise = Math.floor(Math.random() * 350);
           if (randomAmountToRaise < currentCall) {
             break Raising;
           }
-
-          console.log("RAISING");
 
           setTimeout(() => {
             notificate(
@@ -873,12 +911,8 @@ const Game = ({ botReactionTimeChoice }) => {
   const checkWhichRound = () => {
     if (currentPlayer == nextRoundOnPlayer) {
       setCurrentCall(0);
+      setIsRaisedCurrently(false);
       setRound((prevRound) => prevRound + 1);
-      if (round == 4) {
-        resetHighlighting();
-        notificate("Let's see the cards!");
-        winner();
-      }
     }
   };
 

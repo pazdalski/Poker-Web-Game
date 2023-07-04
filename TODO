@@ -9,8 +9,8 @@ Todo:
   ✔ Fix raising additional rounds @done(23-07-03 08:53)
   ✔ Raising (player) @done(23-06-28 11:04)
   ✔ Player can win too @high @today @done(23-07-03 10:14)
+  ✔ Bugfix: raised call is still existin in the next round on turn 1 @done(23-07-04 08:39)
   ☐ Player cant go back to menu on round 2 and higher
-  ☐ Bugfix: raised call is still existin in the next round on turn 1
   
 
 
