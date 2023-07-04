@@ -12,7 +12,7 @@ import { cardsInfo } from "../../components/CardsInfo";
 import Notification from "../../components/Notification";
 import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
-import DevMode from "../../components/UserInterface/DevMode";
+// import DevMode from "../../components/UserInterface/DevMode";
 import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
 
 import playerSelectSFX from "../../assets/sfx/player-select.mp3";
@@ -87,6 +87,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     fold: false,
     call: false,
   });
+  const [isMenuButtonOn, setIsMenuButtonOn] = useState(true);
   const [playerRaise, setPlayerRaise] = useState(10);
   const [blackoutOnWinnings, setBlackoutOnWinnings] = useState(false);
   const [blackoutInfo, setBlackoutInfo] = useState("Highest card");
@@ -505,6 +506,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     setTimeout(() => {
       setBlackoutOnWinnings(true);
       setBotInfo(tempBotInfo);
+      setIsMenuButtonOn(true);
       setAvailableCards([...stableCards]);
       notificate(
         `${tempBotInfo[indexOfWinner].name} is the winner! $${totalPot} in winnings`
@@ -697,6 +699,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
     if (round == 2 && tableCards.length == 3) {
       sfx("card");
+      setIsMenuButtonOn(false);
       const randomNumber = Math.floor(Math.random() * availableCards.length);
       const randomCard = availableCards[randomNumber];
 
@@ -1186,7 +1189,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         playerRaise={playerRaise}
         playerCredits={botInfo[4].credits}
       />
-      <MenuButton />
+      <MenuButton isMenuButtonOn={isMenuButtonOn} />
       <Blackout
         blackoutOnWinnings={blackoutOnWinnings}
         blackoutInfo={blackoutInfo}

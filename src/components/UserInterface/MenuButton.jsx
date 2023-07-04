@@ -3,13 +3,14 @@ import React from "react";
 import "./UI.css";
 import { Link } from "react-router-dom";
 
-const MenuButton = () => {
+const MenuButton = ({ isMenuButtonOn }) => {
   return (
     <div className="menu-button">
-      <Link to={"/"}>
+      <Link to={isMenuButtonOn ? "/" : "/game"}>
         <Button
           color="primary"
-          variant="contained"
+          variant={isMenuButtonOn ? "contained" : "outlined"}
+          className={isMenuButtonOn ? "button-on" : "Mui-disabled"}
           sx={{ fontFamily: "Oswald", fontSize: "28px" }}
         >
           Menu
