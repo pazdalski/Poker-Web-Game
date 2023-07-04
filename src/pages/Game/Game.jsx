@@ -15,6 +15,14 @@ import Blackout from "../../components/UserInterface/Blackout";
 import DevMode from "../../components/UserInterface/DevMode";
 import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
 
+import playerSelectSFX from "../../assets/sfx/player-select.mp3";
+import winSFX from "../../assets/sfx/player-win.mp3";
+import cardSFX from "../../assets/sfx/new-card.mp3";
+import raiseSFX from "../../assets/sfx/raise.mp3";
+import newGameSFX from "../../assets/sfx/new-game.mp3";
+import botCall from "../../assets/sfx/call.wav";
+import botFold from "../../assets/sfx/fold.wav";
+
 const Game = ({ botReactionTimeChoice }) => {
   const stableCards = JSON.parse(JSON.stringify(cardsInfo)); //! Doesn't change over time
 
@@ -501,14 +509,46 @@ const Game = ({ botReactionTimeChoice }) => {
       notificate(
         `${tempBotInfo[indexOfWinner].name} is the winner! $${totalPot} in winnings`
       );
+      if (tempBotInfo[indexOfWinner].name == "Player") {
+        sfx("win");
+      }
     }, 1000);
 
     setTimeout(() => {
       nextGame();
     }, 6000);
   };
+  const sfx = (sound) => {
+    switch (sound) {
+      case "select":
+        new Audio(playerSelectSFX).play();
+        break;
+      case "win":
+        new Audio(winSFX).play();
+        break;
+      case "start":
+        new Audio(playerSelectSFX).play();
+        break;
+      case "card":
+        new Audio(cardSFX).play();
+        break;
+      case "raise":
+        new Audio(raiseSFX).play();
+        break;
+      case "newGame":
+        new Audio(newGameSFX).play();
+        break;
+      case "botCall":
+        new Audio(botCall).play();
+        break;
+      case "botFold":
+        new Audio(botFold).play();
+        break;
+    }
+  };
 
   const nextGame = () => {
+    sfx("newGame");
     const temp = [...botInfo];
     for (let i = 0; i < 5; i++) {
       temp[i].isRevealed = false;
@@ -654,6 +694,7 @@ const Game = ({ botReactionTimeChoice }) => {
     }
 
     if (round == 2 && tableCards.length == 3) {
+      sfx("card");
       const randomNumber = Math.floor(Math.random() * availableCards.length);
       const randomCard = availableCards[randomNumber];
 
@@ -666,6 +707,7 @@ const Game = ({ botReactionTimeChoice }) => {
       notificate("Next card on the table!");
     }
     if (round == 3 && tableCards.length == 4) {
+      sfx("card");
       const randomNumber = Math.floor(Math.random() * availableCards.length);
       const randomCard = availableCards[randomNumber];
 
@@ -705,6 +747,7 @@ const Game = ({ botReactionTimeChoice }) => {
     setNextRoundOnPlayer(nextRoundOnIndex);
     isPlayer ? console.log("") : notificateBot(`RAISED $${raise}`, "raise");
     setIsRaisedCurrently(true);
+    sfx("raise");
 
     if (nextRoundOnIndex == -1) {
       setNextRoundOnPlayer(4);
@@ -760,6 +803,7 @@ const Game = ({ botReactionTimeChoice }) => {
         const temp = [...botInfo];
         temp[4].credits = temp[4].credits - currentCall;
         setBotInfo(temp);
+        sfx("select");
 
         setTotalPot((prevPot) => prevPot + currentCall);
         anotherTurn();
@@ -769,6 +813,7 @@ const Game = ({ botReactionTimeChoice }) => {
         const temp = [...botInfo];
         temp[4].hasFolded = true;
         setBotInfo(temp);
+        sfx("select");
 
         anotherTurn();
         return;
@@ -777,6 +822,7 @@ const Game = ({ botReactionTimeChoice }) => {
         const temp = [...botInfo];
         temp[4].credits = temp[4].credits - playerRaise;
         setBotInfo(temp);
+        sfx("raise");
 
         setCurrentCall(playerRaise);
 
@@ -825,6 +871,7 @@ const Game = ({ botReactionTimeChoice }) => {
         const random = Math.floor(Math.random() * 100);
         if (random <= 25) {
           setTimeout(() => {
+            sfx("botFold");
             const temp = [...botInfo];
             temp[currentPlayer].hasFolded = true;
             notificateBot("FOLD", "fold");
@@ -860,6 +907,7 @@ const Game = ({ botReactionTimeChoice }) => {
         const random = Math.floor(Math.random() * 100);
         if (random <= 40) {
           setTimeout(() => {
+            sfx("botFold");
             const temp = [...botInfo];
             temp[currentPlayer].hasFolded = true;
             notificateBot("FOLD", "fold");
@@ -873,6 +921,7 @@ const Game = ({ botReactionTimeChoice }) => {
 
       // Default: Taking 10$ at the beginning of the game
       setTimeout(() => {
+        sfx("botCall");
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
         setTotalPot((prevPot) => prevPot + currentCall);
@@ -933,6 +982,7 @@ const Game = ({ botReactionTimeChoice }) => {
         const random = Math.floor(Math.random() * 100);
         if (random <= 35) {
           setTimeout(() => {
+            sfx("botFold");
             const temp = [...botInfo];
             temp[currentPlayer].hasFolded = true;
             notificateBot("FOLD", "fold");
@@ -946,6 +996,7 @@ const Game = ({ botReactionTimeChoice }) => {
 
       // Default: Calling the current amount
       setTimeout(() => {
+        sfx("botCall");
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
         setTotalPot((prevPot) => prevPot + currentCall);
@@ -958,6 +1009,7 @@ const Game = ({ botReactionTimeChoice }) => {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
       setTimeout(() => {
+        sfx("botCall");
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
         setTotalPot((prevPot) => prevPot + currentCall);
@@ -1003,7 +1055,6 @@ const Game = ({ botReactionTimeChoice }) => {
     // New random cards on new game
     randomCards();
   }, [game]);
-
   useEffect(() => {
     assignTableCards();
     setPlayersPower();
