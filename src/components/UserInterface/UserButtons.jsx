@@ -95,6 +95,7 @@ const UserButtons = ({
         sx={{ fontFamily: "Oswald", fontSize: "28px" }}
         onClick={() => {
           resetPlayerChoices();
+          setToggleSlider(false);
           currentBotAI("fold");
         }}
       >
@@ -113,6 +114,7 @@ const UserButtons = ({
         }}
         onClick={() => {
           resetPlayerChoices();
+          setToggleSlider(false);
           currentBotAI("call");
         }}
       >

@@ -872,6 +872,7 @@ const Game = ({ botReactionTimeChoice }) => {
 
   const checkWhichRound = () => {
     if (currentPlayer == nextRoundOnPlayer) {
+      setCurrentCall(0);
       setRound((prevRound) => prevRound + 1);
       if (round == 4) {
         resetHighlighting();
@@ -912,7 +913,7 @@ const Game = ({ botReactionTimeChoice }) => {
   useEffect(() => {
     assignTableCards();
     setPlayersPower();
-    round == 1 ? setCurrentCall(10) : setCurrentCall(0);
+    round == 1 && setCurrentCall(10);
 
     const temp = [...botNotification];
     // Reset notifications
