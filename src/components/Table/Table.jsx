@@ -3,11 +3,13 @@ import "./table.css";
 import Card from "../Card/Card";
 import logo from "../../assets/logo/logo-white.png";
 const CHIPS_INFO = [
-  "./chips/Group1.png",
-  "./chips/Group2.png",
-  "./chips/Group3.png",
-  "./chips/Group4.png",
-  "./chips/Group5.png",
+  "./chips/Group0.png",
+  "./chips/Group50.png",
+  "./chips/Group100.png",
+  "./chips/Group250.png",
+  "./chips/Group500.png",
+  "./chips/Group750.png",
+  "./chips/Group1000.png",
 ];
 
 const Table = ({ tableCards, totalPot }) => {
@@ -15,17 +17,19 @@ const Table = ({ tableCards, totalPot }) => {
   const [animatedChips, setAnimatedChips] = useState(false);
 
   const checkAmountOfChips = () => {
-    if (totalPot > 1000) {
+    if (totalPot >= 1000) {
+      setAmountOfChips(6);
+    } else if (totalPot >= 750) {
+      setAmountOfChips(5);
+    } else if (totalPot >= 500) {
       setAmountOfChips(4);
-    } else if (totalPot > 750) {
-      setAmountOfChips(4);
-    } else if (totalPot > 500) {
+    } else if (totalPot >= 250) {
       setAmountOfChips(3);
-    } else if (totalPot > 250) {
+    } else if (totalPot >= 100) {
       setAmountOfChips(2);
-    } else if (totalPot > 100) {
+    } else if (totalPot >= 50) {
       setAmountOfChips(1);
-    } else if (totalPot > 0) {
+    } else if (totalPot >= 0) {
       setAmountOfChips(0);
     }
   };

@@ -27,25 +27,25 @@ const playerTransform = {
   player1: {
     bottom: 0,
     left: "-80px",
-    transform: "rotateY(30deg) rotateX(10deg) scale(105%)",
+    transform: "rotateY(30deg) rotateX(25deg) scale(110%)",
     transition: "0.7s all",
   },
   player2: {
     top: 0,
     left: "-120px",
-    transform: "rotateY(30deg) rotateX(10deg) scale(105%)",
+    transform: "rotateY(30deg) rotateX(10deg) scale(110%)",
     transition: "0.7s all",
   },
   player3: {
     top: 0,
     right: "-80px",
-    transform: "rotateY(-30deg) rotateX(10deg) scale(105%)",
+    transform: "rotateY(-30deg) rotateX(10deg) scale(110%)",
     transition: "0.7s all",
   },
   player4: {
     bottom: 0,
     right: "-40px",
-    transform: "rotateY(-30deg) rotateX(10deg) scale(105%)",
+    transform: "rotateY(-30deg) rotateX(10deg) scale(110%)",
     transition: "0.7s all",
   },
 };

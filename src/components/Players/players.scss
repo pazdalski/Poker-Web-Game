@@ -50,6 +50,7 @@
   left: 0;
   box-shadow: 0 0 15px 5px #0c0c0c50;
   transform: rotate(10deg);
+  scale: 80%;
   animation: Bot-notification-animation 0.5s ease-in-out 1 forwards;
   &.type-fold {
     background: #353535;
@@ -65,5 +66,6 @@
   100% {
     opacity: 1;
     transform: translateY(-10px);
+    scale: 100%;
   }
 }

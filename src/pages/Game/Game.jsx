@@ -930,7 +930,7 @@ const Game = ({ botReactionTimeChoice }) => {
         anotherTurn();
       }, randomTimeout);
     }
-    // Possible actions for round 2: (more aggressive)
+    // Possible actions for round 2:
     // 1.Players have 30% chance of raising if their cards are (more than 75)
     // 2.2.Players have 35% chance of folding (if raised) if their cards are less than 55
     // 3. ?
@@ -961,7 +961,7 @@ const Game = ({ botReactionTimeChoice }) => {
         const random = Math.floor(Math.random() * 100);
 
         if (random < 30) {
-          const randomAmountToRaise = Math.floor(Math.random() * 350);
+          const randomAmountToRaise = Math.floor(Math.random() * 340) + 10;
           if (randomAmountToRaise < currentCall) {
             break Raising;
           }
@@ -1005,8 +1005,90 @@ const Game = ({ botReactionTimeChoice }) => {
         anotherTurn();
       }, randomTimeout);
     }
+    // Possible actions for round 3: (more aggressive)
+    // 1.Players have 20% chance of raising (max 400) if their cards are over 80 (Very good pair)
+    // 2.If player has very low cards (60<) and round is raised then fold (40%)
+    // 3.If players cards are over 108 they have 5% chance of trapping (500$-1200$ raising)
+    // 4.Players always have 5% chance of raising (max 200) (Bluff)
     if (round == 3) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
+
+      // 3.If players cards are over 108 they have 8% chance of trapping (450$-1100$ raising)
+      Raising: if (power[currentPlayer].power >= 108) {
+        const random = Math.floor(Math.random() * 100);
+
+        if (random < 8) {
+          const randomAmountToRaise = Math.floor(Math.random() * 650) + 450;
+          if (randomAmountToRaise < currentCall) {
+            break Raising;
+          }
+
+          setTimeout(() => {
+            notificate(
+              botInfo[currentPlayer].name +
+                " is raising to " +
+                randomAmountToRaise
+            );
+            raisePot(randomAmountToRaise, currentPlayer - 1);
+          }, randomTimeout);
+          return;
+        }
+      }
+      // 4.Players always have 5% chance of raising (max 200) (Bluff)
+      const random = Math.floor(Math.random() * 100);
+      Raising: if (random < 5) {
+        const randomAmountToRaise = Math.floor(Math.random() * 190) + 10;
+        if (randomAmountToRaise < currentCall) {
+          break Raising;
+        }
+
+        setTimeout(() => {
+          notificate(
+            botInfo[currentPlayer].name +
+              " is raising to " +
+              randomAmountToRaise
+          );
+          raisePot(randomAmountToRaise, currentPlayer - 1);
+        }, randomTimeout);
+        return;
+      }
+      // 1.Players have 20% chance of raising (max 400) if their cards are over 80 (Three of a kind)
+      Raising: if (power[currentPlayer].power >= 80) {
+        const random = Math.floor(Math.random() * 100);
+
+        if (random < 20) {
+          const randomAmountToRaise = Math.floor(Math.random() * 390) + 10;
+          if (randomAmountToRaise < currentCall) {
+            break Raising;
+          }
+
+          setTimeout(() => {
+            notificate(
+              botInfo[currentPlayer].name +
+                " is raising to " +
+                randomAmountToRaise
+            );
+            raisePot(randomAmountToRaise, currentPlayer - 1);
+          }, randomTimeout);
+          return;
+        }
+      }
+      // 2.If player has very low cards (60<) and round is raised then fold (40%)
+      if (power[currentPlayer].power <= 60 && isRaisedCurrently) {
+        const random = Math.floor(Math.random() * 100);
+        if (random <= 40) {
+          setTimeout(() => {
+            sfx("botFold");
+            const temp = [...botInfo];
+            temp[currentPlayer].hasFolded = true;
+            notificateBot("FOLD", "fold");
+            setBotInfo(temp);
+            notificate(botInfo[currentPlayer].name + " has folded!");
+            anotherTurn();
+          }, randomTimeout);
+          return;
+        }
+      }
 
       setTimeout(() => {
         sfx("botCall");
@@ -1108,14 +1190,14 @@ const Game = ({ botReactionTimeChoice }) => {
         blackoutInfo={blackoutInfo}
       />
       {notificationStatus && <Notification msg={notificationMessage} />}
-      <DevMode
+      {/* <DevMode
         turn={turn}
         currentPlayer={currentPlayer}
         nextRoundOnPlayer={nextRoundOnPlayer}
         round={round}
         power={power}
         currentCall={currentCall}
-      />
+      /> */}
       <PlayerTurnEffect isPlayerPlaying={botInfo[4].isPlaying} />
     </Container>
   );
