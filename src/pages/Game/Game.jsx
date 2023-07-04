@@ -562,6 +562,7 @@ const Game = ({ botReactionTimeChoice }) => {
     setRound(1);
     setTurn(1);
     setCurrentPlayer(0);
+    setNextRoundOnPlayer(4);
     setTotalPot(0);
     setTableCards([]);
     setPlayableCards([]);
@@ -732,6 +733,7 @@ const Game = ({ botReactionTimeChoice }) => {
       resetHighlighting();
       notificate("Who is the winner?");
       winner();
+      setCurrentCall(10);
       setPlayerChoices({
         raise: false,
         fold: false,
@@ -793,12 +795,31 @@ const Game = ({ botReactionTimeChoice }) => {
     }
 
     // Possible actions for round 1:
-    // 1.Players have 25% chance of folding if their cards are bad
-    // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
-    // 3.If player has very low cards (20<) and round is raised then fold (40%)
+    // 1.Players have 25% chance of folding if their hand are bad (less than 10)
+    // 2.Players have 10% chance of raising (max 100) if their hand are over 35 (Very good pair)
+    // 3.If player has very low hand (20<) and round is raised then fold (40%)
+    // 4.Players always have 1% chance of raising (max 50) (Bluff)
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
+      // 4.Players always have 1% chance of raising (Bluff)
+      const random = Math.floor(Math.random() * 100);
+      Raising: if (random < 1) {
+        const randomAmountToRaise = Math.floor(Math.random() * 39) + 11;
+        if (randomAmountToRaise < currentCall) {
+          break Raising;
+        }
+
+        setTimeout(() => {
+          notificate(
+            botInfo[currentPlayer].name +
+              " is raising to " +
+              randomAmountToRaise
+          );
+          raisePot(randomAmountToRaise, currentPlayer - 1);
+        }, randomTimeout);
+        return;
+      }
       // 1.Players have 25% chance of folding if their cards are bad (less than 10)
       if (power[currentPlayer].hand <= 10) {
         const random = Math.floor(Math.random() * 100);
@@ -850,7 +871,7 @@ const Game = ({ botReactionTimeChoice }) => {
         }
       }
 
-      // Taking 10$ at the beginning of the game
+      // Default: Taking 10$ at the beginning of the game
       setTimeout(() => {
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
@@ -860,14 +881,37 @@ const Game = ({ botReactionTimeChoice }) => {
         anotherTurn();
       }, randomTimeout);
     }
+    // Possible actions for round 2: (more aggressive)
+    // 1.Players have 30% chance of raising if their cards are (more than 75)
+    // 2.2.Players have 35% chance of folding (if raised) if their cards are less than 55
+    // 3. ?
+    // 4.Players always have 1% chance of raising (max 75) (Bluff)
     if (round == 2) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      Raising: if (power[currentPlayer].power > 75) {
-        // If the player has cards with over 75 power, then they have 35% to raise
+      // 4.Players always have 1% chance of raising (max 125) (Bluff)
+      const random = Math.floor(Math.random() * 100);
+      Raising: if (random < 1) {
+        const randomAmountToRaise = Math.floor(Math.random() * 115) + 10;
+        if (randomAmountToRaise < currentCall) {
+          break Raising;
+        }
+
+        setTimeout(() => {
+          notificate(
+            botInfo[currentPlayer].name +
+              " is raising to " +
+              randomAmountToRaise
+          );
+          raisePot(randomAmountToRaise, currentPlayer - 1);
+        }, randomTimeout);
+        return;
+      }
+      // 1.Players have 30% chance of raising if their cards are (more than 75)
+      Raising: if (power[currentPlayer].power >= 75) {
         const random = Math.floor(Math.random() * 100);
 
-        if (random < 35) {
+        if (random < 30) {
           const randomAmountToRaise = Math.floor(Math.random() * 350);
           if (randomAmountToRaise < currentCall) {
             break Raising;
@@ -884,7 +928,23 @@ const Game = ({ botReactionTimeChoice }) => {
           return;
         }
       }
+      // 2.Players have 35% chance of folding (if raised) if their cards are less than 55
+      if (power[currentPlayer].power <= 55 && isRaisedCurrently) {
+        const random = Math.floor(Math.random() * 100);
+        if (random <= 35) {
+          setTimeout(() => {
+            const temp = [...botInfo];
+            temp[currentPlayer].hasFolded = true;
+            notificateBot("FOLD", "fold");
+            setBotInfo(temp);
+            notificate(botInfo[currentPlayer].name + " has folded!");
+            anotherTurn();
+          }, randomTimeout);
+          return;
+        }
+      }
 
+      // Default: Calling the current amount
       setTimeout(() => {
         const temp = [...botInfo];
         temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
