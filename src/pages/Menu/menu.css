@@ -24,4 +24,21 @@
   height: 60px;
   opacity: 1;
   margin-top: 15px;
+}
+
+.table-menu {
+  width: 750px;
+  height: 500px;
+  rotate: -90deg;
+  box-shadow: 0 0 25px 5px black;
+  border: 25px solid #5e1b19;
+  border-radius: 2000px;
+  translate: 100px;
+}
+.table-menu .inner-table {
+  width: 700px;
+  height: 450px;
+  background: radial-gradient(circle, rgb(91, 108, 124) 0%, rgb(44, 69, 91) 80%);
+  border-radius: 2000px;
+  box-shadow: inset 0 0 25px 5px black;
 }/*# sourceMappingURL=menu.css.map */

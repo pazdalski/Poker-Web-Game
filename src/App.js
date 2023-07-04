@@ -6,6 +6,7 @@ import { useState } from "react";
 
 function App() {
   const [botReactionTimeChoice, setBotReactionTimeChoice] = useState("2");
+  const [isSoundOn, setIsSoundOn] = useState(true);
 
   return (
     <div className="App">
@@ -13,7 +14,12 @@ function App() {
         <Routes>
           <Route
             path="/game"
-            element={<Game botReactionTimeChoice={botReactionTimeChoice} />}
+            element={
+              <Game
+                botReactionTimeChoice={botReactionTimeChoice}
+                isSoundOn={isSoundOn}
+              />
+            }
           />
           <Route
             path="/"
@@ -21,6 +27,8 @@ function App() {
               <Menu
                 setBotReactionTimeChoice={setBotReactionTimeChoice}
                 botReactionTimeChoice={botReactionTimeChoice}
+                setIsSoundOn={setIsSoundOn}
+                isSoundOn={isSoundOn}
               />
             }
           />

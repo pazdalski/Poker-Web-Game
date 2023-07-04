@@ -23,7 +23,7 @@ import newGameSFX from "../../assets/sfx/new-game.mp3";
 import botCall from "../../assets/sfx/call.wav";
 import botFold from "../../assets/sfx/fold.wav";
 
-const Game = ({ botReactionTimeChoice }) => {
+const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   const stableCards = JSON.parse(JSON.stringify(cardsInfo)); //! Doesn't change over time
 
   const [totalPot, setTotalPot] = useState(0);
@@ -519,31 +519,33 @@ const Game = ({ botReactionTimeChoice }) => {
     }, 6000);
   };
   const sfx = (sound) => {
-    switch (sound) {
-      case "select":
-        new Audio(playerSelectSFX).play();
-        break;
-      case "win":
-        new Audio(winSFX).play();
-        break;
-      case "start":
-        new Audio(playerSelectSFX).play();
-        break;
-      case "card":
-        new Audio(cardSFX).play();
-        break;
-      case "raise":
-        new Audio(raiseSFX).play();
-        break;
-      case "newGame":
-        new Audio(newGameSFX).play();
-        break;
-      case "botCall":
-        new Audio(botCall).play();
-        break;
-      case "botFold":
-        new Audio(botFold).play();
-        break;
+    if (isSoundOn) {
+      switch (sound) {
+        case "select":
+          new Audio(playerSelectSFX).play();
+          break;
+        case "win":
+          new Audio(winSFX).play();
+          break;
+        case "start":
+          new Audio(playerSelectSFX).play();
+          break;
+        case "card":
+          new Audio(cardSFX).play();
+          break;
+        case "raise":
+          new Audio(raiseSFX).play();
+          break;
+        case "newGame":
+          new Audio(newGameSFX).play();
+          break;
+        case "botCall":
+          new Audio(botCall).play();
+          break;
+        case "botFold":
+          new Audio(botFold).play();
+          break;
+      }
     }
   };
 
