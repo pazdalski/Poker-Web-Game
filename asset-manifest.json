@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/Poker-Web-Game/static/css/main.6a9c0bb9.css",
+    "main.js": "/Poker-Web-Game/static/js/main.48c43ec8.js",
+    "static/media/poker-skull.png": "/Poker-Web-Game/static/media/poker-skull.c37ef1c54eb1ec929f89.png",
+    "static/media/fold.wav": "/Poker-Web-Game/static/media/fold.b279ffe4a4e0eb75cf80.wav",
+    "static/media/call.wav": "/Poker-Web-Game/static/media/call.668b382014bf40140775.wav",
+    "static/media/hierarchy.jpg": "/Poker-Web-Game/static/media/hierarchy.b8d21e361e4bfdff0bd5.jpg",
+    "static/media/bot3.png": "/Poker-Web-Game/static/media/bot3.41cda62e50761a1f212d.png",
+    "static/media/bot2.png": "/Poker-Web-Game/static/media/bot2.415d15b596c76f825eac.png",
+    "static/media/game-over.mp3": "/Poker-Web-Game/static/media/game-over.59d0e92f3db8a7aa0170.mp3",
+    "static/media/bot4.png": "/Poker-Web-Game/static/media/bot4.cd6b59370d60265a7956.png",
+    "static/media/bot1.png": "/Poker-Web-Game/static/media/bot1.ed1845221e078a170024.png",
+    "static/media/new-game.mp3": "/Poker-Web-Game/static/media/new-game.b6ba29659cf55d571cc0.mp3",
+    "static/media/victory.mp3": "/Poker-Web-Game/static/media/victory.34dc655d42aad8ed7ec9.mp3",
+    "static/media/favicon.png": "/Poker-Web-Game/static/media/favicon.1681a8364fb3eada8d7b.png",
+    "static/media/raise.mp3": "/Poker-Web-Game/static/media/raise.a26d838cb9e87f377a46.mp3",
+    "static/media/player-win.mp3": "/Poker-Web-Game/static/media/player-win.3500ed0940d1a3c79bc9.mp3",
+    "static/media/poker-crown.png": "/Poker-Web-Game/static/media/poker-crown.5e068e617b93a8f32745.png",
+    "static/media/logo-white.png": "/Poker-Web-Game/static/media/logo-white.096ffd47c26c009246ce.png",
+    "static/media/new-card.mp3": "/Poker-Web-Game/static/media/new-card.6674d11d00ebfe1f28db.mp3",
+    "static/media/player-select.mp3": "/Poker-Web-Game/static/media/player-select.b070217cc3ec9826fd89.mp3",
+    "index.html": "/Poker-Web-Game/index.html",
+    "main.6a9c0bb9.css.map": "/Poker-Web-Game/static/css/main.6a9c0bb9.css.map",
+    "main.48c43ec8.js.map": "/Poker-Web-Game/static/js/main.48c43ec8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6a9c0bb9.css",
+    "static/js/main.48c43ec8.js"
+  ]
+}
