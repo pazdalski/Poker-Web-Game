@@ -40,7 +40,7 @@ const HierarchyHelp = () => {
       </Card>
       <Card
         className="hierarchy-help-card"
-        sx={helpVisible && { right: "40px" }}
+        sx={helpVisible && { right: "40px" }} // todo there is a warning in console
         elevation={20}
       >
         <img

@@ -24,7 +24,7 @@ const UserCards = ({ playerCards, isPlayerOut, didPlayerWin }) => {
             className={`user-card-revealed ${
               isPlayerOut && "user-card-image-folded"
             }`}
-            alt=""
+            alt="Player's card one"
           />
           <div className="shiny-texture"></div>
         </div>
@@ -38,7 +38,7 @@ const UserCards = ({ playerCards, isPlayerOut, didPlayerWin }) => {
             className={`user-card-revealed ${
               isPlayerOut && "user-card-image-folded"
             }`}
-            alt=""
+            alt="Player's card two"
           />
           <div className="shiny-texture"></div>
         </div>

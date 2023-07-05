@@ -12,7 +12,6 @@ import { cardsInfo } from "../../components/CardsInfo";
 import Notification from "../../components/Notification";
 import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
-// import DevMode from "../../components/UserInterface/DevMode";
 import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
 
 import playerSelectSFX from "../../assets/sfx/player-select.mp3";
@@ -100,7 +99,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Crawler",
       credits: 10000,
       cards: [], //Placeholder
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -109,7 +108,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Ally Alien",
       credits: 10000,
       cards: [],
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -118,7 +117,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Dino",
       credits: 10000,
       cards: [],
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -127,7 +126,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       name: "Mummy",
       credits: 10000,
       cards: [],
-      isRevealed: true,
+      isRevealed: false,
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
@@ -218,11 +217,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       if (duplicateElements.length == 1) {
         const givenPower = Number(duplicateElements[0].power) * 2 + 11; // 15-39
 
-        console.log(
-          "ONE PAIR FOUND for: " +
-            power[i].name +
-            ` assigning ${givenPower} power`
-        );
         temp[i].power = givenPower;
       }
       if (duplicateElements.length == 2) {
@@ -231,13 +225,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           11 +
           Number(duplicateElements[1].power) * 2 +
           11 +
-          8; // 40-84 (Adding single pair parameters and additional 8 to make it better than 1 pair)
+          8; // 40-84 Counting power of 2 pairs and adding 8 to them to make them better than one pair
 
-        console.log(
-          "TWO PAIRS FOUND for: " +
-            power[i].name +
-            ` assigning ${givenPower} power`
-        );
         temp[i].power = givenPower;
       }
       if (duplicateElements.length == 3) {
@@ -258,11 +247,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           11 +
           8; // 40-76 (Adding single pair parameters and additional 8 to make it better than 1 pair)
         // It is the same as 2 pairs but there is no combination as three pairs, so i have to sort it out
-        console.log(
-          "THREE PAIRS FOUND (taking 2 highest) for: " +
-            power[i].name +
-            ` assigning ${givenPower} power`
-        );
         temp[i].power = givenPower;
       }
 
@@ -270,27 +254,27 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
       //# THREE OF A KIND/ FOUR OF A KIND/ FULL HOUSE
 
-      const duplicateElements3 = [];
-      const uniquePowers3 = [];
+      const duplicateElementsThreeAndMore = [];
+      const uniquePowersThreeAndMore = [];
 
       for (let i = 0; i < allCards.length; i++) {
         const power = allCards[i].power;
         // If unique power has checked power
-        if (uniquePowers3.includes(power)) {
+        if (uniquePowersThreeAndMore.includes(power)) {
           // If duplicateElements doesn't contain card, then add
-          if (!duplicateElements3.includes(allCards[i])) {
-            duplicateElements3.push(allCards[i]);
+          if (!duplicateElementsThreeAndMore.includes(allCards[i])) {
+            duplicateElementsThreeAndMore.push(allCards[i]);
           }
         } else {
           // Add to uniquePowers if its unique
-          uniquePowers3.push(power);
+          uniquePowersThreeAndMore.push(power);
         }
       }
 
-      if (duplicateElements3.length >= 2) {
-        if (duplicateElements3.length >= 3) {
+      if (duplicateElementsThreeAndMore.length >= 2) {
+        if (duplicateElementsThreeAndMore.length >= 3) {
           //? Full House
-          const sorted = duplicateElements3.sort((a, b) => {
+          const sorted = duplicateElementsThreeAndMore.sort((a, b) => {
             if (Number(b.power) > Number(a.power)) {
               return 1;
             } else {
@@ -313,24 +297,19 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
             if (temp[i].power < givenPower) {
               // If current power is less than the given power assign it
               temp[i].power = givenPower;
-              console.log(
-                "FULL HOUSE FOUND for: " +
-                  botInfo[i].name +
-                  ` Assigning ${givenPower} power`
-              );
             }
           }
         }
 
         const counter = {};
         // Iterating through data and counting the number of times when power is detected
-        duplicateElements3.forEach((item) => {
+        duplicateElementsThreeAndMore.forEach((item) => {
           const power = item.power;
           counter[power] = (counter[power] || 0) + 1;
         });
 
         // Filtering the data, leaves only elements which have at least two appearance
-        const filteredData = duplicateElements3.filter(
+        const filteredData = duplicateElementsThreeAndMore.filter(
           (item) => counter[item.power] >= 2
         );
 
@@ -340,12 +319,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
-
-            console.log(
-              "THREE OF A KIND for: " +
-                botInfo[i].name +
-                ` Assigning ${givenPower} power`
-            );
           }
         }
         if (filteredData.length == 3) {
@@ -354,33 +327,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
-
-            console.log(
-              "FOUR OF A KIND for: " +
-                botInfo[i].name +
-                ` Assigning ${givenPower} power`
-            );
-          }
-        }
-        if (filteredData.length == 4) {
-          //? 2x THREE OF A KIND
-          const sorted = duplicateElements3.sort((a, b) => {
-            if (Number(b.power) > Number(a.power)) {
-              return 1;
-            } else {
-              return -1;
-            }
-          });
-          const givenPower = Number(sorted[0].power) * 3 + 79; //85-121
-          if (temp[i].power < givenPower) {
-            // If current power is less than the given power assign it
-            temp[i].power = givenPower;
-
-            console.log(
-              "2x THREE OF A KIND for: " +
-                botInfo[i].name +
-                ` Assigning ${givenPower} power`
-            );
           }
         }
       }
@@ -393,12 +339,12 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
       function getOccurrence(array, category) {
         allCards.forEach((c) => {
+          // Counting appearance of cards with same category
           if (c.category == category) {
             array.push(c);
           }
         });
       }
-
       getOccurrence(duplicatedHearts, "hearts");
       getOccurrence(duplicatedSpades, "spades");
       getOccurrence(duplicatedDiamonds, "diamonds");
@@ -408,20 +354,20 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         flushCategory = duplicatedHearts;
       }
       if (duplicatedSpades.length >= 5) {
-        flushCategory = duplicatedHearts;
+        flushCategory = duplicatedSpades;
       }
       if (duplicatedDiamonds.length >= 5) {
-        flushCategory = duplicatedHearts;
+        flushCategory = duplicatedDiamonds;
       }
       if (duplicatedClubs.length >= 5) {
-        flushCategory = duplicatedHearts;
-      }
+        flushCategory = duplicatedClubs;
+      } // Setting category with highest number of duplicates to flushCategory
 
       if (flushCategory.length >= 5) {
         flushCategory.sort((a, b) => {
           return b.power - a.power;
         });
-        console.log(flushCategory);
+
         const givenPower =
           Number(flushCategory[0].power) +
           Number(flushCategory[1].power) +
@@ -433,10 +379,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         if (temp[i].power < givenPower) {
           // If current power is less than the given power assign it
           temp[i].power = givenPower;
-
-          console.log(
-            "FLUSH for: " + botInfo[i].name + ` Assigning ${givenPower} power`
-          );
         }
       }
 
@@ -491,11 +433,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
           if (isStraightFlush) {
             temp[i].power = temp[i].power + 171;
-            console.log(
-              "STRAIGHT FLUSH for: " +
-                botInfo[i].name +
-                ` Assigning ${temp[i].power} power`
-            );
           }
         }
       });

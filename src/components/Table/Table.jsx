@@ -10,6 +10,9 @@ const CHIPS_INFO = [
   "./chips/Group500.png",
   "./chips/Group750.png",
   "./chips/Group1000.png",
+  "./chips/Group2500.png",
+  "./chips/Group5000.png",
+  "./chips/Group10000.png",
 ];
 
 const Table = ({ tableCards, totalPot }) => {
@@ -17,7 +20,13 @@ const Table = ({ tableCards, totalPot }) => {
   const [animatedChips, setAnimatedChips] = useState(false);
 
   const checkAmountOfChips = () => {
-    if (totalPot >= 1000) {
+    if (totalPot >= 10000) {
+      setAmountOfChips(9);
+    } else if (totalPot >= 5000) {
+      setAmountOfChips(8);
+    } else if (totalPot >= 2500) {
+      setAmountOfChips(7);
+    } else if (totalPot >= 100) {
       setAmountOfChips(6);
     } else if (totalPot >= 750) {
       setAmountOfChips(5);
