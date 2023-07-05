@@ -13,6 +13,7 @@ import Notification from "../../components/UserInterface/Notification";
 import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
 import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
+import PlayerLost from "../../components/UserInterface/PlayerLost";
 
 import playerSelectSFX from "../../assets/sfx/player-select.mp3";
 import winSFX from "../../assets/sfx/player-win.mp3";
@@ -21,6 +22,7 @@ import raiseSFX from "../../assets/sfx/raise.mp3";
 import newGameSFX from "../../assets/sfx/new-game.mp3";
 import botCall from "../../assets/sfx/call.wav";
 import botFold from "../../assets/sfx/fold.wav";
+import gameOver from "../../assets/sfx/game-over.mp3";
 
 const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   const stableCards = JSON.parse(JSON.stringify(cardsInfo)); //! Doesn't change over time
@@ -545,13 +547,25 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         case "botFold":
           new Audio(botFold).play();
           break;
+        case "gameOver":
+          new Audio(gameOver).play();
+          break;
       }
     }
   };
 
   const nextGame = () => {
-    sfx("newGame");
     const temp = [...botInfo];
+    if (botInfo[4].credits <= 0) {
+      //Player lost
+      sfx("gameOver");
+      botInfo[4].isOut = true;
+      setBlackoutOnWinnings(false);
+      setBotInfo(temp);
+      return;
+    }
+    sfx("newGame");
+
     for (let i = 0; i < 5; i++) {
       temp[i].isRevealed = false;
       temp[i].isPlaying = false;
@@ -720,10 +734,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   const raisePot = (raise, nextRoundOnIndex, isPlayer) => {
     let raisedAmount = raise;
     const temp = [...botInfo];
-
     //# All in
     if (botInfo[currentPlayer].credits - raisedAmount <= 0) {
-      console.log("All in");
       raisedAmount = botInfo[currentPlayer].credits;
       temp[currentPlayer].isAllIn = true;
 
@@ -762,10 +774,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       anotherTurn();
       return;
     }
-    if (botInfo[currentPlayer].isAllIn) {
-      anotherTurn();
-      return;
-    }
+
     let randomTimeout =
       Math.floor(Math.random() * botsReactionTime[botReactionTimeChoice].max) +
       botsReactionTime[botReactionTimeChoice].min;
@@ -779,6 +788,11 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         fold: false,
         call: false,
       });
+      return;
+    }
+    if (botInfo[currentPlayer].isAllIn) {
+      anotherTurn();
+      checkWhichRound();
       return;
     }
 
@@ -1201,6 +1215,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       />
       {notificationStatus && <Notification msg={notificationMessage} />}
       <PlayerTurnEffect isPlayerPlaying={botInfo[4].isPlaying} />
+      {botInfo[4].isOut && <PlayerLost />}
     </Container>
   );
 };
