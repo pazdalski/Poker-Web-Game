@@ -381,7 +381,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           Number(flushCategory[2].power) +
           Number(flushCategory[3].power) +
           Number(flushCategory[4].power) +
-          110; //123 - 177
+          118; //131 - 185
 
         if (temp[i].power < givenPower) {
           // If current power is less than the given power assign it
@@ -472,7 +472,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       setBlackoutInfo("THREE OF A KIND");
     } else if (powerOfTheWinner <= 130) {
       setBlackoutInfo("STRAIGHT");
-    } else if (powerOfTheWinner <= 186) {
+    } else if (powerOfTheWinner <= 185) {
       setBlackoutInfo("FLUSH");
     } else if (powerOfTheWinner <= 243) {
       setBlackoutInfo("FULL HOUSE");
@@ -850,7 +850,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     }
     // Possible actions for round 1:
     // 1.Players have 25% chance of folding if their cards are bad (less than 10)
-    // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
+    // 2.Players have 20% chance of raising (max 100) if their cards are over 35 (Very good pair)
     // 3.If player has very low cards (20<) and round is raised then fold (40%)
     // 4.Players always have 3% chance of raising (max 50) (Bluff)
     if (round == 1) {
@@ -890,10 +890,10 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           return;
         }
       }
-      // 2.Players have 15% chance of raising (max 100) if their cards are over 35 (Very good pair)
+      // 2.Players have 20% chance of raising (max 100) if their cards are over 35 (Very good pair)
       Raising: if (power[currentPlayer].power >= 35) {
         const random = Math.floor(Math.random() * 100);
-        if (random < 15) {
+        if (random < 20) {
           const randomAmountToRaise = Math.floor(Math.random() * 89) + 11;
           if (randomAmountToRaise < currentCall) {
             break Raising;
@@ -951,13 +951,13 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     // 1.Players have 50% chance of raising if their cards are (more than 75)
     // 2.2.Players have 35% chance of folding (if raised) if their cards are less than 55
     // 3. ?
-    // 4.Players always have 5% chance of raising (max 75) (Bluff)
+    // 4.Players always have 8% chance of raising (max 75) (Bluff)
     if (round == 2) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // 4.Players always have 5% chance of raising (max 125) (Bluff)
+      // 4.Players always have 8% chance of raising (max 125) (Bluff)
       const random = Math.floor(Math.random() * 100);
-      Raising: if (random < 5) {
+      Raising: if (random < 8) {
         const randomAmountToRaise = Math.floor(Math.random() * 115) + 10;
         if (randomAmountToRaise < currentCall) {
           break Raising;
@@ -1166,6 +1166,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     randomCards();
   }, [game]);
   useEffect(() => {
+    console.table(power);
     assignTableCards();
     setPlayersPower();
     round == 1 && setCurrentCall(10);
