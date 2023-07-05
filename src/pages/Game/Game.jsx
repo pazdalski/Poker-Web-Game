@@ -145,35 +145,30 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   const [power, setPower] = useState([
     {
       name: "Crawler",
-      hand: 0,
       kicker: 0,
       power: 0,
       index: 0,
     },
     {
       name: "Ally Alien",
-      hand: 0,
       kicker: 0,
       power: 0,
       index: 1,
     },
     {
       name: "Dino",
-      hand: 0,
       kicker: 0,
       power: 0,
       index: 2,
     },
     {
       name: "Mummy",
-      hand: 0,
       kicker: 0,
       power: 0,
       index: 3,
     },
     {
       name: "Player",
-      hand: 0,
       kicker: 0,
       power: 0,
       index: 4,
@@ -490,10 +485,19 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     tempBotInfo[indexOfWinner].isWinner = true;
     tempBotInfo[indexOfWinner].credits =
       tempBotInfo[indexOfWinner].credits + totalPot;
-    tempBotInfo[0].isRevealed = true;
-    tempBotInfo[1].isRevealed = true;
-    tempBotInfo[2].isRevealed = true;
-    tempBotInfo[3].isRevealed = true;
+
+    if (tempBotInfo[0].hasFolded == false) {
+      tempBotInfo[0].isRevealed = true;
+    }
+    if (tempBotInfo[1].hasFolded == false) {
+      tempBotInfo[1].isRevealed = true;
+    }
+    if (tempBotInfo[2].hasFolded == false) {
+      tempBotInfo[2].isRevealed = true;
+    }
+    if (tempBotInfo[3].hasFolded == false) {
+      tempBotInfo[3].isRevealed = true;
+    }
 
     setTimeout(() => {
       setBlackoutOnWinnings(true);
@@ -508,9 +512,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       }
     }, 1000);
 
-    setTimeout(() => {
-      nextGame();
-    }, 6000);
+    setTimeout(nextGame, 6000);
   };
   const sfx = (sound) => {
     if (isSoundOn) {
@@ -606,34 +608,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     setGame((prevGame) => prevGame + 1);
   };
 
-  const setHandPower = () => {
-    for (let i = 0; i < 4; i++) {
-      const cards = botInfo[i].cards;
-
-      for (let j = 0; j < 2; j++) {
-        const temp = [...power];
-
-        temp[i].hand = temp[i].hand + Number(cards[j].power);
-        setPower(temp);
-      }
-      if (cards[0].card == cards[1].card) {
-        const temp = [...power];
-        temp[i].hand = 35; // PAIR IN HAND FOUNDED;
-        setPower(temp);
-      }
-      if (cards[0].card == "K" && cards[1].card == "K") {
-        const temp = [...power];
-        temp[i].hand = 45; // KING PAIR IN HAND FOUNDED;
-        setPower(temp);
-      }
-      if (cards[0].card == "A" && cards[1].card == "A") {
-        const temp = [...power];
-        temp[i].hand = 50; // ACE PAIR IN HAND FOUNDED;
-        setPower(temp);
-      }
-    }
-  };
-
   const notificate = (msg) => {
     setNotificationStatus(false);
 
@@ -671,7 +645,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     if (!tableCards?.length) {
       notificate("Let's play");
 
-      setHandPower();
+      // setHandPower();
 
       for (let i = 0; i < 3; i++) {
         const randomNumber = Math.floor(Math.random() * availableCards.length);
@@ -838,9 +812,9 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     }
 
     // Possible actions for round 1:
-    // 1.Players have 25% chance of folding if their hand are bad (less than 10)
-    // 2.Players have 10% chance of raising (max 100) if their hand are over 35 (Very good pair)
-    // 3.If player has very low hand (20<) and round is raised then fold (40%)
+    // 1.Players have 25% chance of folding if their cards are bad (less than 10)
+    // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
+    // 3.If player has very low cards (20<) and round is raised then fold (40%)
     // 4.Players always have 1% chance of raising (max 50) (Bluff)
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
@@ -863,8 +837,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         }, randomTimeout);
         return;
       }
-      // 1.Players have 25% chance of folding if their cards are bad (less than 10)
-      if (power[currentPlayer].hand <= 10) {
+      // 1.Players have 25% chance of folding if their cards are bad (less than 20)
+      if (power[currentPlayer].power <= 20) {
         const random = Math.floor(Math.random() * 100);
         if (random <= 25) {
           setTimeout(() => {
@@ -880,7 +854,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         }
       }
       // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
-      Raising: if (power[currentPlayer].hand >= 35) {
+      Raising: if (power[currentPlayer].power >= 35) {
         const random = Math.floor(Math.random() * 100);
         if (random < 10) {
           const randomAmountToRaise = Math.floor(Math.random() * 89) + 11;
@@ -900,7 +874,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         }
       }
       // 3.If player has very low cards (20<) and round is raised then fold (40%)
-      if (power[currentPlayer].hand <= 20 && isRaisedCurrently) {
+      if (power[currentPlayer].power <= 20 && isRaisedCurrently) {
         const random = Math.floor(Math.random() * 100);
         if (random <= 40) {
           setTimeout(() => {
@@ -1131,7 +1105,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   }, [turn]);
 
   useEffect(() => {
-    // New random cards on new game
     randomCards();
   }, [game]);
   useEffect(() => {
@@ -1187,14 +1160,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         blackoutInfo={blackoutInfo}
       />
       {notificationStatus && <Notification msg={notificationMessage} />}
-      {/* <DevMode
-        turn={turn}
-        currentPlayer={currentPlayer}
-        nextRoundOnPlayer={nextRoundOnPlayer}
-        round={round}
-        power={power}
-        currentCall={currentCall}
-      /> */}
       <PlayerTurnEffect isPlayerPlaying={botInfo[4].isPlaying} />
     </Container>
   );
