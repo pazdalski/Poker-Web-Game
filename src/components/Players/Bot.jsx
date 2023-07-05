@@ -18,6 +18,7 @@ const Bot = ({
   hasFolded,
   isWinner,
   isOut,
+  isAllIn,
   botNotification,
 }) => {
   return (
@@ -37,8 +38,8 @@ const Bot = ({
           <Typography variant="h6" fontWeight={"bold"} color="white">
             {name}
           </Typography>
-          <Typography variant="subtitle1" color="white">
-            ${cash}
+          <Typography variant="subtitle1" color={isAllIn ? `#d68b35` : `white`}>
+            {isAllIn ? "ALL IN" : `$${cash}`}
           </Typography>
         </Stack>
         <div className="cards-container">

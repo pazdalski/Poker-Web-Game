@@ -96,6 +96,7 @@ const Players = ({ botInfo, botNotification }) => {
         hasFolded={botInfo[0].hasFolded}
         isWinner={botInfo[0].isWinner}
         isOut={botInfo[0].isOut}
+        isAllIn={botInfo[0].isAllIn}
         botNotification={botNotification[0]}
       />
       <Bot
@@ -113,6 +114,7 @@ const Players = ({ botInfo, botNotification }) => {
         hasFolded={botInfo[1].hasFolded}
         isWinner={botInfo[1].isWinner}
         isOut={botInfo[1].isOut}
+        isAllIn={botInfo[1].isAllIn}
         botNotification={botNotification[1]}
       />
       <Bot
@@ -130,6 +132,7 @@ const Players = ({ botInfo, botNotification }) => {
         hasFolded={botInfo[2].hasFolded}
         isWinner={botInfo[2].isWinner}
         isOut={botInfo[2].isOut}
+        isAllIn={botInfo[2].isAllIn}
         botNotification={botNotification[2]}
       />
       <Bot
@@ -147,6 +150,7 @@ const Players = ({ botInfo, botNotification }) => {
         hasFolded={botInfo[3].hasFolded}
         isWinner={botInfo[3].isWinner}
         isOut={botInfo[3].isOut}
+        isAllIn={botInfo[3].isAllIn}
         botNotification={botNotification[3]}
       />
     </div>
