@@ -144,7 +144,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     },
     {
       name: "Player",
-      credits: 50000,
+      credits: 10000,
       cards: [],
       isRevealed: false,
       isPlaying: false,
