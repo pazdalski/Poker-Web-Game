@@ -22,7 +22,7 @@ const GameOver = ({ message, win }) => {
       >
         {message}
       </Typography>
-      <Link to={"/Poker-Web-Game/"}>
+      <Link to={"/"}>
         <Button variant="contained" color="error" sx={{ width: "150px" }}>
           Menu
         </Button>

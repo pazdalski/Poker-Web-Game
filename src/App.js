@@ -10,30 +10,28 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/Poker-Web-Game/game"
-            element={
-              <Game
-                botReactionTimeChoice={botReactionTimeChoice}
-                isSoundOn={isSoundOn}
-              />
-            }
-          />
-          <Route
-            path="/Poker-Web-Game/"
-            element={
-              <Menu
-                setBotReactionTimeChoice={setBotReactionTimeChoice}
-                botReactionTimeChoice={botReactionTimeChoice}
-                setIsSoundOn={setIsSoundOn}
-                isSoundOn={isSoundOn}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route
+          path="/game"
+          element={
+            <Game
+              botReactionTimeChoice={botReactionTimeChoice}
+              isSoundOn={isSoundOn}
+            />
+          }
+        />
+        <Route
+          path="/"
+          element={
+            <Menu
+              setBotReactionTimeChoice={setBotReactionTimeChoice}
+              botReactionTimeChoice={botReactionTimeChoice}
+              setIsSoundOn={setIsSoundOn}
+              isSoundOn={isSoundOn}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }
