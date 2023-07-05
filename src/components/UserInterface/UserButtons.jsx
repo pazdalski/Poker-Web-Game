@@ -20,6 +20,7 @@ const UserButtons = ({
   };
 
   const [toggleSlider, setToggleSlider] = useState(false);
+  const minRaise = currentCall > playerRaise ? currentCall + 25 : playerRaise;
   return (
     <Stack className="user-buttons-container" direction={"row"} gap={"20px"}>
       <Slider
@@ -28,10 +29,10 @@ const UserButtons = ({
         valueLabelDisplay="auto"
         step={25}
         className="raise-slider"
-        min={25}
+        min={currentCall + 25}
         max={playerCredits}
         color="success"
-        value={playerRaise}
+        value={minRaise}
         sx={{
           position: "absolute",
           left: "50px",
@@ -93,7 +94,7 @@ const UserButtons = ({
       >
         Raise
         <Typography variant="h6" fontWeight={"400"} color="#e0e0e0">
-          {playerChoices.raise && playerCredits !== 0 ? playerRaise : ""}
+          {playerChoices.raise && playerCredits !== 0 ? minRaise : ""}
         </Typography>
       </Button>
       <Button
