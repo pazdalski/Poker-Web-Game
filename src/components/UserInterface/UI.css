@@ -100,18 +100,40 @@
   align-items: center;
   justify-content: center;
   background: rgba(12, 12, 12, 0.6);
-  -webkit-backdrop-filter: blur(0px);
-          backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: grayscale(0%) blur(0px);
+          backdrop-filter: grayscale(0%) blur(0px);
   z-index: 999;
   opacity: 0;
   animation: player-lost-animation 2s ease-in 1 forwards;
 }
 
+.player-win {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(12, 12, 12, 0.6);
+  -webkit-backdrop-filter: grayscale(0%) blur(0px);
+          backdrop-filter: grayscale(0%) blur(0px);
+  z-index: 999;
+  opacity: 0;
+  animation: player-win-animation 2s ease-in 1 forwards;
+}
+
 @keyframes player-lost-animation {
   100% {
     opacity: 1;
-    -webkit-backdrop-filter: blur(10px);
-            backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: grayscale(100%) blur(10px);
+            backdrop-filter: grayscale(100%) blur(10px);
+  }
+}
+@keyframes player-win-animation {
+  100% {
+    opacity: 1;
+    -webkit-backdrop-filter: blur(15px) brightness(120%);
+            backdrop-filter: blur(15px) brightness(120%);
   }
 }
 .player-turn-effect {

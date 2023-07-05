@@ -95,7 +95,7 @@
     }
   }
 }
-.player-lost {
+@mixin gameOverBoard {
   position: absolute;
   width: 100vw;
   height: 100vh;
@@ -103,15 +103,28 @@
   align-items: center;
   justify-content: center;
   background: #0c0c0c99;
-  backdrop-filter: blur(0px);
+  backdrop-filter: grayscale(0%) blur(0px);
   z-index: 999;
   opacity: 0;
+}
+.player-lost {
+  @include gameOverBoard;
   animation: player-lost-animation 2s ease-in 1 forwards;
+}
+.player-win {
+  @include gameOverBoard;
+  animation: player-win-animation 2s ease-in 1 forwards;
 }
 @keyframes player-lost-animation {
   100% {
     opacity: 1;
-    backdrop-filter: blur(10px);
+    backdrop-filter: grayscale(100%) blur(10px);
+  }
+}
+@keyframes player-win-animation {
+  100% {
+    opacity: 1;
+    backdrop-filter: blur(15px) brightness(120%);
   }
 }
 

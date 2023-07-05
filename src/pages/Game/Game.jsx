@@ -13,7 +13,7 @@ import Notification from "../../components/UserInterface/Notification";
 import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
 import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
-import PlayerLost from "../../components/UserInterface/PlayerLost";
+import GameOver from "../../components/UserInterface/GameOver";
 
 import playerSelectSFX from "../../assets/sfx/player-select.mp3";
 import winSFX from "../../assets/sfx/player-win.mp3";
@@ -23,6 +23,7 @@ import newGameSFX from "../../assets/sfx/new-game.mp3";
 import botCall from "../../assets/sfx/call.wav";
 import botFold from "../../assets/sfx/fold.wav";
 import gameOver from "../../assets/sfx/game-over.mp3";
+import victory from "../../assets/sfx/victory.mp3";
 
 const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   const stableCards = JSON.parse(JSON.stringify(cardsInfo)); //! Doesn't change over time
@@ -151,6 +152,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       isWinner: false,
       isAllIn: false,
       isOut: false,
+      hasWonGame: false,
     },
   ]);
 
@@ -550,6 +552,9 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         case "gameOver":
           new Audio(gameOver).play();
           break;
+        case "victory":
+          new Audio(victory).play();
+          break;
       }
     }
   };
@@ -560,6 +565,14 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       //Player lost
       sfx("gameOver");
       botInfo[4].isOut = true;
+      setBlackoutOnWinnings(false);
+      setBotInfo(temp);
+      return;
+    }
+    if (botInfo[4].credits >= 50000) {
+      //Player lost
+      sfx("victory");
+      botInfo[4].hasWonGame = true;
       setBlackoutOnWinnings(false);
       setBotInfo(temp);
       return;
@@ -778,7 +791,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     let randomTimeout =
       Math.floor(Math.random() * botsReactionTime[botReactionTimeChoice].max) +
       botsReactionTime[botReactionTimeChoice].min;
-    if (round == 4) {
+    if (round >= 4) {
       resetHighlighting();
       notificate("Who is the winner?");
       winner();
@@ -860,7 +873,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       const random = Math.floor(Math.random() * 100);
       Raising: if (random < 3) {
         const randomAmountToRaise = Math.floor(Math.random() * 39) + 11;
-        if (randomAmountToRaise < currentCall) {
+        if (randomAmountToRaise <= currentCall) {
           break Raising;
         }
 
@@ -895,7 +908,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         const random = Math.floor(Math.random() * 100);
         if (random < 20) {
           const randomAmountToRaise = Math.floor(Math.random() * 89) + 11;
-          if (randomAmountToRaise < currentCall) {
+          if (randomAmountToRaise <= currentCall) {
             break Raising;
           }
 
@@ -959,7 +972,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       const random = Math.floor(Math.random() * 100);
       Raising: if (random < 8) {
         const randomAmountToRaise = Math.floor(Math.random() * 115) + 10;
-        if (randomAmountToRaise < currentCall) {
+        if (randomAmountToRaise <= currentCall) {
           break Raising;
         }
 
@@ -979,7 +992,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
         if (random < 50) {
           const randomAmountToRaise = Math.floor(Math.random() * 340) + 10;
-          if (randomAmountToRaise < currentCall) {
+          if (randomAmountToRaise <= currentCall) {
             break Raising;
           }
 
@@ -1045,7 +1058,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
         if (random < 20) {
           const randomAmountToRaise = Math.floor(Math.random() * 650) + 450;
-          if (randomAmountToRaise < currentCall) {
+          if (randomAmountToRaise <= currentCall) {
             break Raising;
           }
 
@@ -1064,7 +1077,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       const random = Math.floor(Math.random() * 100);
       Raising: if (random < 10) {
         const randomAmountToRaise = Math.floor(Math.random() * 190) + 10;
-        if (randomAmountToRaise < currentCall) {
+        if (randomAmountToRaise <= currentCall) {
           break Raising;
         }
 
@@ -1084,7 +1097,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
         if (random < 35) {
           const randomAmountToRaise = Math.floor(Math.random() * 390) + 10;
-          if (randomAmountToRaise < currentCall) {
+          if (randomAmountToRaise <= currentCall) {
             break Raising;
           }
 
@@ -1166,7 +1179,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     randomCards();
   }, [game]);
   useEffect(() => {
-    console.table(power);
     assignTableCards();
     setPlayersPower();
     round == 1 && setCurrentCall(10);
@@ -1216,7 +1228,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       />
       {notificationStatus && <Notification msg={notificationMessage} />}
       <PlayerTurnEffect isPlayerPlaying={botInfo[4].isPlaying} />
-      {botInfo[4].isOut && <PlayerLost />}
+      {botInfo[4].isOut && <GameOver message={"BANKRUPT"} win={false} />}
+      {botInfo[4].hasWonGame && <GameOver message={"WINNER"} win={true} />}
     </Container>
   );
 };
