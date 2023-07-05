@@ -762,6 +762,10 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       anotherTurn();
       return;
     }
+    if (botInfo[currentPlayer].isAllIn) {
+      anotherTurn();
+      return;
+    }
     let randomTimeout =
       Math.floor(Math.random() * botsReactionTime[botReactionTimeChoice].max) +
       botsReactionTime[botReactionTimeChoice].min;
@@ -913,10 +917,19 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       setTimeout(() => {
         sfx("botCall");
         const temp = [...botInfo];
-        temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
-        setTotalPot((prevPot) => prevPot + currentCall);
+        let callAmount = currentCall;
+        if (temp[currentPlayer].credits - callAmount <= 0) {
+          callAmount = temp[currentPlayer].credits;
+          notificateBot(`All in $${callAmount}`, "all-in");
+          temp[currentPlayer].isAllIn = true;
+          temp[currentPlayer].credits = 0;
+        } else {
+          notificateBot(`Call $${currentCall}`, "call");
+          temp[currentPlayer].credits =
+            temp[currentPlayer].credits - callAmount;
+        }
+        setTotalPot((prevPot) => prevPot + callAmount);
         setBotInfo(temp);
-        notificateBot(`Call $${currentCall}`, "call");
         anotherTurn();
       }, randomTimeout);
     }
@@ -988,9 +1001,18 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       setTimeout(() => {
         sfx("botCall");
         const temp = [...botInfo];
-        temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
-        setTotalPot((prevPot) => prevPot + currentCall);
-        notificateBot(`Call $${currentCall}`, "call");
+        let callAmount = currentCall;
+        if (temp[currentPlayer].credits - callAmount <= 0) {
+          callAmount = temp[currentPlayer].credits;
+          notificateBot(`All in $${callAmount}`, "all-in");
+          temp[currentPlayer].isAllIn = true;
+          temp[currentPlayer].credits = 0;
+        } else {
+          notificateBot(`Call $${currentCall}`, "call");
+          temp[currentPlayer].credits =
+            temp[currentPlayer].credits - callAmount;
+        }
+        setTotalPot((prevPot) => prevPot + callAmount);
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
@@ -1083,9 +1105,18 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       setTimeout(() => {
         sfx("botCall");
         const temp = [...botInfo];
-        temp[currentPlayer].credits = temp[currentPlayer].credits - currentCall;
-        setTotalPot((prevPot) => prevPot + currentCall);
-        notificateBot(`Call $${currentCall}`, "call");
+        let callAmount = currentCall;
+        if (temp[currentPlayer].credits - callAmount <= 0) {
+          callAmount = temp[currentPlayer].credits;
+          notificateBot(`All in $${callAmount}`, "all-in");
+          temp[currentPlayer].isAllIn = true;
+          temp[currentPlayer].credits = 0;
+        } else {
+          notificateBot(`Call $${currentCall}`, "call");
+          temp[currentPlayer].credits =
+            temp[currentPlayer].credits - callAmount;
+        }
+        setTotalPot((prevPot) => prevPot + callAmount);
         setBotInfo(temp);
         anotherTurn();
       }, randomTimeout);
