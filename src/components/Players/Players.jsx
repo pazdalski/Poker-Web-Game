@@ -1,5 +1,5 @@
 import "./players.css";
-import Bot from "../Bot";
+import Bot from "./Bot";
 import img1 from "../../assets/bot-images/bot1.png";
 import img2 from "../../assets/bot-images/bot2.png";
 import img3 from "../../assets/bot-images/bot3.png";
@@ -78,7 +78,7 @@ const shadowTransform = {
   },
 };
 
-const Players = ({ botInfo, power, botNotification }) => {
+const Players = ({ botInfo, botNotification }) => {
   return (
     <div className="container">
       <Bot
@@ -95,8 +95,7 @@ const Players = ({ botInfo, power, botNotification }) => {
         isPlaying={botInfo[0].isPlaying}
         hasFolded={botInfo[0].hasFolded}
         isWinner={botInfo[0].isWinner}
-        power={power[0].power}
-        hand={power[0].hand}
+        isOut={botInfo[0].isOut}
         botNotification={botNotification[0]}
       />
       <Bot
@@ -113,8 +112,7 @@ const Players = ({ botInfo, power, botNotification }) => {
         isPlaying={botInfo[1].isPlaying}
         hasFolded={botInfo[1].hasFolded}
         isWinner={botInfo[1].isWinner}
-        power={power[1].power}
-        hand={power[1].hand}
+        isOut={botInfo[1].isOut}
         botNotification={botNotification[1]}
       />
       <Bot
@@ -131,8 +129,7 @@ const Players = ({ botInfo, power, botNotification }) => {
         isPlaying={botInfo[2].isPlaying}
         hasFolded={botInfo[2].hasFolded}
         isWinner={botInfo[2].isWinner}
-        power={power[2].power}
-        hand={power[2].hand}
+        isOut={botInfo[2].isOut}
         botNotification={botNotification[2]}
       />
       <Bot
@@ -149,8 +146,7 @@ const Players = ({ botInfo, power, botNotification }) => {
         isPlaying={botInfo[3].isPlaying}
         hasFolded={botInfo[3].hasFolded}
         isWinner={botInfo[3].isWinner}
-        power={power[3].power}
-        hand={power[3].hand}
+        isOut={botInfo[3].isOut}
         botNotification={botNotification[3]}
       />
     </div>

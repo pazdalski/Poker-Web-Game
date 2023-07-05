@@ -1,7 +1,7 @@
 import { Card, Typography } from "@mui/material";
 import React from "react";
 import InfoIcon from "@mui/icons-material/Info";
-import "./notification.css";
+import "./UI.css";
 
 const Notification = ({ msg }) => {
   return (
@@ -19,7 +19,7 @@ const Notification = ({ msg }) => {
         zIndex: 151,
         boxShadow: "0 0 15px 5px #0c0c0c90",
       }}
-      className="notificaiton-animation"
+      className="notification-animation"
     >
       <Typography
         variant="button"

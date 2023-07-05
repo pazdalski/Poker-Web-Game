@@ -6,7 +6,7 @@ import {
   Stack,
 } from "@mui/material";
 import React from "react";
-import logo from "../../assets/logo/logo-white.png";
+import logo from "../../assets/logo-white.png";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
@@ -60,7 +60,7 @@ const Menu = ({
               sx={{ width: "450px" }}
             >
               <ToggleButton
-                sx={{ color: "white", width: "112.5px" }}
+                sx={{ color: "white", width: "113px" }}
                 fullWidth
                 value="0"
                 onClick={() => {
@@ -70,7 +70,7 @@ const Menu = ({
                 Instant
               </ToggleButton>
               <ToggleButton
-                sx={{ color: "white", width: "112.5px" }}
+                sx={{ color: "white", width: "113px" }}
                 fullWidth
                 value="1"
                 onClick={() => {
@@ -82,7 +82,7 @@ const Menu = ({
               <ToggleButton
                 sx={{
                   color: "white",
-                  width: "112.5px",
+                  width: "113px",
                   display: "flex",
                   flexDirection: "column",
                 }}
@@ -98,7 +98,7 @@ const Menu = ({
                 </Typography>
               </ToggleButton>
               <ToggleButton
-                sx={{ color: "white", width: "112.5px" }}
+                sx={{ color: "white", width: "114px" }}
                 fullWidth
                 value="3"
                 onClick={() => {

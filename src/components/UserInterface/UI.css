@@ -107,6 +107,19 @@
   opacity: 1;
 }
 
+.notification-animation {
+  opacity: 0;
+  transform: translateY(-10%);
+  animation: animationPopUp 0.5s ease-in-out 1 forwards;
+  background: radial-gradient(circle, rgb(26, 47, 68) 0%, rgb(20, 34, 48) 100%);
+}
+
+@keyframes animationPopUp {
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
 @keyframes blackout-animation {
   100% {
     opacity: 1;

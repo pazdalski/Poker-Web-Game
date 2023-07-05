@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./table.css";
 import Card from "../Card/Card";
-import logo from "../../assets/logo/logo-white.png";
+import logo from "../../assets/logo-white.png";
 const CHIPS_INFO = [
   "./chips/Group0.png",
   "./chips/Group50.png",

@@ -6,7 +6,7 @@ import { useState } from "react";
 
 function App() {
   const [botReactionTimeChoice, setBotReactionTimeChoice] = useState("2");
-  const [isSoundOn, setIsSoundOn] = useState(true);
+  const [isSoundOn, setIsSoundOn] = useState(false);
 
   return (
     <div className="App">

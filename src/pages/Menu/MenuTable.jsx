@@ -1,5 +1,5 @@
 import React from "react";
-import logo from "../../assets/logo/logo-white.png";
+import logo from "../../assets/logo-white.png";
 import "./menu.css";
 
 const MenuTable = () => {

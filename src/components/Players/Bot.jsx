@@ -1,8 +1,8 @@
 import { Avatar, Stack, Typography } from "@mui/material";
 import React from "react";
-import BotCard from "./Card/BotCard";
-import "./Card/cards.css";
-import PlayerNotification from "./Players/PlayerNotification";
+import BotCard from "../Card/BotCard";
+import "../Card/cards.css";
+import PlayerNotification from "./PlayerNotification";
 
 const Bot = ({
   position,
@@ -17,8 +17,7 @@ const Bot = ({
   isPlaying,
   hasFolded,
   isWinner,
-  power,
-  hand,
+  isOut,
   botNotification,
 }) => {
   return (
@@ -40,12 +39,6 @@ const Bot = ({
           </Typography>
           <Typography variant="subtitle1" color="white">
             ${cash}
-            {/* <Typography variant="button" color="primary">
-              {hand}{" "}
-            </Typography>
-            <Typography variant="button" color="gold">
-              {power}
-            </Typography> */}
           </Typography>
         </Stack>
         <div className="cards-container">
@@ -61,6 +54,13 @@ const Bot = ({
             folded={hasFolded}
           />
         </div>
+        {isOut && (
+          <div className="bankrupt">
+            <Typography variant="button" color="white" fontSize={15}>
+              Bankrupt
+            </Typography>
+          </div>
+        )}
       </div>
     </>
   );

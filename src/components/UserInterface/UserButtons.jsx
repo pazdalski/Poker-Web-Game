@@ -31,6 +31,7 @@ const UserButtons = ({
         min={25}
         max={playerCredits}
         color="success"
+        value={playerRaise}
         sx={{
           position: "absolute",
           left: "50px",
@@ -53,9 +54,11 @@ const UserButtons = ({
         sx={{
           position: "absolute",
           bottom: "50px",
-          opacity: `${playerChoices.raise ? "1" : "0.25"}`,
+          opacity: `${
+            playerChoices.raise && playerCredits !== 0 ? "1" : "0.25"
+          }`,
         }}
-        disabled={playerChoices.raise ? false : true}
+        disabled={playerChoices.raise && playerCredits !== 0 ? false : true}
       >
         <LinearScaleIcon
           sx={{
@@ -69,7 +72,9 @@ const UserButtons = ({
       <Button
         className="user-button raise-button"
         color="success"
-        variant={playerChoices.raise ? "contained" : "disabled"}
+        variant={
+          playerChoices.raise && playerCredits !== 0 ? "contained" : "disabled"
+        }
         sx={{
           fontFamily: "Oswald",
           fontSize: "28px",
@@ -81,11 +86,14 @@ const UserButtons = ({
           resetPlayerChoices();
           setToggleSlider(false);
           currentBotAI("raise");
+          setTimeout(() => {
+            setPlayerRaise(25);
+          }, 50);
         }}
       >
         Raise
         <Typography variant="h6" fontWeight={"400"} color="#e0e0e0">
-          {playerChoices.raise && playerRaise}
+          {playerChoices.raise && playerCredits !== 0 ? playerRaise : ""}
         </Typography>
       </Button>
       <Button

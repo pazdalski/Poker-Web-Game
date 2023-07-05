@@ -35,6 +35,20 @@
     }
   }
 }
+.bankrupt {
+  position: absolute;
+  background: rgb(214, 53, 53);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+  rotate: -35deg;
+  border-radius: 5px;
+  top: 25px;
+  left: -5px;
+  width: 90px;
+  height: 25px;
+}
 .player-notification {
   position: absolute;
   align-items: center;
@@ -60,6 +74,9 @@
   }
   &.type-raise {
     background: #2e7d32;
+  }
+  &.type-all-in {
+    background: #e29f39;
   }
 }
 @keyframes Bot-notification-animation {

@@ -9,7 +9,7 @@ import UserButtons from "../../components/UserInterface/UserButtons";
 import MenuButton from "../../components/UserInterface/MenuButton";
 import { useEffect, useState } from "react";
 import { cardsInfo } from "../../components/CardsInfo";
-import Notification from "../../components/Notification";
+import Notification from "../../components/UserInterface/Notification";
 import { straightCombination } from "../../components/StraightCombination";
 import Blackout from "../../components/UserInterface/Blackout";
 import PlayerTurnEffect from "../../components/UserInterface/PlayerTurnEffect";
@@ -103,6 +103,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
+      isAllIn: false,
+      isOut: false,
     },
     {
       name: "Ally Alien",
@@ -112,6 +114,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
+      isAllIn: false,
+      isOut: false,
     },
     {
       name: "Dino",
@@ -121,6 +125,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
+      isAllIn: false,
+      isOut: false,
     },
     {
       name: "Mummy",
@@ -130,6 +136,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
+      isAllIn: false,
+      isOut: false,
     },
     {
       name: "Player",
@@ -139,6 +147,8 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       isPlaying: false,
       hasFolded: false,
       isWinner: false,
+      isAllIn: false,
+      isOut: false,
     },
   ]);
 
@@ -408,12 +418,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           if (temp[i].power < givenPower) {
             // If current power is less than the given power assign it
             temp[i].power = givenPower;
-
-            console.log(
-              "STRAIGHT for: " +
-                botInfo[i].name +
-                ` Assigning ${givenPower} power`
-            );
           }
 
           const isStraightFlush =
@@ -553,6 +557,12 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       temp[i].isPlaying = false;
       temp[i].hasFolded = false;
       temp[i].isWinner = false;
+      temp[i].isAllIn = false;
+      temp[i].isOut = false;
+      if (temp[i].credits <= 0) {
+        temp[i].isOut = true;
+        temp[i].hasFolded = true;
+      }
     }
     setBotInfo(temp);
 
@@ -610,9 +620,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
   const notificate = (msg) => {
     setNotificationStatus(false);
-
     setNotificationMessage(msg);
-
     setTimeout(() => {
       setNotificationStatus(true);
     }, 100);
@@ -644,8 +652,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   const assignTableCards = () => {
     if (!tableCards?.length) {
       notificate("Let's play");
-
-      // setHandPower();
 
       for (let i = 0; i < 3; i++) {
         const randomNumber = Math.floor(Math.random() * availableCards.length);
@@ -703,7 +709,6 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   };
   const resetHighlighting = () => {
     const temp = [...botInfo];
-
     temp[0].isPlaying = false;
     temp[1].isPlaying = false;
     temp[2].isPlaying = false;
@@ -713,33 +718,50 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   };
 
   const raisePot = (raise, nextRoundOnIndex, isPlayer) => {
-    setTotalPot((prevPot) => prevPot + raise);
-    setCurrentCall(raise);
+    let raisedAmount = raise;
+    const temp = [...botInfo];
+
+    //# All in
+    if (botInfo[currentPlayer].credits - raisedAmount <= 0) {
+      console.log("All in");
+      raisedAmount = botInfo[currentPlayer].credits;
+      temp[currentPlayer].isAllIn = true;
+
+      if (isPlayer == false) notificateBot(`All in $${raisedAmount}`, "all-in");
+    } else {
+      if (isPlayer == false) notificateBot(`RAISED $${raisedAmount}`, "raise");
+    }
+    setTotalPot((prevPot) => prevPot + raisedAmount);
+    setCurrentCall(raisedAmount);
     setNextRoundOnPlayer(nextRoundOnIndex);
-    isPlayer ? console.log("") : notificateBot(`RAISED $${raise}`, "raise");
+
+    temp[currentPlayer].credits = temp[currentPlayer].credits - raisedAmount;
+    setBotInfo(temp);
+
     setIsRaisedCurrently(true);
     sfx("raise");
 
     if (nextRoundOnIndex == -1) {
       setNextRoundOnPlayer(4);
     }
-
     anotherTurn(true); // Delay checking which round (Bugfix)
   };
   const notificateBot = (msg, type) => {
     const temp = [...botNotification];
 
-    temp[currentPlayer].status = false;
     temp[currentPlayer].message = msg;
     temp[currentPlayer].type = type;
-
-    setBotNotification(temp);
 
     temp[currentPlayer].status = true;
     setBotNotification(temp);
   };
 
   const currentBotAI = (playerDecide) => {
+    if (botInfo[currentPlayer].isOut) {
+      botInfo[currentPlayer].hasFolded = true;
+      anotherTurn();
+      return;
+    }
     let randomTimeout =
       Math.floor(Math.random() * botsReactionTime[botReactionTimeChoice].max) +
       botsReactionTime[botReactionTimeChoice].min;
@@ -762,8 +784,11 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     temp[currentPlayer].isPlaying = true;
     setBotInfo(temp);
 
-    //Skip player who folded
-    if (botInfo[currentPlayer].hasFolded == true) {
+    //Skip player who folded or all in
+    if (
+      botInfo[currentPlayer].hasFolded == true ||
+      botInfo[currentPlayer].isAllIn == true
+    ) {
       anotherTurn();
       return;
     }
@@ -790,12 +815,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
         return;
       }
       if (playerDecide == "raise") {
-        const temp = [...botInfo];
-        temp[4].credits = temp[4].credits - playerRaise;
-        setBotInfo(temp);
         sfx("raise");
-
-        setCurrentCall(playerRaise);
 
         raisePot(playerRaise, 3, true); // Raise the pot to current call
         return;
@@ -810,18 +830,17 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
 
       return;
     }
-
     // Possible actions for round 1:
     // 1.Players have 25% chance of folding if their cards are bad (less than 10)
     // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
     // 3.If player has very low cards (20<) and round is raised then fold (40%)
-    // 4.Players always have 1% chance of raising (max 50) (Bluff)
+    // 4.Players always have 3% chance of raising (max 50) (Bluff)
     if (round == 1) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // 4.Players always have 1% chance of raising (Bluff)
+      // 4.Players always have 3% chance of raising (Bluff)
       const random = Math.floor(Math.random() * 100);
-      Raising: if (random < 1) {
+      Raising: if (random < 3) {
         const randomAmountToRaise = Math.floor(Math.random() * 39) + 11;
         if (randomAmountToRaise < currentCall) {
           break Raising;
@@ -833,7 +852,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
               " is raising to " +
               randomAmountToRaise
           );
-          raisePot(randomAmountToRaise, currentPlayer - 1);
+          raisePot(randomAmountToRaise, currentPlayer - 1, false);
         }, randomTimeout);
         return;
       }
@@ -853,10 +872,10 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
           return;
         }
       }
-      // 2.Players have 10% chance of raising (max 100) if their cards are over 35 (Very good pair)
+      // 2.Players have 15% chance of raising (max 100) if their cards are over 35 (Very good pair)
       Raising: if (power[currentPlayer].power >= 35) {
         const random = Math.floor(Math.random() * 100);
-        if (random < 10) {
+        if (random < 15) {
           const randomAmountToRaise = Math.floor(Math.random() * 89) + 11;
           if (randomAmountToRaise < currentCall) {
             break Raising;
@@ -868,7 +887,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
                 " is raising to " +
                 randomAmountToRaise
             );
-            raisePot(randomAmountToRaise, currentPlayer - 1);
+            raisePot(randomAmountToRaise, currentPlayer - 1, false);
           }, randomTimeout);
           return;
         }
@@ -902,16 +921,16 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       }, randomTimeout);
     }
     // Possible actions for round 2:
-    // 1.Players have 30% chance of raising if their cards are (more than 75)
+    // 1.Players have 50% chance of raising if their cards are (more than 75)
     // 2.2.Players have 35% chance of folding (if raised) if their cards are less than 55
     // 3. ?
-    // 4.Players always have 1% chance of raising (max 75) (Bluff)
+    // 4.Players always have 5% chance of raising (max 75) (Bluff)
     if (round == 2) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // 4.Players always have 1% chance of raising (max 125) (Bluff)
+      // 4.Players always have 5% chance of raising (max 125) (Bluff)
       const random = Math.floor(Math.random() * 100);
-      Raising: if (random < 1) {
+      Raising: if (random < 5) {
         const randomAmountToRaise = Math.floor(Math.random() * 115) + 10;
         if (randomAmountToRaise < currentCall) {
           break Raising;
@@ -923,15 +942,15 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
               " is raising to " +
               randomAmountToRaise
           );
-          raisePot(randomAmountToRaise, currentPlayer - 1);
+          raisePot(randomAmountToRaise, currentPlayer - 1, false);
         }, randomTimeout);
         return;
       }
-      // 1.Players have 30% chance of raising if their cards are (more than 75)
+      // 1.Players have 50% chance of raising if their cards are (more than 75)
       Raising: if (power[currentPlayer].power >= 75) {
         const random = Math.floor(Math.random() * 100);
 
-        if (random < 30) {
+        if (random < 50) {
           const randomAmountToRaise = Math.floor(Math.random() * 340) + 10;
           if (randomAmountToRaise < currentCall) {
             break Raising;
@@ -943,7 +962,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
                 " is raising to " +
                 randomAmountToRaise
             );
-            raisePot(randomAmountToRaise, currentPlayer - 1);
+            raisePot(randomAmountToRaise, currentPlayer - 1, false);
           }, randomTimeout);
           return;
         }
@@ -977,18 +996,18 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       }, randomTimeout);
     }
     // Possible actions for round 3: (more aggressive)
-    // 1.Players have 20% chance of raising (max 400) if their cards are over 80 (Very good pair)
+    // 1.Players have 35% chance of raising (max 400) if their cards are over 80 (Very good pair)
     // 2.If player has very low cards (60<) and round is raised then fold (40%)
-    // 3.If players cards are over 108 they have 5% chance of trapping (500$-1200$ raising)
-    // 4.Players always have 5% chance of raising (max 200) (Bluff)
+    // 3.If players cards are over 108 they have 20% chance of trapping (500$-1200$ raising)
+    // 4.Players always have 10% chance of raising (max 200) (Bluff)
     if (round == 3) {
       notificate(botInfo[currentPlayer].name + " is deciding...");
 
-      // 3.If players cards are over 108 they have 8% chance of trapping (450$-1100$ raising)
+      // 3.If players cards are over 108 they have 20% chance of trapping (450$-1100$ raising)
       Raising: if (power[currentPlayer].power >= 108) {
         const random = Math.floor(Math.random() * 100);
 
-        if (random < 8) {
+        if (random < 20) {
           const randomAmountToRaise = Math.floor(Math.random() * 650) + 450;
           if (randomAmountToRaise < currentCall) {
             break Raising;
@@ -1000,14 +1019,14 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
                 " is raising to " +
                 randomAmountToRaise
             );
-            raisePot(randomAmountToRaise, currentPlayer - 1);
+            raisePot(randomAmountToRaise, currentPlayer - 1, false);
           }, randomTimeout);
           return;
         }
       }
-      // 4.Players always have 5% chance of raising (max 200) (Bluff)
+      // 4.Players always have 10% chance of raising (max 200) (Bluff)
       const random = Math.floor(Math.random() * 100);
-      Raising: if (random < 5) {
+      Raising: if (random < 10) {
         const randomAmountToRaise = Math.floor(Math.random() * 190) + 10;
         if (randomAmountToRaise < currentCall) {
           break Raising;
@@ -1019,15 +1038,15 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
               " is raising to " +
               randomAmountToRaise
           );
-          raisePot(randomAmountToRaise, currentPlayer - 1);
+          raisePot(randomAmountToRaise, currentPlayer - 1, false);
         }, randomTimeout);
         return;
       }
-      // 1.Players have 20% chance of raising (max 400) if their cards are over 80 (Three of a kind)
+      // 1.Players have 35% chance of raising (max 400) if their cards are over 80 (Three of a kind)
       Raising: if (power[currentPlayer].power >= 80) {
         const random = Math.floor(Math.random() * 100);
 
-        if (random < 20) {
+        if (random < 35) {
           const randomAmountToRaise = Math.floor(Math.random() * 390) + 10;
           if (randomAmountToRaise < currentCall) {
             break Raising;
@@ -1039,7 +1058,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
                 " is raising to " +
                 randomAmountToRaise
             );
-            raisePot(randomAmountToRaise, currentPlayer - 1);
+            raisePot(randomAmountToRaise, currentPlayer - 1, false);
           }, randomTimeout);
           return;
         }
@@ -1085,7 +1104,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
     setTurn((prevTurn) => prevTurn + 1);
     setCurrentPlayer((prevPlayer) => prevPlayer + 1);
 
-    delayNextRound ? console.log("") : checkWhichRound();
+    if (delayNextRound == null) checkWhichRound();
 
     if (currentPlayer > 3) {
       // Change to player
@@ -1095,13 +1114,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
   };
 
   useEffect(() => {
-    if (power[0].hand == 0) {
-      setTimeout(() => {
-        currentBotAI();
-      }, 1000);
-    } else {
-      currentBotAI();
-    }
+    currentBotAI();
   }, [turn]);
 
   useEffect(() => {
@@ -1132,11 +1145,7 @@ const Game = ({ botReactionTimeChoice, isSoundOn }) => {
       }}
     >
       <Table tableCards={tableCards} totalPot={totalPot} />
-      <Players
-        botInfo={botInfo}
-        power={power}
-        botNotification={botNotification}
-      />
+      <Players botInfo={botInfo} botNotification={botNotification} />
       <UserCards
         playerCards={botInfo[4].cards}
         isPlayerOut={botInfo[4].hasFolded}
