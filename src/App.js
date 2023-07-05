@@ -13,7 +13,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/game"
+            path="/Poker-Web-Game/game"
             element={
               <Game
                 botReactionTimeChoice={botReactionTimeChoice}
@@ -22,7 +22,7 @@ function App() {
             }
           />
           <Route
-            path="/"
+            path="/Poker-Web-Game/"
             element={
               <Menu
                 setBotReactionTimeChoice={setBotReactionTimeChoice}
