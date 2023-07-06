@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Poker-Web-Game/static/css/main.6a9c0bb9.css",
-    "main.js": "/Poker-Web-Game/static/js/main.decb6f3f.js",
+    "main.js": "/Poker-Web-Game/static/js/main.2ea1eb66.js",
     "static/media/poker-skull.png": "/Poker-Web-Game/static/media/poker-skull.c37ef1c54eb1ec929f89.png",
     "static/media/fold.wav": "/Poker-Web-Game/static/media/fold.b279ffe4a4e0eb75cf80.wav",
     "static/media/call.wav": "/Poker-Web-Game/static/media/call.668b382014bf40140775.wav",
@@ -22,10 +22,10 @@
     "static/media/player-select.mp3": "/Poker-Web-Game/static/media/player-select.b070217cc3ec9826fd89.mp3",
     "index.html": "/Poker-Web-Game/index.html",
     "main.6a9c0bb9.css.map": "/Poker-Web-Game/static/css/main.6a9c0bb9.css.map",
-    "main.decb6f3f.js.map": "/Poker-Web-Game/static/js/main.decb6f3f.js.map"
+    "main.2ea1eb66.js.map": "/Poker-Web-Game/static/js/main.2ea1eb66.js.map"
   },
   "entrypoints": [
     "static/css/main.6a9c0bb9.css",
-    "static/js/main.decb6f3f.js"
+    "static/js/main.2ea1eb66.js"
   ]
 }
