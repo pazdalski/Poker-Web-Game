@@ -5,7 +5,7 @@ const Card = ({ card, revealed }) => {
       style={{ position: "relative", zIndex: "150" }}
     >
       <img
-        src={card?.img && process.env.PUBLIC_URL + `${card.img}`}
+        src={card?.img && `${card.img}`}
         alt={card?.img && `${card.category} ${card.card}`}
         className={`card-image ${revealed && "revealed"}`}
         style={{ width: "75px" }}
