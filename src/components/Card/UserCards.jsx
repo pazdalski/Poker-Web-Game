@@ -20,7 +20,7 @@ const UserCards = ({ playerCards, isPlayerOut, didPlayerWin }) => {
           }`}
         >
           <img
-            src={playerCards.length && `../${playerCards[0].img}`}
+            src={playerCards.length && `${playerCards[0].img}`}
             className={`user-card-revealed ${
               isPlayerOut && "user-card-image-folded"
             }`}
@@ -34,7 +34,7 @@ const UserCards = ({ playerCards, isPlayerOut, didPlayerWin }) => {
           }`}
         >
           <img
-            src={playerCards.length && `../${playerCards[1].img}`}
+            src={playerCards.length && `${playerCards[1].img}`}
             className={`user-card-revealed ${
               isPlayerOut && "user-card-image-folded"
             }`}
